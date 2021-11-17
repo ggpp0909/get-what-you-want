@@ -1,10 +1,11 @@
 <template>
   <v-app>
     <nav>
-      <router-link to='/'>HOME</router-link> |
-      <router-link to='/board'>Board</router-link> |
-      <router-link to='/recommend'>Recommend</router-link> |
-      <router-link to='/user'>User</router-link>
+      <router-link :to="{ name: 'Home'}">HOME</router-link> |
+      <router-link :to="{ name: 'Board'}">Board</router-link> |
+      <router-link :to="{ name: 'Recommend'}">Recommend</router-link> |
+      <router-link :to="{ name: 'User'}">User</router-link>
+      <router-link :to="{ name: 'Signup'}">Signup</router-link>
     </nav>
 
     <v-main>

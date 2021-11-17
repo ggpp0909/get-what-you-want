@@ -1,14 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Home from '../views/Home.vue'
+import Home from '@/views/Home'
 
-import Board from '../views/Board.vue'
-import PostDetail from '../components/PostDetail.vue'
-import PostCreate from '../components/PostCreate.vue'
+import Board from '@/views/board/Board'
+import PostDetail from '@/views/board/PostDetail'
+import PostCreate from '@/views/board/PostCreate'
 
-import Recommend from '../views/Recommend.vue'
-import User from '../views/User.vue'
+import Recommend from '@/views/Recommend'
+
+import User from '@/views/accounts/User'
+import Signup from '@/views/accounts/Signup'
+
 
 Vue.use(VueRouter)
 
@@ -40,6 +43,13 @@ const routes = [
     path: '/recommend',
     name: 'Recommend',
     component: Recommend
+  },
+
+  // 유저
+  {
+    path: '/signup',
+    name: 'Signup',
+    component: Signup
   },
   {
     path: '/user',
