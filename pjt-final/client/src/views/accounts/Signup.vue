@@ -56,7 +56,7 @@ export default {
   data: function () {
     return {
       credentials: {
-        username: null,
+        userid: null,
         nickname: null,
         password: null,
         passwordConfirmation: null,

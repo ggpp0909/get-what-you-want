@@ -11,6 +11,7 @@ import Recommend from '@/views/Recommend'
 
 import User from '@/views/accounts/User'
 import Signup from '@/views/accounts/Signup'
+import Login from '@/views/accounts/Login'
 
 
 Vue.use(VueRouter)
@@ -52,11 +53,15 @@ const routes = [
     component: Signup
   },
   {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {
     path: '/user',
     name: 'User',
     component: User
   },
-
 ]
 
 const router = new VueRouter({
