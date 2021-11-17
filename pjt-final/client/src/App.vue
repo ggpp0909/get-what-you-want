@@ -1,8 +1,13 @@
 <template>
   <v-app>
-    <v-app-bar>
-      
-    </v-app-bar>
+    <nav>
+      <router-link :to="{ name: 'Home' }">HOME</router-link> |
+      <router-link :to="{ name: 'Board' }">Board</router-link> |
+      <router-link :to="{ name: 'Recommend' }">Recommend</router-link> |
+      <router-link :to="{ name: 'User' }">User</router-link>
+      <router-link :to="{ name: 'Signup' }">Signup</router-link>
+      <router-link :to="{ name: 'Login' }">Login</router-link> 
+    </nav>
 
     <v-main>
       <router-view/>
