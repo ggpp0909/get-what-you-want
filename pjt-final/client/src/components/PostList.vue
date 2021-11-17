@@ -1,27 +1,28 @@
 <template>
   <div>
     <h1>PostList</h1>
-    <post-item
+    <div
       v-for="(post, idx) in getPostItem"
       :key="idx"
-      :post="post"
     >
-    </post-item>
+      <h1 @click="postDetail(post.id)">{{ post.title }}
+      </h1>
+    </div>
   </div>
 </template>
 
 <script>
-import PostItem from '@/components/PostItem'
-
 export default {
   name: 'PostList',
-  components: {
-    PostItem,
-  },
   computed: {
     getPostItem() {
       return this.$store.state.posts
     }
+  },
+  methods: {
+    postDetail(id) {
+      this.$router.push({ name: 'PostDetail', params: { postNum: id } })
+    },
   }
 }
 </script>
