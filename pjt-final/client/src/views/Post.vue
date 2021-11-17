@@ -1,16 +1,16 @@
 <template>
   <v-container>
-    <board-list></board-list>
+    <post-list></post-list>
   </v-container>
 </template>
 
 <script>
-  import BoardList from '@/components/BoardList'
+  import PostList from '@/components/PostList'
 
   export default {
-    name: 'Board',
+    name: 'Post',
     components: {
-      BoardList,
+      PostList,
     }
   }
 </script>

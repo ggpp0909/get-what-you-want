@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    boards: [
+    posts: [
       {
         title: 'temp',
         content: 'temp323423423'

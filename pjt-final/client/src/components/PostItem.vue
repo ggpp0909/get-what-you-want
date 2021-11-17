@@ -1,15 +1,14 @@
 <template>
   <div>
-    <h1>{{ board.title }}</h1>
-    {{ board.content }}
+    <h1>{{ post.title }}</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'BoardItem',
+  name: 'PostItem',
   props: {
-    board: {
+    post: {
       type: Object,
     }
   }

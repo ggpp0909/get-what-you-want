@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Board from '../views/Board.vue'
+import Post from '../views/Post.vue'
 import Recommend from '../views/Recommend.vue'
 import User from '../views/User.vue'
 
@@ -14,9 +14,9 @@ const routes = [
     component: Home
   },
   {
-    path: '/board',
-    name: 'Board',
-    component: Board
+    path: '/post',
+    name: 'Post',
+    component: Post
   },
   {
     path: '/recommend',
