@@ -2,11 +2,11 @@
   <div>
     <h1>Signup</h1>
     <div>
-      <label for="userid">아이디: </label>
+      <label for="username">아이디: </label>
       <input 
         type="text" 
-        id="userid"
-        v-model="credentials.userid"
+        id="username"
+        v-model="credentials.username"
       >
     </div>
     <div>
@@ -56,7 +56,7 @@ export default {
   data: function () {
     return {
       credentials: {
-        userid: null,
+        username: null,
         nickname: null,
         password: null,
         passwordConfirmation: null,
@@ -87,6 +87,7 @@ export default {
             })
         })
         .catch(err => {
+          console.log(this.credentials)
           console.log(err)
         })
     }

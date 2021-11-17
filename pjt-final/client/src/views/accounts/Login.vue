@@ -2,11 +2,11 @@
   <div>
     <h1>Login</h1>
     <div>
-      <label for="userid">사용자 이름: </label>
+      <label for="username">사용자 이름: </label>
       <input 
         type="text" 
-        id="userid"
-        v-model="credentials.userid"
+        id="username"
+        v-model="credentials.username"
       >
     </div>
     <div>
@@ -29,7 +29,7 @@ export default {
   data: function () {
     return {
       credentials: {
-        userid: null,
+        username: null,
         password: null,
       }
     }
