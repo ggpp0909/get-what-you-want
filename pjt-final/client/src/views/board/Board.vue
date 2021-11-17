@@ -15,8 +15,13 @@
     },
     methods: {
       postCreate() {
-        this.$router.push({ name: 'PostCreate'})
-      }
-    }
+        const token = localStorage.getItem('jwt')
+        if (token) {
+          this.$router.push({ name: 'PostCreate'})
+        } else {
+          this.$router.push({ name: 'Login' })
+        }
+      },
+    },
   }
 </script>

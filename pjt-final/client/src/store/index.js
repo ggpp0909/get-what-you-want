@@ -16,11 +16,23 @@ export default new Vuex.Store({
         title: 'temp2',
         content: 'temp31234',
       }
-    ]
+    ],
+    // token: null,
+    // config: {
+    //   Authorization: `JWT ${token}`
+    // },
   },
   mutations: {
+    // SET_TOKEN(state, token) {
+    //   state.token = token
+    // }
   },
   actions: {
+    // setToken({ commit }) {
+    //   const token = localStorage.getItem('jwt')
+    //   console.log(token)
+    //   commit('SET_TOKEN', token)
+    // },
   },
   modules: {
   }
