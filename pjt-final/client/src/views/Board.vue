@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <post-list></post-list>
-  <button>Create</button>
+  <button @click="postCreate">Create</button>
   </v-container>
 </template>
 
@@ -16,7 +16,7 @@
     methods: {
       postCreate() {
         this.$router.push({ name: 'PostCreate'})
-    }
+      }
     }
   }
 </script>
