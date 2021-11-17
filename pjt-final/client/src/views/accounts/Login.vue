@@ -46,7 +46,7 @@ export default {
           this.$emit('login')
           this.$router.push({ name: 'TodoList' })
         })
-        .carch(err => {
+        .catch(err => {
           console.log(err)
         })
     }
