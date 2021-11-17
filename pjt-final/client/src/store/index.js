@@ -17,22 +17,34 @@ export default new Vuex.Store({
         content: 'temp31234',
       }
     ],
-    // token: null,
-    // config: {
-    //   Authorization: `JWT ${token}`
-    // },
+    userInfo: null,
   },
   mutations: {
-    // SET_TOKEN(state, token) {
-    //   state.token = token
-    // }
+    SET_TOKEN(state, userInfo) {
+      state.userInfo = userInfo
+    }
   },
   actions: {
-    // setToken({ commit }) {
-    //   const token = localStorage.getItem('jwt')
-    //   console.log(token)
-    //   commit('SET_TOKEN', token)
-    // },
+    setToken({ commit }) {
+      const token = localStorage.getItem('jwt')
+      const config = {
+        Authorization: `JWT ${token}`
+      }
+      commit('SET_TOKEN', [token, config])
+    },
+    // getPosts() {
+    //   this.$axios({
+    //     method: 'get',
+    //     url: `${SERVER_URL}/community/`,
+    //     headers: this.setToken()
+    //   })
+    //     .then(res => {
+    //       this.posts = res.data
+    //     })
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+    // }
   },
   modules: {
   }
