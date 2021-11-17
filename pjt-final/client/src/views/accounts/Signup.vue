@@ -47,8 +47,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
@@ -66,13 +64,13 @@ export default {
   },
   methods: {
     signup: function () {
-      axios({
+      this.$axios({
         method: 'post',
         url: `${SERVER_URL}/accounts/signup/`, 
         data: this.credentials,
       })
         .then(() => {
-          axios({
+          this.$axios({
             method: 'post',
             url: `${SERVER_URL}/accounts/api-token-auth/`,
             data: this.credentials,
