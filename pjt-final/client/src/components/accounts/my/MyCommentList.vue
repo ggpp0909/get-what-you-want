@@ -1,12 +1,12 @@
 <template>
   <div>
-    my-post
+    mycomment
   </div>
 </template>
 
 <script>
 export default {
-  name: 'MyPost',
+  name: 'MyCommentList',
 }
 </script>
 

@@ -1,12 +1,12 @@
 <template>
   <div>
-    mycomment
+    
   </div>
 </template>
 
 <script>
 export default {
-  name: 'MyComment',
+  name: 'MyReviwItem'
 }
 </script>
 

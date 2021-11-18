@@ -1,12 +1,12 @@
 <template>
   <div>
-    my review
+    my-post
   </div>
 </template>
 
 <script>
 export default {
-  name: 'MyReview',
+  name: 'MyPostList',
 }
 </script>
 

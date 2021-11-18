@@ -21,9 +21,9 @@
         <button @click="clickMyP">My Post</button> |
         <button @click="clickMyC">My Comment</button> 
 
-        <my-review :class="{'hide': showMyR }"></my-review>
-        <my-post :class="{'hide': showMyP }"></my-post>
-        <my-comment :class="{'hide': showMyC }"></my-comment>
+        <my-review-list :class="{'hide': showMyR }"></my-review-list>
+        <my-post-list :class="{'hide': showMyP }"></my-post-list>
+        <my-comment-list :class="{'hide': showMyC }"></my-comment-list>
       </div>
 
       <!-- 유저가 좋아요한 것들 -->
@@ -41,9 +41,9 @@
 <script>
 import FollowingList from '@/components/accounts/follow/FollowingList'
 import FollowerList from '@/components/accounts/follow/FollowerList'
-import MyReview from '@/components/accounts/MyReview'
-import MyPost from '@/components/accounts/MyPost'
-import MyComment from '@/components/accounts/MyComment'
+import MyReviewList from '@/components/accounts/my/MyReviewList'
+import MyPostList from '@/components/accounts/my/MyPostList'
+import MyCommentList from '@/components/accounts/my/MyCommentList'
 import LikeMovieList from '@/components/accounts/like/LikeMovieList'
 import LikePostList from '@/components/accounts/like/LikePostList'
 
@@ -52,9 +52,9 @@ export default {
   components: {
     FollowingList,
     FollowerList,
-    MyReview,
-    MyPost,
-    MyComment,
+    MyReviewList,
+    MyPostList,
+    MyCommentList,
     LikeMovieList,
     LikePostList
   },
