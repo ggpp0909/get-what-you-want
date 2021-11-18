@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Post, Comment
-from .serializers import PostSerializer, CommentSerializer
+from .serializers import PostSerializer, CommentSerializer, PostListSerializer, PostDetailSerializer
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny
 
@@ -15,7 +15,7 @@ def post_list_create(request):
     if request.method == 'GET':
         # 모델 db에서 다 가져와서 JSON으로 넘겨
         posts = get_list_or_404(Post)
-        serializer = PostSerializer(posts, many=True)
+        serializer = PostListSerializer(posts, many=True)
         return Response(serializer.data)
 
     elif request.method == 'POST':
@@ -26,14 +26,19 @@ def post_list_create(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 # PUT일때 게시글 수정, DELETE일때 게시글 삭제
-@api_view(['PUT', 'DELETE'])
-def post_update_delete(request, post_pk):
+@api_view(['PUT', 'DELETE', 'GET'])
+def post_detail_update_delete(request, post_pk):
     post = get_object_or_404(Post, pk=post_pk)
 
     if not request.user.post_set.filter(pk=post_pk).exists():
         return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDON)
+    
+    if request.method == 'GET':
+        post = get_object_or_404(Post, pk=post_pk)
+        serializer = PostDetailSerializer(post)
+        return Response(serializer.data)
 
-    if request.method == 'PUT':
+    elif request.method == 'PUT':
         serializer = PostSerializer(post, data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
