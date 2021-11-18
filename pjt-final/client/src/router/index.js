@@ -9,7 +9,7 @@ import PostCreate from '@/views/board/PostCreate'
 
 import Recommend from '@/views/Recommend'
 
-import User from '@/views/accounts/User'
+import Profile from '@/views/accounts/Profile'
 import Signup from '@/views/accounts/Signup'
 import Login from '@/views/accounts/Login'
 
@@ -59,9 +59,9 @@ const routes = [
     component: Login
   },
   {
-    path: '/user',
-    name: 'User',
-    component: User
+    path: '/profile',
+    name: 'Profile',
+    component: Profile
   },
 ]
 
