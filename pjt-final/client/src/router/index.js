@@ -9,7 +9,7 @@ import PostCreate from '@/views/board/PostCreate'
 
 import Recommend from '@/views/Recommend'
 
-import User from '@/views/accounts/User'
+import Profile from '@/views/accounts/Profile'
 import Signup from '@/views/accounts/Signup'
 import Login from '@/views/accounts/Login'
 
@@ -35,7 +35,7 @@ const routes = [
     component: PostDetail
   },
   {
-    path: '/board/create',
+    path: '/board/create/:postId',
     name: 'PostCreate',
     component: PostCreate
   },
@@ -59,9 +59,9 @@ const routes = [
     component: Login
   },
   {
-    path: '/user',
-    name: 'User',
-    component: User
+    path: '/profile/:userName',
+    name: 'Profile',
+    component: Profile
   },
 ]
 
