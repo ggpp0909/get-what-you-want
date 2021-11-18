@@ -57,10 +57,9 @@ def post_detail_update_delete(request, post_pk):
 def comment_list_create(request, post_pk):
     if request.method == 'GET':
         # 모델 db에서 다 가져와서 JSON으로 넘겨
+        # 진짜 대박이다 이거 일기에 써야곘다.
         comments = get_list_or_404(Comment.objects.order_by('-pk'), post_id=post_pk)
-        # comments.sort(key=lambda x: x.pk, reverse=True)
-        
-
+       
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
 
@@ -88,3 +87,25 @@ def comment_update_delete(request, post_pk, comment_pk):
     elif request.method == 'DELETE':
         comment.delete()
         return Response({ 'post_id': post_pk, 'comment_id': comment_pk }, status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['POST'])
+def likes(request, post_pk):
+    if request.user.is_authenticated:
+        post = get_object_or_404(Post, pk=post_pk)
+        # 현재 좋아요를 요청하는 회원(request.user)이
+        # 해당 게시글의 좋아요를 누른 회원 목록에 이미 있다면,
+        if post.like_users.filter(pk=request.user.pk).exists():
+        # if request.user in article.like_users.all(): 
+            # 좋아요 취소
+            post.like_users.remove(request.user)
+            liked = False
+        else:
+            # 좋아요 하기
+            post.like_users.add(request.user)
+            liked = True
+        context = {
+            'liked': liked,
+            'count': post.like_users.count(),
+        }
+        return Response(context)
+    return Response({ 'detail': '인증되지 않은 사용자 입니다.'}, status=status.HTTP_401_UNAUTHORIZED)
