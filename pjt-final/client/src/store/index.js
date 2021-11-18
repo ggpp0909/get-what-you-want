@@ -24,7 +24,7 @@ export default new Vuex.Store({
     GET_POSTS(state, posts) {
       state.posts = posts
     },
-    GET_TOKEN(state, token) {
+    SET_TOKEN(state, token) {
       state.token = token
     }
   },
@@ -37,7 +37,7 @@ export default new Vuex.Store({
     deleteUserName({ commit }) {
       commit('DELETE_USERNAME')
     },
-    getToken({ commit }) {
+    setToken({ commit }) {
       commit('SET_TOKEN', localStorage.getItem('jwt'))
     },
     // 자유게시판 전체 글 가져오기 
