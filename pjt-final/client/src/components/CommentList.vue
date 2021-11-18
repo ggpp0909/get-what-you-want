@@ -1,12 +1,16 @@
 <template>
   <div>
     <comment-item 
+
+    >
+    </comment-item>
+  </div>
+  <!-- <comment-item 
       v-for="(comment, idx) in getComments" 
       :key="idx"
       :comment="comment"
     >
-    </comment-item>
-  </div>
+    </comment-item> -->
 </template>
 
 <script>
@@ -18,9 +22,9 @@ export default {
     CommentItem
   },
   computed: {
-    getComments() {
-      return 
-    }
+    // getComments() {
+    //   return 
+    // }
   }
 }
 </script>

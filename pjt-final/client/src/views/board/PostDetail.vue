@@ -44,21 +44,29 @@ export default {
         url: `${SERVER_URL}/community/${this.$route.params.postNum}/`, 
       })
         .then(res => {
+          console.log(res.data)
           this.post = res.data
+          console.log(this.userName)
+          console.log(res.data.user.username)
+          if (this.userName === res.data.user.username) {
+            this.isSameUser = true
+          }
         })
         .catch(err => {
           console.log(err)
         })
     },
-    deletePost() {
-      this.$store.dispatch('getPostItem', 'delete', this.post.id)
-    },
+    // deletePost() {
+    //   this.$store.dispatch('getPostItem', 'delete', this.post.id)
+    // },
   },
   created() {
     this.getPost() // 영화 디테일 불러오기 
-    if (this.userName === this.post.username) {
-      this.isSameUser = true
-    }
+
+    // console.log(this.post)
+    // console.log(this.userName)
+    // console.log(this.post.username)
+    // 
   }
 }
 </script>
