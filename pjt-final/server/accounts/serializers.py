@@ -7,3 +7,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ('id', 'username', 'password', 'profile_image', 'nickname', 'email')
+
+
+
+# class FollowSerializer(serializers.ModelSerializer):
+
+#     class Meta:
+#         model = get_user_model()
+#         fields = ('')
