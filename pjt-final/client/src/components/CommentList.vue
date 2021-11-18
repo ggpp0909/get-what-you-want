@@ -1,30 +1,50 @@
 <template>
   <div>
-    <comment-item 
-
-    >
-    </comment-item>
+    <comment-create :reloadComment="reloadComment"></comment-create>
+    <comment-item
+      v-for="comment in comments"
+      :key="comment.id"
+      :comment="comment"  
+    ></comment-item>
   </div>
-  <!-- <comment-item 
-      v-for="(comment, idx) in getComments" 
-      :key="idx"
-      :comment="comment"
-    >
-    </comment-item> -->
 </template>
 
 <script>
 import CommentItem from '@/components/CommentItem'
+import CommentCreate from '@/components/CommentCreate'
+
+const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
   name: 'CommentList',
   components: {
-    CommentItem
+    CommentItem,
+    CommentCreate
   },
-  computed: {
-    // getComments() {
-    //   return 
-    // }
+  data() {
+    return {
+      content: null,
+      comment: null,
+    }
+  },
+  props: {
+    comments: {
+      type: Array,
+    }
+  },
+  methods: {
+    reloadComment() {
+      this.$axios({
+        method: 'get',
+        url: `${SERVER_URL}/community/${this.$route.params.postNum}/comment/`,
+      })
+        .then(res => {
+          this.comments = res.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
   }
 }
 </script>

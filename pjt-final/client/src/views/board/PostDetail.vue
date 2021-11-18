@@ -9,7 +9,8 @@
       <button @click="updatePost">update</button> |
       <button @click="deletePost">delete</button>
     </div>
-    <comment-list></comment-list>
+    <h3>-----댓글-----</h3>
+    <comment-list :comments="post.comment_set"></comment-list>
   </div>
 </template>
 
@@ -31,6 +32,9 @@ export default {
     }
   },
   computed: {
+    getCommentList() {
+      return this.post.comment_set
+    },
     ...mapState([
       'userName',
       'config'

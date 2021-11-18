@@ -1,5 +1,9 @@
 <template>
-  <div></div>
+  <div>
+    {{ comment.content }}
+    <p>작성자: {{ comment.user.nickname }}</p>
+    <p>작성일: {{ comment.created_at }}</p>
+  </div>
 </template>
 
 <script>

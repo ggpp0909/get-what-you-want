@@ -58,23 +58,6 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
-    // 게시글 상세 조회 (메소드에 따라 삭제, 수정)
-    getPostItem(Info) {
-      console.log(Info)
-      axios({
-        method: `${Info.method}`,
-        url: `${SERVER_URL}/community/${Info.id}/`, 
-        // headers: this.userInfo.config
-      })
-        .then(res => {
-          console.log(res)
-          this.state.post = res.data
-          return 
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
   },
   modules: {
   }
