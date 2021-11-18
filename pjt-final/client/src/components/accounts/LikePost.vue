@@ -1,5 +1,7 @@
 <template>
-  <div></div>
+  <div>
+    like post
+  </div>
 </template>
 
 <script>
