@@ -7,14 +7,19 @@
       <button>update</button>
       <button>delete</button>
     </div>
+    <comment-list></comment-list>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import CommentList from '@/components/CommentList'
 
 export default {
   name: 'PostDetail',
+  components: {
+    CommentList
+  },
   computed: {
     ...mapState([
       'post',
