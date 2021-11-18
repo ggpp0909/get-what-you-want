@@ -1,9 +1,12 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import UserSerializer
+from .serializers import UserSerializer, FollowSerializer, ProfileSerializer
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny
+from django.shortcuts import get_list_or_404, get_object_or_404
+from django.contrib.auth import get_user_model
+from django.http.response import JsonResponse
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -27,3 +30,50 @@ def signup(request):
         user.save()
         # password는 직렬화 과정에는 포함 되지만 → 표현(response)할 때는 나타나지 않는다. (write_only)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def profile(request, username):
+    person = get_object_or_404(get_user_model(), username=username)
+    serializer = ProfileSerializer(person)
+    # print(type(serializer))
+    return Response(serializer.data)
+    
+
+@api_view(['POST'])
+def follow(request, username):
+    # POST 요청일 경우는 바뀐 팔로우 정보만 넘겨받으면 된다.
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            me = request.user
+            you = get_object_or_404(get_user_model(), username=username)
+            # 너와 내가 다른 사람이여야 팔로우를 진행할 수 있음
+            # 나 자신은 팔로우해서는 안됨
+            if me != you:
+                # 내가 상대방(person)의 팔로워 목록에 있다면
+                if you.followers.filter(pk=me.pk).exists():
+                # 언팔로우
+                    you.followers.remove(me)
+                    followed = False
+                else:
+                # 팔로우
+                    you.followers.add(me)
+                    followed = True
+
+            # followers = get_list_or_404(get_user_model(), pk=)
+            # follower_list = FollowSerializer(many=True, )
+            # serializer = FollowSerializer(you)
+            temp = {
+                'followed': followed,
+                # 'followers_count': you.followers.count(),
+                # 'followings_count': you.followings.count(),
+            }
+            # serializer.update(temp)
+            # return Response(serializer.data)
+            return JsonResponse(temp)
+        return Response({ 'detail': '인증되지 않은 사용자 입니다.'}, status=status.HTTP_401_UNAUTHORIZED)
+    
+    # elif request.method == 'GET':
+    #     serializer = FollowSerializer(you)
+    #     return Response(serializer.data)

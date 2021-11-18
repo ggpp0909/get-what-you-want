@@ -14,7 +14,8 @@ from rest_framework.permissions import AllowAny
 def post_list_create(request):
     if request.method == 'GET':
         # 모델 db에서 다 가져와서 JSON으로 넘겨
-        posts = get_list_or_404(Post)
+        # posts = get_list_or_404(Post)
+        posts = Post.objects.order_by('-pk')
         serializer = PostListSerializer(posts, many=True)
         return Response(serializer.data)
 
@@ -25,20 +26,22 @@ def post_list_create(request):
             serializer.save(user=request.user) # 어떤유저가 썼는지도 같이보내
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def post_get_detail(request, post_pk):
+    post = get_object_or_404(Post, pk=post_pk)
+    serializer = PostDetailSerializer(post)
+    return Response(serializer.data)
+
 # PUT일때 게시글 수정, DELETE일때 게시글 삭제
-@api_view(['PUT', 'DELETE', 'GET'])
+@api_view(['PUT', 'DELETE'])
 def post_detail_update_delete(request, post_pk):
     post = get_object_or_404(Post, pk=post_pk)
 
     if not request.user.post_set.filter(pk=post_pk).exists():
         return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDON)
-    
-    if request.method == 'GET':
-        post = get_object_or_404(Post, pk=post_pk)
-        serializer = PostDetailSerializer(post)
-        return Response(serializer.data)
 
-    elif request.method == 'PUT':
+    if request.method == 'PUT':
         serializer = PostSerializer(post, data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -54,7 +57,9 @@ def post_detail_update_delete(request, post_pk):
 def comment_list_create(request, post_pk):
     if request.method == 'GET':
         # 모델 db에서 다 가져와서 JSON으로 넘겨
-        comments = get_list_or_404(Comment, post_id=post_pk)
+        # 진짜 대박이다 이거 일기에 써야곘다.
+        comments = get_list_or_404(Comment.objects.order_by('-pk'), post_id=post_pk)
+       
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
 
@@ -82,3 +87,25 @@ def comment_update_delete(request, post_pk, comment_pk):
     elif request.method == 'DELETE':
         comment.delete()
         return Response({ 'post_id': post_pk, 'comment_id': comment_pk }, status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['POST'])
+def likes(request, post_pk):
+    if request.user.is_authenticated:
+        post = get_object_or_404(Post, pk=post_pk)
+        # 현재 좋아요를 요청하는 회원(request.user)이
+        # 해당 게시글의 좋아요를 누른 회원 목록에 이미 있다면,
+        if post.like_users.filter(pk=request.user.pk).exists():
+        # if request.user in article.like_users.all(): 
+            # 좋아요 취소
+            post.like_users.remove(request.user)
+            liked = False
+        else:
+            # 좋아요 하기
+            post.like_users.add(request.user)
+            liked = True
+        context = {
+            'liked': liked,
+            'count': post.like_users.count(),
+        }
+        return Response(context)
+    return Response({ 'detail': '인증되지 않은 사용자 입니다.'}, status=status.HTTP_401_UNAUTHORIZED)
