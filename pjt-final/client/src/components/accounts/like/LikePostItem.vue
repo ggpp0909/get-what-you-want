@@ -1,12 +1,13 @@
 <template>
   <div>
-    like post
+    like-post-item
   </div>
 </template>
 
 <script>
 export default {
-  name: 'LikePost',
+  name: 'LikePostItem',
+  
 }
 </script>
 

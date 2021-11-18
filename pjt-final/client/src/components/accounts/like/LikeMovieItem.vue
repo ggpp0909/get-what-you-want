@@ -1,12 +1,13 @@
 <template>
   <div>
-    like movie
+    like-movie-item
   </div>
 </template>
 
 <script>
 export default {
-  name: 'LikeMovie',
+  name: 'LikeMovieItem',
+
 }
 </script>
 
