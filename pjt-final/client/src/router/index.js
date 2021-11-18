@@ -59,7 +59,7 @@ const routes = [
     component: Login
   },
   {
-    path: '/profile',
+    path: '/profile/:userName',
     name: 'Profile',
     component: Profile
   },
