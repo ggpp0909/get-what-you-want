@@ -11,8 +11,8 @@
         <button @click="clickFollowing">Following</button> |
         <button @click="clickFollower">Follower</button>
 
-        <following :class="{'hide': showFollowing }"></following>
-        <follower :class="{'hide': showFollower }"></follower>
+        <following-list :class="{'hide': showFollowing }"></following-list>
+        <follower-list :class="{'hide': showFollower }"></follower-list>
       </div>
 
       <!-- 유저가 작성한 글 -->
@@ -39,8 +39,8 @@
 </template>
 
 <script>
-import Following from '@/components/accounts/Following'
-import Follower from '@/components/accounts/Follower'
+import FollowingList from '@/components/accounts/follow/FollowingList'
+import FollowerList from '@/components/accounts/follow/FollowerList'
 import MyReview from '@/components/accounts/MyReview'
 import MyPost from '@/components/accounts/MyPost'
 import MyComment from '@/components/accounts/MyComment'
@@ -48,10 +48,10 @@ import LikeMovie from '@/components/accounts/LikeMovie'
 import LikePost from '@/components/accounts/LikePost'
 
 export default {
-  name: 'User',
+  name: 'Profile',
   components: {
-    Following,
-    Follower,
+    FollowingList,
+    FollowerList,
     MyReview,
     MyPost,
     MyComment,
