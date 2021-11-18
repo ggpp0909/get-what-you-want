@@ -22,6 +22,7 @@ const routes = [
     name: 'Home',
     component: Home
   },
+  
   // 자유게시판 
   {
     path: '/board',
