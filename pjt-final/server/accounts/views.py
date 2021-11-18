@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import UserSerializer, FollowSerializer, ProfileSerializer
+from .serializers import UserSerializer, FollowSerializer, ProfileSerializer, FollowerSerializer
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny
 from django.shortcuts import get_list_or_404, get_object_or_404
@@ -77,3 +77,25 @@ def follow(request, username):
     # elif request.method == 'GET':
     #     serializer = FollowSerializer(you)
     #     return Response(serializer.data)
+
+
+@api_view(['GET', 'POST'])
+def delete_follower(request, me_username, you_username):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            me = request.user
+            you = get_object_or_404(get_user_model(), username=me_username)
+            target = get_object_or_404(get_user_model(), username=you_username)
+            # 로그인한 사용자 == 지금 보고있는 프로필 이라면 권한이 생긴다
+            if me == you:
+                # 내 팔로워 목록중에 타겟이 있다면
+                if you.followers.filter(pk=target.pk).exists():
+                # 죽여
+                    you.followers.remove(target)
+                serializer = FollowerSerializer(you)
+                # serializer.update(temp)
+                # return Response(serializer.data)
+                return JsonResponse(serializer.data)
+            return Response({ 'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
+        else:
+            return Response({ 'detail': '인증되지 않은 사용자 입니다.'}, status=status.HTTP_401_UNAUTHORIZED)

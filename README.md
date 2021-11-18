@@ -109,6 +109,8 @@
 
     ![erd_1](README.assets/erd_1.png)
 
+  ![image-20211119011729173](README.assets/image-20211119011729173.png)
+
 - 11월 17일 
 
   - tmdb 크롤링 - 80%
