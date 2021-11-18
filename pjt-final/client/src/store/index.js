@@ -13,6 +13,7 @@ export default new Vuex.Store({
     post: null,
     userName: null,
     token: null,
+    config: null,
   },
   mutations: {
     SET_USERNAME(state, userName) {
@@ -26,6 +27,9 @@ export default new Vuex.Store({
     },
     SET_TOKEN(state, token) {
       state.token = token
+      state.config = {
+        Authorization: `JWT ${token}` 
+      }
     }
   },
   actions: {

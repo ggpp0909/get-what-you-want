@@ -6,7 +6,7 @@
     <p>작성일 : {{ post.created_at }}</p>
 
     <div v-if="isSameUser">
-      <button>update</button>
+      <button @click="updatePost">update</button> |
       <button @click="deletePost">delete</button>
     </div>
     <comment-list></comment-list>
@@ -18,7 +18,6 @@ import { mapState } from 'vuex'
 import CommentList from '@/components/CommentList'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
-
 
 export default {
   name: 'PostDetail',
@@ -34,7 +33,7 @@ export default {
   computed: {
     ...mapState([
       'userName',
-      'token'
+      'config'
     ])
   },
   methods: {
@@ -57,14 +56,10 @@ export default {
     },
     // 게시글 삭제 
     deletePost() {
-      const config = {
-        Authorization: `JWT ${this.token}` // 이렇게 header에 함께 보내준다. 
-      }
-      console.log(this.token)
       this.$axios({
         method: 'delete',
         url: `${SERVER_URL}/community/${this.$route.params.postNum}/`, 
-        headers: config
+        headers: this.config
       })
         .then(() => {
           this.$router.push({ name: 'Board' })
@@ -73,15 +68,14 @@ export default {
           console.log(err)
         })
     },
+    // 게시글 수정
+    updatePost() {
+      this.$router.push({ name: 'PostCreate', params: { postId: this.$route.params.postNum } })
+    },
 
   },
   created() {
-    this.getPost() // 영화 디테일 불러오기 
-
-    // console.log(this.post)
-    // console.log(this.userName)
-    // console.log(this.post.username)
-    // 
+    this.getPost() // 영화 디테일 불러오기  
   }
 }
 </script>

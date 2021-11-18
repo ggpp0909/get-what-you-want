@@ -35,7 +35,7 @@ const routes = [
     component: PostDetail
   },
   {
-    path: '/board/create',
+    path: '/board/create/:postId',
     name: 'PostCreate',
     component: PostCreate
   },
