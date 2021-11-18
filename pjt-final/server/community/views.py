@@ -14,7 +14,8 @@ from rest_framework.permissions import AllowAny
 def post_list_create(request):
     if request.method == 'GET':
         # 모델 db에서 다 가져와서 JSON으로 넘겨
-        posts = get_list_or_404(Post)
+        # posts = get_list_or_404(Post)
+        posts = Post.objects.order_by('-pk')
         serializer = PostListSerializer(posts, many=True)
         return Response(serializer.data)
 
@@ -56,7 +57,10 @@ def post_detail_update_delete(request, post_pk):
 def comment_list_create(request, post_pk):
     if request.method == 'GET':
         # 모델 db에서 다 가져와서 JSON으로 넘겨
-        comments = get_list_or_404(Comment, post_id=post_pk)
+        comments = get_list_or_404(Comment.objects.order_by('-pk'), post_id=post_pk)
+        # comments.sort(key=lambda x: x.pk, reverse=True)
+        
+
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
 
