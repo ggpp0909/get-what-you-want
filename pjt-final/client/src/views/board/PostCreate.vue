@@ -25,6 +25,9 @@ export default {
       }
     }
   },
+  computed: {
+
+  },
   methods: {
     createPost() {
       const token = localStorage.getItem('jwt')
@@ -39,7 +42,7 @@ export default {
         headers: config
       })
         .then(res => {
-          this.$router.push({ name: 'PostDetail', params: { postNum: res.pk } }) // 맘에 걸리는 부분 
+          this.$router.push({ name: 'PostDetail', params: { postNum: res.data.id } }) // 맘에 걸리는 부분 
         })
         .catch(err => {
           console.log(err)

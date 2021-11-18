@@ -1,8 +1,10 @@
 <template>
   <div>
-    <!-- <h1>{{ post.title }}</h1>
-    {{ post.content }} -->
-    <h1>detail</h1>
+    <h1>{{ post.title }}</h1>
+    {{ post.content }}
+    <p>마지막 수정일 :{{ post.updated_at }}</p>
+    <p>작성일 : {{ post.created_at }}</p>
+
     <div v-if="isSameUser">
       <button>update</button>
       <button>delete</button>
@@ -15,48 +17,49 @@
 import { mapState } from 'vuex'
 import CommentList from '@/components/CommentList'
 
+const SERVER_URL = process.env.VUE_APP_SERVER_URL
+
+
 export default {
   name: 'PostDetail',
   components: {
     CommentList
   },
-  computed: {
-    ...mapState([
-      'post',
-      'userName'
-    ])
-  },
   data() {
     return {
+      post: null,
       isSameUser: false,
     }
   },
+  computed: {
+    ...mapState([
+      'userName',
+      'token'
+    ])
+  },
   methods: {
+    getPost() {
+      this.$axios({
+        method: 'get',
+        url: `${SERVER_URL}/community/${this.$route.params.postNum}/`, 
+      })
+        .then(res => {
+          this.post = res.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
     deletePost() {
       this.$store.dispatch('getPostItem', 'delete', this.post.id)
     },
-    getPost() {
-      this.$store.dispatch('getPostItem', 'get', this.post.id)
-    }
   },
   created() {
     this.getPost() // 영화 디테일 불러오기 
-    console.log(this.post)
-    // 조회하는 유저와 게시글을 작성한 유저가 같은지 보기 
-    if (this.userName === this.post.id) {
+    if (this.userName === this.post.username) {
       this.isSameUser = true
     }
   }
-  // create() {
-  //   this.$store.dispatch('getPostItem', 'get', this.post.id)
-  // }
-  // created() {
-  //   const postItem = this.posts.filter(postDetail => {
-  //     return postDetail.id === Number(this.$route.params.postNum)
-  //   })[0]
-  //   this.title = postItem.title
-  //   this.content = postItem.content
-  // }
 }
 </script>
 

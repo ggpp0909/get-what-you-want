@@ -44,7 +44,7 @@ export default {
         .then(res => {
           localStorage.setItem('jwt', res.data.token) // jwt 토큰 localStorage에 저장 
           this.$emit('login')
-          this.$store.dispatch('setUserName', this.data.username)
+          this.$store.dispatch('setUserName', this.credentials.username)
           this.$router.push({ name: 'Home' })
         })
         .catch(err => {

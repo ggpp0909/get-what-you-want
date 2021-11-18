@@ -10,8 +10,7 @@ export default new Vuex.Store({
     posts: [],
     post: null,
     userName: null,
-    // userInfo: null,
-   
+    token: null,
   },
   mutations: {
     SET_USERNAME(state, userName) {
@@ -22,10 +21,10 @@ export default new Vuex.Store({
     },
     GET_POSTS(state, posts) {
       state.posts = posts
+    },
+    GET_TOKEN(state, token) {
+      state.token = token
     }
-    // SET_TOKEN(state, userInfo) {
-    //   state.userInfo = userInfo
-    // }
   },
   actions: {
     // 유저 네임 저장 
@@ -36,13 +35,9 @@ export default new Vuex.Store({
     deleteUserName({ commit }) {
       commit('DELETE_USERNAME')
     },
-    // setToken({ commit }) {
-    //   const token = localStorage.getItem('jwt')
-    //   const config = {
-    //     Authorization: `JWT ${token}`
-    //   }
-    //   commit('SET_TOKEN', [token, config])
-    // },
+    getToken({ commit }) {
+      commit('SET_TOKEN', localStorage.getItem('jwt'))
+    },
     // 자유게시판 전체 글 가져오기 
     getPosts({ commit }) {
       axios({
@@ -58,11 +53,12 @@ export default new Vuex.Store({
         })
     },
     // 게시글 상세 조회 (메소드에 따라 삭제, 수정)
-    getPostItem(method, id) {
+    getPostItem(Info) {
+      console.log(Info)
       axios({
-        method: `${method}`,
-        url: `${SERVER_URL}/community/${id}/`, 
-        headers: this.userInfo.config
+        method: `${Info.method}`,
+        url: `${SERVER_URL}/community/${Info.id}/`, 
+        // headers: this.userInfo.config
       })
         .then(res => {
           console.log(res)
