@@ -13,7 +13,7 @@
 
 <script>
 import { mapState } from 'vuex'
-// import { mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'PostList',
@@ -27,9 +27,7 @@ export default {
       this.$router.push({ name: 'PostDetail', params: { postNum: id } })
     },
     // 전체 게시글 서버에서 불러오기 
-    getPosts() {
-      this.$store.dispatch('getPosts')
-    }
+    ...mapActions(['getPosts'])
   },
   created() {
     this.getPosts()

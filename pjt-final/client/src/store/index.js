@@ -51,11 +51,9 @@ export default new Vuex.Store({
         // headers: this.state.userInfo.config
       })
         .then(res => {
-          console.log('hhh')
           commit('GET_POSTS', res.data)
         })
         .catch(err => {
-          console.log('hhh')
           console.log(err)
         })
     },
