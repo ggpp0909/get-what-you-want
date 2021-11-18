@@ -8,7 +8,7 @@
     <v-textarea v-model="post.content"
       color="success"
     ></v-textarea>
-    <button @click="uploadPost">done</button>
+    <button @click="createPost">done</button>
   </div>
 </template>
 
@@ -26,11 +26,17 @@ export default {
     }
   },
   methods: {
-    uploadPost() {
+    createPost() {
+      const token = localStorage.getItem('jwt')
+      const config = {
+        Authorization: `JWT ${token}`
+      }
+
       this.$axios({
         method: 'post',
-        url: `${SERVER_URL}/community/create/`,
-        data: this.post
+        url: `${SERVER_URL}/community/`,
+        data: this.post,
+        headers: config
       })
         .then(res => {
           this.$router.push({ name: 'PostDetail', params: { postNum: res.pk } }) // 맘에 걸리는 부분 

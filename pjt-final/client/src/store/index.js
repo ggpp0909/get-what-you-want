@@ -1,23 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 
 Vue.use(Vuex)
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default new Vuex.Store({
   state: {
-    posts: [
-      { 
-        id: 1,
-        title: 'temp',
-        content: 'temp323423423'
-      },
-      { 
-        id: 2,
-        title: 'temp2',
-        content: 'temp31234',
-      }
-    ],
+    posts: [],
     post: null,
     userName: null,
     // userInfo: null,
@@ -29,6 +19,9 @@ export default new Vuex.Store({
     },
     DELETE_USERNAME(state) {
       state.userName = null
+    },
+    GET_POSTS(state, posts) {
+      state.posts = posts
     }
     // SET_TOKEN(state, userInfo) {
     //   state.userInfo = userInfo
@@ -51,14 +44,14 @@ export default new Vuex.Store({
     //   commit('SET_TOKEN', [token, config])
     // },
     // 자유게시판 전체 글 가져오기 
-    getPosts() {
-      this.$axios({
+    getPosts({ commit }) {
+      axios({
         method: 'get',
         url: `${SERVER_URL}/community/`,
         // headers: this.state.userInfo.config
       })
         .then(res => {
-          this.posts = res.data
+          commit('GET_POSTS', res.data)
         })
         .catch(err => {
           console.log(err)
@@ -66,7 +59,7 @@ export default new Vuex.Store({
     },
     // 게시글 상세 조회 (메소드에 따라 삭제, 수정)
     getPostItem(method, id) {
-      this.$axios({
+      axios({
         method: `${method}`,
         url: `${SERVER_URL}/community/${id}/`, 
         headers: this.userInfo.config

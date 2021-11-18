@@ -28,6 +28,9 @@ export default {
     },
     // 전체 게시글 서버에서 불러오기 
     ...mapActions(['getPosts'])
+  },
+  created() {
+    this.getPosts()
   }
 }
 </script>
