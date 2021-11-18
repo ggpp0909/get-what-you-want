@@ -21,6 +21,8 @@ export default new Vuex.Store({
     },
     DELETE_USERNAME(state) {
       state.userName = null
+      state.token = null
+      state.config = null
     },
     GET_POSTS(state, posts) {
       state.posts = posts

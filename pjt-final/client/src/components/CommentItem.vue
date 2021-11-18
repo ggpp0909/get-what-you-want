@@ -51,7 +51,7 @@ export default {
           console.log(err)
         })
     },
-    updateComment() { // 
+    updateComment() { 
       this.$axios({
         method: 'put',
         url: `${SERVER_URL}/community/${this.comment.post_id}/comment/${this.comment.id}/`, 

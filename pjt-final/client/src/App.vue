@@ -5,7 +5,7 @@
       <router-link :to="{ name: 'Board' }">Board</router-link> |
       <router-link :to="{ name: 'Recommend' }">Recommend</router-link> |
       <div v-if="isLogin">
-        <router-link :to="{ name: 'Profile', params: { userName: this.userName } }">User</router-link> |
+        <router-link :to="{ name: 'Profile', params: { userName: this.userName } }">Profile</router-link> |
         <router-link to="#" @click.native="logout">Logout</router-link>
       </div>
       <div v-else>
@@ -34,6 +34,7 @@ export default {
     logout: function() {
       this.isLogin = false
       localStorage.removeItem('jwt')
+      this.$store.dispatch('deleteUserName')
       this.$router.push({ name: 'Login' })
     }
   },

@@ -24,8 +24,9 @@ export default {
       post: {
         title: '',
         content: '',
+        id: '',
       },
-      isUpdate: this.$route.params.postId > 0 ? true : false,
+      isUpdate: null,
     }
   },
   computed: {
@@ -37,11 +38,13 @@ export default {
     if (this.$route.params.postId > 0) {
       this.$axios({
         method: 'get',
-        url: `${SERVER_URL}/community/${this.$route.params.postId}/`, 
+        url: `${SERVER_URL}/community/${this.$route.params.postId}/detail/`, 
       })
         .then(res => {
           this.post.title = res.data.title
           this.post.content = res.data.content
+          this.post.id = res.data.id
+          this.isUpdate = res.data.id > 0 ? true : false
         })
         .catch(err => {
           console.log(err)
@@ -68,12 +71,12 @@ export default {
     updatePost() {
       this.$axios({
         method: 'put',
-        url: `${SERVER_URL}/community/${this.$route.params.postId}/`, 
+        url: `${SERVER_URL}/community/${this.post.id}/`, 
         data: this.post,
         headers: this.config
       })
-        .then(res => {
-          this.$router.push({ name: 'PostDetail', params: { postNum: res.data.id } })  
+        .then(() => {
+          this.$router.push({ name: 'PostDetail', params: { postNum: this.post.id } })  
         })
         .catch(err => {
           console.log(err)

@@ -2,7 +2,7 @@
   <div>
     <comment-create :reloadComment="reloadComment"></comment-create>
     <comment-item
-      v-for="comment in comments"
+      v-for="comment in commentList"
       :key="comment.id"
       :comment="comment"  
       :reloadComment="reloadComment"
@@ -24,8 +24,7 @@ export default {
   },
   data() {
     return {
-      content: null,
-      comment: null,
+      commentList: this.comments
     }
   },
   props: {
@@ -40,10 +39,11 @@ export default {
         url: `${SERVER_URL}/community/${this.$route.params.postNum}/comment/`,
       })
         .then(res => {
-          this.comments = res.data
+          this.commentList = res.data
         })
-        .catch(err => {
-          console.log(err)
+        .catch(() => {
+          // console.log(err)
+          this.commentList = null
         })
     },
   }

@@ -46,6 +46,9 @@ import MyPostList from '@/components/accounts/my/MyPostList'
 import MyCommentList from '@/components/accounts/my/MyCommentList'
 import LikeMovieList from '@/components/accounts/like/LikeMovieList'
 import LikePostList from '@/components/accounts/like/LikePostList'
+import { mapState } from 'vuex'
+
+const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
   name: 'Profile',
@@ -60,6 +63,8 @@ export default {
   },
   data() {
     return {
+      userProfile: null,
+      // 숨기기 값들 
       showFollow: false,
       showMy: true,
       showLike: true,
@@ -119,7 +124,22 @@ export default {
       this.showLikeM = true
       this.showLikeP = false
     },
-    
+  },
+  created() {
+    this.$axios({
+      method: 'get',
+      url: `${SERVER_URL}/accounts/${this.userName}/`, 
+    })
+      .then(res => {
+        this.userProfile = res.data
+        console.log(res.data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  },
+  computed: {
+    ...mapState(['userName'])
   }
 }
 </script>
