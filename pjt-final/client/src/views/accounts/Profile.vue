@@ -31,8 +31,8 @@
         <button @click="clickLikeM">Like Movie</button> |
         <button @click="clickLikeP">Like Post</button>
 
-        <like-movie :class="{'hide': showLikeM }"></like-movie>
-        <like-post :class="{'hide': showLikeP }"></like-post>
+        <like-movie-list :class="{'hide': showLikeM }"></like-movie-list>
+        <like-post-list :class="{'hide': showLikeP }"></like-post-list>
       </div>
     </div>
   </div>
@@ -44,8 +44,8 @@ import FollowerList from '@/components/accounts/follow/FollowerList'
 import MyReview from '@/components/accounts/MyReview'
 import MyPost from '@/components/accounts/MyPost'
 import MyComment from '@/components/accounts/MyComment'
-import LikeMovie from '@/components/accounts/LikeMovie'
-import LikePost from '@/components/accounts/LikePost'
+import LikeMovieList from '@/components/accounts/like/LikeMovieList'
+import LikePostList from '@/components/accounts/like/LikePostList'
 
 export default {
   name: 'Profile',
@@ -55,8 +55,8 @@ export default {
     MyReview,
     MyPost,
     MyComment,
-    LikeMovie,
-    LikePost
+    LikeMovieList,
+    LikePostList
   },
   data() {
     return {
