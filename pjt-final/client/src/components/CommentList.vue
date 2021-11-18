@@ -5,6 +5,7 @@
       v-for="comment in comments"
       :key="comment.id"
       :comment="comment"  
+      :reloadComment="reloadComment"
     ></comment-item>
   </div>
 </template>
