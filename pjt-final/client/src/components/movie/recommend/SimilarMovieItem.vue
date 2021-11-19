@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'MovieDetailSimilarItem',
+  name: 'SimilarMovieItem',
   props: {
     similarItem: Object
   },

@@ -1,23 +1,25 @@
 <template>
   <div>
-    <h1>recommend movie</h1>
-    <movie-detail-similar-item
-      v-for="similarItem in similarMovies"
-      :key="similarItem.id"
-      :similar-item="similarItem"
-    ></movie-detail-similar-item>
+    <h1>Similar movie</h1>
+    <div class="d-flex">
+      <similar-movie-item
+        v-for="similarItem in similarMovies"
+        :key="similarItem.id"
+        :similar-item="similarItem"
+      ></similar-movie-item>
+    </div>
   </div>
 </template>
 
 <script>
-import MovieDetailSimilarItem from '@/components/movie/MovieDetailSimilarItem'
+import SimilarMovieItem from '@/components/movie/recommend/SimilarMovieItem'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
-  name: 'MovieDetailSimilar',
+  name: 'SimilarMovieList',
   components: {
-    MovieDetailSimilarItem
+    SimilarMovieItem
   },
   data() {
     return {

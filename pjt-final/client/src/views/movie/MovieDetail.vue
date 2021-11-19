@@ -14,15 +14,15 @@
     <p>평점 {{ movieData.vote_average }}</p>
     <p>투표한 사람 수 {{ movieData.vote_count }}</p>
     <movie-trailer :video-id="movieData.video_id"></movie-trailer>
-    <movie-detail-recommend></movie-detail-recommend>
-    <movie-detail-similar></movie-detail-similar>
+    <recommend-movie-list></recommend-movie-list>
+    <similar-movie-list></similar-movie-list>
   </div>
 </template>
 
 <script>
 import MovieTrailer from '@/components/movie/MovieTrailer'
-import MovieDetailRecommend from '@/components/movie/MovieDetailRecommend'
-import MovieDetailSimilar from '@/components/movie/MovieDetailSimilar'
+import RecommendMovieList from '@/components/movie/recommend/RecommendMovieList'
+import SimilarMovieList from '@/components/movie/recommend/SimilarMovieList'
 import _ from 'lodash'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
@@ -31,8 +31,8 @@ export default {
   name: 'MovieDetail',
   components: {
     MovieTrailer,
-    MovieDetailRecommend,
-    MovieDetailSimilar
+    RecommendMovieList,
+    SimilarMovieList
   },
   data() {
     return {
@@ -50,8 +50,8 @@ export default {
         .then(res => {
           if (res.data.adult) {
             this.$router.push({ name: 'IsAdult'})
-            return res
           }
+          return res
         })
         .then(res => {
           console.log(res)

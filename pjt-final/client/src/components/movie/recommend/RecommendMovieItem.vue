@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'MovieDetailRecommendItem',
+  name: 'RecommendMovieItem',
   data() {
     return {
       posterPath: `https://image.tmdb.org/t/p/w500${this.recommendItem.poster_path}`
