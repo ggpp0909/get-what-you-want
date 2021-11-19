@@ -44,58 +44,58 @@ def profile(request, username):
 @api_view(['POST'])
 def follow(request, username):
     # POST 요청일 경우는 바뀐 팔로우 정보만 넘겨받으면 된다.
-    if request.method == 'POST':
-        if request.user.is_authenticated:
-            me = request.user
-            you = get_object_or_404(get_user_model(), username=username)
-            # 너와 내가 다른 사람이여야 팔로우를 진행할 수 있음
-            # 나 자신은 팔로우해서는 안됨
-            if me != you:
-                # 내가 상대방(person)의 팔로워 목록에 있다면
-                if you.followers.filter(pk=me.pk).exists():
-                # 언팔로우
-                    you.followers.remove(me)
-                    followed = False
-                else:
-                # 팔로우
-                    you.followers.add(me)
-                    followed = True
 
-            # followers = get_list_or_404(get_user_model(), pk=)
-            # follower_list = FollowSerializer(many=True, )
-            # serializer = FollowSerializer(you)
-            temp = {
-                'followed': followed,
-                # 'followers_count': you.followers.count(),
-                # 'followings_count': you.followings.count(),
-            }
-            # serializer.update(temp)
-            # return Response(serializer.data)
-            return JsonResponse(temp)
-        return Response({ 'detail': '인증되지 않은 사용자 입니다.'}, status=status.HTTP_401_UNAUTHORIZED)
+    if request.user.is_authenticated:
+        me = request.user
+        you = get_object_or_404(get_user_model(), username=username)
+        # 너와 내가 다른 사람이여야 팔로우를 진행할 수 있음
+        # 나 자신은 팔로우해서는 안됨
+        if me != you:
+            # 내가 상대방(person)의 팔로워 목록에 있다면
+            if you.followers.filter(pk=me.pk).exists():
+            # 언팔로우
+                you.followers.remove(me)
+                followed = False
+            else:
+            # 팔로우
+                you.followers.add(me)
+                followed = True
+
+        # followers = get_list_or_404(get_user_model(), pk=)
+        # follower_list = FollowSerializer(many=True, )
+        # serializer = FollowSerializer(you)
+        temp = {
+            'followed': followed,
+            # 'followers_count': you.followers.count(),
+            # 'followings_count': you.followings.count(),
+        }
+        # serializer.update(temp)
+        # return Response(serializer.data)
+        return JsonResponse(temp)
+    return Response({ 'detail': '인증되지 않은 사용자 입니다.'}, status=status.HTTP_401_UNAUTHORIZED)
     
     # elif request.method == 'GET':
     #     serializer = FollowSerializer(you)
     #     return Response(serializer.data)
 
 
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 def delete_follower(request, me_username, you_username):
-    if request.method == 'POST':
-        if request.user.is_authenticated:
-            me = request.user
-            you = get_object_or_404(get_user_model(), username=me_username)
-            target = get_object_or_404(get_user_model(), username=you_username)
-            # 로그인한 사용자 == 지금 보고있는 프로필 이라면 권한이 생긴다
-            if me == you:
-                # 내 팔로워 목록중에 타겟이 있다면
-                if you.followers.filter(pk=target.pk).exists():
-                # 죽여
-                    you.followers.remove(target)
-                serializer = FollowerSerializer(you)
-                # serializer.update(temp)
-                # return Response(serializer.data)
-                return JsonResponse(serializer.data)
-            return Response({ 'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
-        else:
-            return Response({ 'detail': '인증되지 않은 사용자 입니다.'}, status=status.HTTP_401_UNAUTHORIZED)
+    # if request.method == 'POST':
+    if request.user.is_authenticated:
+        me = request.user
+        you = get_object_or_404(get_user_model(), username=me_username)
+        target = get_object_or_404(get_user_model(), username=you_username)
+        # 로그인한 사용자 == 지금 보고있는 프로필 이라면 권한이 생긴다
+        if me == you:
+            # 내 팔로워 목록중에 타겟이 있다면
+            if you.followers.filter(pk=target.pk).exists():
+            # 죽여
+                you.followers.remove(target)
+            serializer = FollowerSerializer(you)
+            # serializer.update(temp)
+            # return Response(serializer.data)
+            return JsonResponse(serializer.data)
+        return Response({ 'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
+    else:
+        return Response({ 'detail': '인증되지 않은 사용자 입니다.'}, status=status.HTTP_401_UNAUTHORIZED)
