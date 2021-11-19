@@ -11,7 +11,7 @@
     >??</button> -->
     <div v-if="this.userName === this.$route.params.userName" >
       <button :class="{ 'hide' : !followState }" @click="followingChangeState">unfollow</button>
-      <button :class="{ 'hide' : followState }" @click="followingChangeState">unfollow</button>
+      <button :class="{ 'hide' : followState }" @click="followingChangeState">follow</button>
     </div>
     
   </div>
@@ -61,9 +61,6 @@ export default {
   computed: {
     ...mapState(['config', 'userName'])
   },
-  created() {
-    console.log(this.followingUser.username)
-  }
 }
 </script>
 
