@@ -46,6 +46,11 @@ export default {
           this.commentList = null
         })
     },
+  },
+  watch: {
+    comments() {
+      this.commentList = this.comments
+    }
   }
 }
 </script>

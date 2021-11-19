@@ -41,7 +41,7 @@ export default {
     ])
   },
   methods: {
-    // 게시글 가져오기 
+    // 게시글 정보 가져오기 
     getPost() {
       this.$axios({
         method: 'get',
