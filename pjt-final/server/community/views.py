@@ -35,7 +35,7 @@ def post_get_detail(request, post_pk):
 
 # PUT일때 게시글 수정, DELETE일때 게시글 삭제
 @api_view(['PUT', 'DELETE'])
-def post_detail_update_delete(request, post_pk):
+def post_update_delete(request, post_pk):
     post = get_object_or_404(Post, pk=post_pk)
 
     if not request.user.post_set.filter(pk=post_pk).exists():
