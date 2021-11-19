@@ -11,6 +11,5 @@ urlpatterns = [
     path('top_rated/', views.top_rated),    # (GET) 가장 평점 높은 영화 받기 TOP20, TMDB API
     path('upcoming/', views.upcoming),   # (GET) 개봉 예정인 영화 받기 20개, TMDB API
     path('<word>/search/', views.search), # (GET) word가 포함된영화 검색
-    path('<movie_id>/like/', views.like),   # 영화 좋아요
-    path('yeongnams_recommend/', views.YN), # 영남's 추천알고리즘에 의한 영화추천
+    path('<movie_id>/like/', views.like),   # (POST)영화 좋아요
 ]
