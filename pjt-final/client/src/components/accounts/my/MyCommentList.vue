@@ -1,17 +1,17 @@
 <template>
   <div>
     mycomment
-    <my-comment-list></my-comment-list>
+    <my-comment-item></my-comment-item>
   </div>
 </template>
 
 <script>
-import MyCommentList from '@/components/accounts/my/MyCommentList'
+import MyCommentItem from '@/components/accounts/my/MyCommentItem'
 
 export default {
   name: 'MyCommentList',
   components: {
-    MyCommentList
+    MyCommentItem
   }
 }
 </script>

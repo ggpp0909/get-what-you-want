@@ -1,7 +1,7 @@
 <template>
   <div>
     like-movie-item
-    <p @click="goToMovie"></p>
+    <!-- <p @click="goToMovie"></p> -->
   </div>
 </template>
 
@@ -9,13 +9,13 @@
 export default {
   name: 'LikeMovieItem',
   methods: {
-    goToMovie() {
-      // this.$route.push({ name: 'MovieDetail', params: { movieId: movieId } })
-    }
+    // goToMovie() {
+    //   // this.$route.push({ name: 'MovieDetail', params: { movieId: movieId } })
+    // }
   }
 }
 </script>
 
 <style>
 
-</style
+</style>

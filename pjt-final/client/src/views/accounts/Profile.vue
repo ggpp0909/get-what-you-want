@@ -8,7 +8,7 @@
     <div>
       <!-- 팔로우 팔로워 -->
       <div :class="{'hide': showFollow }">
-        <button @click="clickFollowing">Following</button> |
+        <button @click="clickFollowing">Following</button> | |
         <button @click="clickFollower">Follower</button>
 
         <following-list :class="{'hide': showFollowing }"></following-list>
@@ -117,26 +117,29 @@ export default {
       this.showMyC = false
     },
     clickLikeM() {
-      this.showLikeM = false,
+      this.showLikeM = false
       this.showLikeP = true
     },
     clickLikeP() {
       this.showLikeM = true
       this.showLikeP = false
     },
+    getProfile() {
+      this.$axios({
+        method: 'get',
+        url: `${SERVER_URL}/accounts/${this.$route.params.userName}/`, 
+      })
+        .then(res => {
+          this.userProfile = res.data
+          console.log(res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
   },
   created() {
-    this.$axios({
-      method: 'get',
-      url: `${SERVER_URL}/accounts/${this.userName}/`, 
-    })
-      .then(res => {
-        this.userProfile = res.data
-        console.log(res.data)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    this.getProfile
   },
   computed: {
     ...mapState(['userName'])

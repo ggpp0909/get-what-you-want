@@ -1,14 +1,14 @@
 <template>
   <div>
     FollowerItem
-    <button v-if="this.userName === this.$route.params.userName" @click="deleteFollower">삭제</button>
+    <!-- <button v-if="this.userName === this.$route.params.userName" @click="deleteFollower">삭제</button> -->
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 
-const SERVER_URL = process.env.VUE_APP_SERVER_URL
+// const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
   name: 'FollowerItem',
@@ -16,31 +16,31 @@ export default {
     followerItem: Object
   },
   methods: {
-    deleteFollower() {
-      this.$axios({
-        method: 'delete',
-        url: `${SERVER_URL}/`,
-        headers: this.config
-      })
-        .then(() => {
-          this.reloadFollower()
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    reloadFollower() {
-      this.$axios({
-        method: 'get',
-        url: `${SERVER_URL}/`,
-      })
-        .then(res => {
-          this.$emit('followers', res.data)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    }
+    // deleteFollower() {
+    //   this.$axios({
+    //     method: 'delete',
+    //     url: `${SERVER_URL}/`,
+    //     headers: this.config
+    //   })
+    //     .then(() => {
+    //       this.reloadFollower()
+    //     })
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+    // },
+    // reloadFollower() {
+    //   this.$axios({
+    //     method: 'get',
+    //     url: `${SERVER_URL}/`,
+    //   })
+    //     .then(res => {
+    //       this.$emit('followers', res.data)
+    //     })
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+    // }
   },
   computed: {
     ...mapState(['config'])

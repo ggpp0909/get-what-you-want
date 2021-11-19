@@ -2,10 +2,7 @@
   <div>
     Follower
     <follower-item 
-      @follower="reloadFollower"
-      v-for="followerItem in followers"
-      :key="followerItem.username"
-      :followerItem="followerItem"
+  
     ></follower-item>
   </div>
 </template>
@@ -24,13 +21,18 @@ export default {
     }
   },
   methods: {
-    reloadFollower(followers) {
-      this.followers = followers
-    }
+  //   reloadFollower(followers) {
+  //     this.followers = followers
+  //   }
+  // }
   }
+    // @follower="reloadFollower"
+    //   v-for="followerItem in followers"
+    //   :key="followerItem.username"
+    //   :followerItem="followerItem"
 }
 </script>
 
 <style>
 
-</style>
+</style> 

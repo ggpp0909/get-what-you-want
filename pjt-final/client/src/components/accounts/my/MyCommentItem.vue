@@ -1,7 +1,7 @@
 <template>
   <div>
     my-comment-item
-    <p @click="goToPost"></p>
+    <!-- <p @click="goToPost"></p> -->
   </div>
 </template>
 
@@ -9,9 +9,9 @@
 export default {
   name: 'MyCommentItem',
   methods: {
-    goToPost() {
-      // this.$route.push({ name: 'PostDetail', params: { postId: postId } })
-    }
+    // goToPost() {
+    //   // this.$route.push({ name: 'PostDetail', params: { postId: postId } })
+    // }
   }
 }
 </script>
