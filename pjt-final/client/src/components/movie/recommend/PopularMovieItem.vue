@@ -15,6 +15,11 @@ export default {
   },
   props: {
     popularItem: Object
+  },
+  methods: {
+    goToMovieDetail() {
+    this.$router.push({ name: 'MovieDetail', params: { movieId: this.popularItem.id } })
+    }
   }
 }
 </script>

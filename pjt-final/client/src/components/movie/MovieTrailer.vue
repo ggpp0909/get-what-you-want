@@ -1,6 +1,7 @@
 <template>
   <div>
-    <iframe :src="videoURI" frameborder="0" width="800" height="500"></iframe>
+    <iframe v-if="videoId" :src="videoURI" frameborder="0" width="800" height="500"></iframe>
+    <div v-else>예고편이 없습니다. </div>
   </div>
 </template>
 
@@ -13,7 +14,7 @@ export default {
     }
   },
   props: {
-    videoId: String
+    videoId: [String, Boolean],
   },
   methods: {
     getVideoURI() {

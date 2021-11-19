@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-      movieData: null,
+      movieData: '',
       posterPath: null,
       genres: null,
     }
