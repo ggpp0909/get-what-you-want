@@ -5,9 +5,14 @@
       {{ followingUser.nickname }}
     </div>
     
-    <button 
-      v-if="this.userName === this.$route.params.userName" @click="followingChangeState"
-    >??</button>
+    <!-- <button 
+      v-if="this.userName === this.$route.params.userName" 
+      @click="followingChangeState"
+    >??</button> -->
+    <v-btn
+      v-if="this.userName === followingUser.username" 
+      :value="followState ? 'unfollow' : 'follow'"
+    >+</v-btn>
   </div>
 </template>
 
@@ -18,6 +23,11 @@ const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
   name: 'FollowingItem',
+  data() {
+    return {
+      followState: true,
+    }
+  },
   props: {
     followingUser: Object
   },
@@ -43,6 +53,9 @@ export default {
   },
   computed: {
     ...mapState(['config', 'userName'])
+  },
+  created() {
+    console.log(this.followingUser.username)
   }
 }
 </script>
