@@ -8,11 +8,22 @@
     <div>
       <!-- 팔로우 팔로워 -->
       <div :class="{'hide': showFollow }">
-        <button @click="clickFollowing">Following</button> | |
+        <h1>Following : {{ userProfile.following_count }}</h1>
+        <h1>Follower: {{ followerCount }}</h1> 
+        <button @click="clickFollowing">Following</button> | 
         <button @click="clickFollower">Follower</button>
 
-        <following-list :class="{'hide': showFollowing }" :followingList="userProfile.followings"></following-list>
-        <follower-list :class="{'hide': showFollower }" :followerList="userProfile.followers"></follower-list>
+        <following-list 
+          :class="{'hide': showFollowing }" 
+          :followingList="userProfile.followings"
+          :followingCount="userProfile.followings_count"
+        ></following-list>
+        <follower-list 
+          :class="{'hide': showFollower }" 
+          :followerList="userProfile.followers"
+          :followerCount="userProfile.followers_count"
+          @delete-follower="decreaseFollowerCount"
+        ></follower-list>
       </div>
 
       <!-- 유저가 작성한 글 -->
@@ -64,6 +75,7 @@ export default {
   data() {
     return {
       userProfile: '',
+      followerCount: 0,
       // 숨기기 값들 
       showFollow: false,
       showMy: true,
@@ -78,6 +90,7 @@ export default {
     }
   },
   methods: {
+    // ------ 버튼 클릭 --------
     clickFollow() {
       this.showFollow = false
       this.showMy = true
@@ -124,6 +137,8 @@ export default {
       this.showLikeM = true
       this.showLikeP = false
     },
+
+    // 프로필 받아오기 
     getProfile() {
       this.$axios({
         method: 'get',
@@ -131,11 +146,16 @@ export default {
       })
         .then(res => {
           this.userProfile = res.data
+          this.followerCount = res.data.followers_count
           console.log(res.data)
         })
         .catch(err => {
           console.log(err)
         })
+    },
+    // follower 수 감소
+    decreaseFollowerCount() {
+      this.followerCount -= 1
     }
   },
   created() {

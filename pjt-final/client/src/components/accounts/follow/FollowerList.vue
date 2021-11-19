@@ -22,11 +22,11 @@ export default {
   },
   data() {
     return {
-      followers: this.followerList
+      followers: this.followerList,
     }
   },
   props: {
-    followerList: Array
+    followerList: Array,
   },
   methods: {
     reloadFollower() {
@@ -37,6 +37,7 @@ export default {
         .then(res => {
           console.log(res.data)
           this.follower = res.data.followings
+          this.$emit('delete-follower')
         })
         .catch(err => {
           console.log(err)
