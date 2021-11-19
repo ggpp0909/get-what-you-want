@@ -126,17 +126,27 @@ comments = get_list_or_404(Comment.objects.order_by('-pk'), post_id=post_pk)
 
 - 영화 detail넘겨주는 함수 완료.
 
+- ### 커밋
+
+- tmdb로 api요청보내서 받을 수 있는 경로들 추가
+
+- 임상실험 후 크롤링 데이터 db에 넣기 성공.
+
+```
+1. 엑셀파일 csv파일로 만들기. (한글 안깨지게 메모장으로 켜서 UTF-8로 인코딩하면서 저장)
+2. 모델은 csv파일과 동일하게, (필드이름, 속성)
+3. movie_id를 primary key로
+
+sqlite3 db.sqlite3
+.mode csv
+.import tmdb.csv movie_crawledmovie
+```
+
 
 
 남은 할것
 
-movie.app만들기
-
 url 다양하게 만들어서 각 url로 보냈을때 다른 api url주소로 요청을 보내서 데이터 받아오기
-
-follow, follower
-
-게시글 좋아요
 
 영화 좋아요
 
@@ -152,32 +162,5 @@ follow, follower
 7. 영화원
 8. 무비다방
 9. 지플릭스
-
-전체 영화 목록을 보여주는, 끝
-
-디테일을보여주는, 근데 거기에 댓글까지 보여줘야돼 
-디테일에 필요한거 -> 게시글의 제목, 내용, 작성자의 닉네임, 유저네임, createdat, updated_at
-		-> 게시글의 댓글들 목록
-		근데 댓글들 하나하나마다 필요한것은
-		댓글쓴이, 내용, created_at, updated_at, 어떤게시글에 있는 댓글인지
-
-게시글
-id
-제목
-내용
-글쓴이:[
-	닉네임
-	유저네임
-]
-created
-updated
-comment_set:[
-	id
-	글쓴이의 닉
-	글쓴이의 유저네임
-	내용
-	created_at
-	updated_at
-]
 ```
 

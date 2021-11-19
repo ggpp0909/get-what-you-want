@@ -3,7 +3,7 @@ from django.conf import settings
 # Create your models here.
 
 class Review(models.Model):
-    movie_id = models.IntegerField()
+    movie_id = models.CharField(max_length=10)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     content = models.TextField()
@@ -14,7 +14,26 @@ class Review(models.Model):
 
 
 class Like(models.Model):
-    movie_id = models.IntegerField()
+    movie_id = models.CharField(max_length=10)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
-    
+class CrawledMovie(models.Model):
+    movie_id = models.IntegerField(primary_key=True)
+    title = models.CharField(max_length=100, null=True)
+    original_title = models.CharField(max_length=50, null=True)
+    genre_1 = models.CharField(max_length=10, null=True)
+    genre_2 = models.CharField(max_length=10, null=True)
+    gnere_3 = models.CharField(max_length=10, null=True)
+    genre_4 = models.CharField(max_length=10, null=True)
+    budget = models.IntegerField(null=True)
+    overview = models.TextField(null=True)
+    popularity = models.FloatField(null=True)
+    country_1 = models.CharField(max_length=30, null=True)
+    country_2 = models.CharField(max_length=30, null=True)
+    country_3 = models.CharField(max_length=30, null=True)
+    release_date = models.DateField(null=True)
+    runtime = models.IntegerField(null=True)
+    vote_average = models.FloatField(null=True)
+    vote_count =models.IntegerField(null=True)
+    poster_path = models.TextField(null=True)
+

@@ -73,3 +73,78 @@ def detail(request, movie_id):
     }
     # print(results)
     return Response(context)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def recommend(request, movie_id):
+    recommend_url = get_request_url(f'/movie/{movie_id}/recommendations', language='ko-KR')
+
+    data = requests.get(recommend_url).json()
+    results = data['results']
+    # print(results)
+    return Response(results)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def similar(request, movie_id):
+    similar_url = get_request_url(f'/movie/{movie_id}/similar', language='ko-KR')
+
+    data = requests.get(similar_url).json()
+    results = data['results']
+    # print(results)
+    return Response(results)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def popular(request):
+    popular_url = get_request_url(f'/movie/popular', language='ko-KR', region = 'KR')
+    data = requests.get(popular_url).json()
+    results = data['results']
+    
+    # print(results)
+    return Response(results)
+
+# @api_view(['GET'])
+# @permission_classes([AllowAny])
+# def latest(request):
+#     latest_url = get_request_url(f'/movie/latest', language='ko-KR')
+#     data = requests.get(latest_url).json()
+    
+#     # print(results)
+#     return Response(data)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def now_playing(request):
+    now_playing_url = get_request_url(f'/movie/now_playing', language='ko-KR', region = 'KR')
+    data = requests.get(now_playing_url).json()
+    results = data['results']
+    
+    # print(results)
+    return Response(results)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def top_rated(request):
+    top_rated_url = get_request_url(f'/movie/top_rated', language='ko-KR', region = 'KR')
+    data = requests.get(top_rated_url).json()
+    results = data['results']
+    
+    # print(results)
+    return Response(results)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def upcoming(request):
+    upcoming_url = get_request_url(f'/movie/upcoming', language='ko-KR', region = 'KR')
+    data = requests.get(upcoming_url).json()
+    results = data['results']
+    
+    # print(results)
+    return Response(results)
+
