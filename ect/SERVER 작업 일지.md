@@ -94,7 +94,7 @@ comments = get_list_or_404(Comment, post_id=post_pk)
 comments.sort(key=lambda x: x.pk, reverse=True)
 처음엔 이렇게 먼저 필터링을 한후 정렬하는 것으로 대안을 세웠다
 
-하지만 지니어슬의 아이디어로
+하지만 지(니어)슬의 아이디어로
 comments = get_list_or_404(Comment.objects.order_by('-pk'), post_id=post_pk)
 이렇게 바꿀 수 있었다.
 이코드가 더 좋은이유: 처음부터 pk역순으로 차곡차곡 쌓으므로, 쪼끔 더 빠르다
@@ -111,8 +111,22 @@ comments = get_list_or_404(Comment.objects.order_by('-pk'), post_id=post_pk)
 - 모델 수정
 
   movie_review, movie_like 가 보이는것처럼 M,N관계가 되있는게 아니라 그냥 따로 모델로 user만 참조하는 건데 movie api로 받아온 movie_id만 따로 넣어준것
+  
+  일단 지금은 ERD만 바꿨다.
 
 ![image-20211119011028676](SERVER 작업 일지.assets/image-20211119011028676.png)
+
+- 내 팔로워 목록에서 팔로우 끊어버리기
+
+- 게시글 좋아요
+
+- ### 커밋
+
+- movie app 생성, 등록, 모델정의
+
+- 영화 detail넘겨주는 함수 완료.
+
+
 
 남은 할것
 
