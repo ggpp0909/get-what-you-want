@@ -5,6 +5,7 @@
       :key="following.id"
       :following-user="following"
       @unfollow="unfollow"
+      @follow="follow"
     ></following-item>
   </div>
 </template>
@@ -23,6 +24,9 @@ export default {
   methods: {
     unfollow() {
       this.$emit('unfollow')
+    },
+    follow() {
+      this.$emit('follow')
     }
   }
 }
