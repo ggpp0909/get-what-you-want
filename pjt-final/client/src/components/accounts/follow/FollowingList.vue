@@ -1,6 +1,11 @@
 <template>
   <div>Following
-    <following-item></following-item>
+    <following-item
+      v-for="following in this.followingList"
+      :key="following.id"
+      :followingItem="following"
+      @unfollow="unfollow"
+    ></following-item>
   </div>
 </template>
 
@@ -12,6 +17,14 @@ export default {
   components: {
     FollowingItem
   },
+  props: {
+    followingList: Array,
+  },
+  methods: {
+    unfollow() {
+      this.$emit('unfollow')
+    }
+  }
 }
 </script>
 

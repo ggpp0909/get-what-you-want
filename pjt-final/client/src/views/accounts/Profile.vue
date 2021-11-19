@@ -8,7 +8,7 @@
     <div>
       <!-- 팔로우 팔로워 -->
       <div :class="{'hide': showFollow }">
-        <h1>Following : {{ userProfile.following_count }}</h1>
+        <h1>Following : {{ followingCount }}</h1>
         <h1>Follower: {{ followerCount }}</h1> 
         <button @click="clickFollowing">Following</button> | 
         <button @click="clickFollower">Follower</button>
@@ -16,12 +16,11 @@
         <following-list 
           :class="{'hide': showFollowing }" 
           :followingList="userProfile.followings"
-          :followingCount="userProfile.followings_count"
+          @unfollow="decreaseFollowingCount"
         ></following-list>
         <follower-list 
           :class="{'hide': showFollower }" 
           :followerList="userProfile.followers"
-          :followerCount="userProfile.followers_count"
           @delete-follower="decreaseFollowerCount"
         ></follower-list>
       </div>
@@ -76,6 +75,7 @@ export default {
     return {
       userProfile: '',
       followerCount: 0,
+      followingCount: 0,
       // 숨기기 값들 
       showFollow: false,
       showMy: true,
@@ -147,6 +147,7 @@ export default {
         .then(res => {
           this.userProfile = res.data
           this.followerCount = res.data.followers_count
+          this.followingCount = res.data.followings_count
           console.log(res.data)
         })
         .catch(err => {
@@ -156,6 +157,10 @@ export default {
     // follower 수 감소
     decreaseFollowerCount() {
       this.followerCount -= 1
+    },
+    // following 수 감소
+    decreaseFollowingCount() {
+      this.followingCount -= 1
     }
   },
   created() {
