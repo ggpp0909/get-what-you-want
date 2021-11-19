@@ -1,3 +1,135 @@
+## 할 일
+
+- 자유게시판
+
+  - **views > board > Board.vue** - 게시판 최상위 컴포넌트 
+
+    - ~~게시글 작성 버튼~~
+      - ~~로그인한 사용자라면, 게시글 작성 페이지로 이동~~
+      - ~~로그인하지 않았다면, 로그인 페이지로 이동~~
+
+    - 게시글 찾는 기능
+    - pagenation
+
+  ### < 게시글 > 
+
+  - **components > PostList.vue** - 게시판 행 구성 
+
+    - ~~전체 게시글 가져오기~~
+    - ~~게시글 클릭시, 해당 게시글로 이동~~
+
+    - 행 구성 : 제목 + 유저 아이디 + 프로필 사진 + 날짜 같이 나오게
+
+  - **views > board > PostDetail.vue **- 게시글 디테일 
+
+    - ~~게시글 상세 조회~~
+
+    - ~~게시글 삭제~~ 
+    - ~~게시글 수정 (PostCreate로 넘어가기)~~
+    - ~~수정 / 삭제 버튼 작성자에게만 나타내기~~ 
+    - ~~댓글~~
+    - 삭제버튼 알림창 
+    - 좋아요
+
+  - **views > board > PostCreate.vue**  - 게시글 작성 및 수정 form 
+
+    - ~~게시글 작성~~
+    - ~~게시글 수정~~
+    - 생성 및 수정하고 알림창 
+    - 유효성 검사 
+    - place holder
+    - 글쓰기 > 로그아웃 > 로그인페이지로 넘어가면 뒤로누르기 > create 구성으로 오는거 막기
+
+  
+
+  ### < 댓글 >
+
+  - components > CommentList.vue - 댓글 리스트 
+    - ~~해당 게시글의 전체 댓글 가져오기~~
+  - components > CommentItem.vue - 댓글 하나
+    - ~~댓글 삭제 / 수정~~ 
+    - ~~수정 삭제 해당 작성자에게만 보이기~~
+    - 작성자 + 작성일 + 내용 + 작성자 프로필 이미지로 나타내기
+    - 삭제 알림창 (?)
+    - 수정 유효성 검사 
+
+  - components > CommentCreate - 댓글 작성 
+    - ~~댓글 작성~~ 
+    - 유효성 검사 
+
+  
+
+  ### < 좋아요 >
+
+  - ㄴㅇㄹ
+
+  
+
+- 유저 
+
+  ### < 회원 가입 / 로그인 / 로그아웃 >
+
+  - **views > accounts > Signup.vue**	- 회원 가입
+    - ~~회원 가입~~
+    - ~~자동로그인~~
+    - 유효성 검사
+      - 아이디 중복 여부, 닉네임 중복여부, 비밀번호 확인 일치 
+      - 아이디 한글 안됨
+  - **views > accounts > Login.vue** - 로그인
+    - ~~로그인~~ 
+    - 유효성 검사 
+  - **App.vue** - 최상위 컴포넌트 
+    - ~~로그아웃~~
+    - ~~로그아웃시, 로그인 창으로 이동~~  (홈으로 이동하게 할까 ?)
+
+  - ㅁㄴㅇㄹ
+
+  ### < 프로필 >
+
+  - **views > accounts > Profile.vue** - 프로필 
+    - 해당 버튼에 맞게 창 보여주기
+    - 유저 아이디(username)으로 라우트 구성 
+    - 유저 데이터 받아와서 알맞게 내려주기
+
+  ##### 1) 팔로잉 / 팔로워 
+
+  - **views > accounts > follow > FollowingList** - 유저가 팔로잉하는 리스트
+    - ㄴㅇㄹ
+  - **views > accounts > follow > FollowingItem** - 유저가 팔로잉하는 사람 한명 
+    - ㅁㄴㅇ
+  - **views > accounts > follow > FollowerList** - 유저를 팔로우하는 리스트
+    - ㅁㄴㅇㄹ
+  - **views > accounts > follow > FollowerItem** - 유저를 팔로우하는 리스트
+    - ㅁㄴㅇ
+
+  ##### 2) 유저가 작성한 글
+
+  - **views > accounts > my > MyReviewList** - 유저가 작성한 영화 리뷰 리스트
+    - ㅁㄴㅇㄹ
+  - **views > accounts > my > MyReviewItem** - 유저가 작성한 영화 리뷰 하나
+    - ㅁㄴㅇㄹ
+  - **views > accounts > my > MyPostList** - 유저가 작성한 게시물 리스트
+    - ㅁㄴㅇㄹ
+  - **views > accounts > my > MyPostItem** - 유저가 작성한 게시물 하나 
+    - ㅁㄴㅇㄹ
+  - **views > accounts > my > MyCommentList** - 유저가 작성한 댓글 리스트
+    - ㅁㄴㅇㄹ
+  - **views > accounts > my > MyCommentItem** - 유저가 작성한 댓글 하나
+    - ㅁㄴㅇㄹ
+
+  ##### 3) 좋아요
+
+  - **views > accounts > Like > LikeMovieList** - 유저가 좋아요한 영화 목록
+    - ㅁㄴㅇㄹ
+  - **views > accounts > Like > LikeMovieItem** - 유저가 좋아요한 영화 하나
+    - ㅁㄴㅇㄹ
+  - **views > accounts > Like > LikePostList** - 유저가 좋아요한 게시글 목록
+    - ㅁㄴㅇㄹ
+  - **views > accounts > Like > LikePostItem** - 유저가 좋아요한 게시글 하나
+    - ㅁㄴㅇㄹ
+
+
+
 ## 11.17
 
 - 프로젝트 생성
@@ -76,26 +208,71 @@
 
 ## 11.18
 
-- 서버에서 전체 게시글 가져오기 성공
-- 게시글 생성 성공 -> 생성후 바로 디테일 게시글로 넘어가도록 
-- 댓글창 구성
-  - PostDetail > CommentList > CommentItem
+- 자유게시판 
+  - 게시글
+    - 게시글 CRUD 완료 
+      - CR 후 바로 디테일 게시글로 넘어가기
+      - D 후 게시판페이지로 넘어가기 
+      - 서버와 연동하여 테스트 완료 
+    - 수정 / 삭제 버튼 글쓴 해당 유저만 보이도록 설정
+  - 댓글 
+    - CRUD 완료
+      - CD 후 바로 댓글 reload되도록 설정 
+      - R은 버튼 누르면 해당 영역에서 바로 수정되도록 설정 
+- 프로필
+  - 라우터 주소 구성 
+  - 하위 컴포넌트 생성 및 구조 잡기
+  - 버튼마다 보이는거 다르게
+    - 세부 버튼 구현  
 
 - 로그인하면 userName이 저장되지만, 새로고침하면 자꾸 null로 초기화됐는데, vuex-persistedstate install로 해결 
-- 수정 / 삭제 해당 유저만 보이도록 
 
-- 게시글 삭제 / 수정완료
+  
 
-- 댓글 생성 
-  - 생성 시 input창 리셋
-  - 생성하면 바로 반영 
-- 댓글 수정 / 삭제 
-- 댓글 완료 
-- \------------
-- profile하위  컴포넌트 생성
-- 해당 유저 프로필로 이동 
-- 버튼마다 보이는거 다르게
-  - 세부 버튼 구현  
+- 느낀 점
+
+  - 서버에서 url 이 변경된 후, 요청 url을 찾고 변경하는 중에 느낀점인데 우리는 소통이 잘돼서 변경내역을 잘 알고 있었기에 빠르게 프론트에서 서버로 요청하는 주소를 바꿀 수 있었지만, 소통이 잘 되지 않았더라면 시간이 많이 걸리겠다고 느꼈다. 소통의 중요성을 느꼈다. 그리고 프론트 또는 백이더라도 서로의 코드를 볼 줄 알고 그 코드를 통해 오류를 자신 파트의 오류를 수정할 수 있다는 것이 아주 큰 장점이 된다는 것을 느꼈다. 
+
+  - 어려웠던 점 
+
+    ![스크린샷 2021-11-19 오전 4.22.32](Client 작업 일지.assets/재귀 오류.png)
+
+    - Uncaught RangeError: Maximum call stack size exceeded
+
+    - 이런 오류가 발생했다. 처음에는 오타가 나서 저렇게 된건가 싶어서 한참을 쳐다봤지만 오타는 없었다. Profile.vue에서 문제가 있는지 한참 확인하고, 그리고 프로필은 하위 컴포넌트가 엄청 많은데, 그걸 다 확인한다고 시간이 걸렸다. 
+
+      문제의 원인은 
+
+    - ```vue
+      // myCommentList.vue
+      
+      <template>
+        <div>
+          mycomment
+          <my-comment-list></my-comment-list>
+        </div>
+      </template>
+      
+      <script>
+      import MyCommentList from '@/components/accounts/my/MyCommentList'
+      
+      export default {
+        name: 'MyCommentList',
+        components: {
+          MyCommentList
+        }
+      }
+      </script>
+      ```
+
+    - 이렇게 myCommentList.vue에서 myCommentList를 즉, 자기 자신을 하위 컴포넌트로 계속 불러와서 무한하게 실행되어 저런 오류가 발생했던 것이다. 컴포넌트를 아무생각 없이 만들다보니 저런 실수를 하게 되었다. 그래서 저 코드를 하위 컴포넌트인 myCommentItem을 불러오도록 알맞게 수정하니 해결되었다.
+
+    - 컴포넌트를 만들다가 갑자기 다른 작업을 하게 돼서 에러 발생지 찾는데에 오래 걸렸는데, 한 작업 후 테스트를 해보고 다른 작업으로 넘어가는 것의 중요성을 깨달았다. 
 
 
+
+## 11.18
+
+- 회원가입시 자동로그인할때 유저네임 및 토큰 저장
+- 
 

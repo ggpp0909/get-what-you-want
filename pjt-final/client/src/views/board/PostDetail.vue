@@ -27,7 +27,7 @@ export default {
   },
   data() {
     return {
-      post: null,
+      post: '',
       isSameUser: false,
     }
   },
@@ -45,7 +45,7 @@ export default {
     getPost() {
       this.$axios({
         method: 'get',
-        url: `${SERVER_URL}/community/${this.$route.params.postNum}/`, 
+        url: `${SERVER_URL}/community/${this.$route.params.postNum}/detail/`, 
       })
         .then(res => {
           this.post = res.data

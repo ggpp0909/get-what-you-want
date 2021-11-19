@@ -8,11 +8,11 @@
     <div>
       <!-- 팔로우 팔로워 -->
       <div :class="{'hide': showFollow }">
-        <button @click="clickFollowing">Following</button> |
+        <button @click="clickFollowing">Following</button> | |
         <button @click="clickFollower">Follower</button>
 
-        <following-list :class="{'hide': showFollowing }"></following-list>
-        <follower-list :class="{'hide': showFollower }"></follower-list>
+        <following-list :class="{'hide': showFollowing }" :followings="userProfile.followings"></following-list>
+        <follower-list :class="{'hide': showFollower }" :followers="userProfile.followers"></follower-list>
       </div>
 
       <!-- 유저가 작성한 글 -->
@@ -21,9 +21,9 @@
         <button @click="clickMyP">My Post</button> |
         <button @click="clickMyC">My Comment</button> 
 
-        <my-review :class="{'hide': showMyR }"></my-review>
-        <my-post :class="{'hide': showMyP }"></my-post>
-        <my-comment :class="{'hide': showMyC }"></my-comment>
+        <my-review-list :class="{'hide': showMyR }"></my-review-list>
+        <my-post-list :class="{'hide': showMyP }"></my-post-list>
+        <my-comment-list :class="{'hide': showMyC }"></my-comment-list>
       </div>
 
       <!-- 유저가 좋아요한 것들 -->
@@ -41,25 +41,30 @@
 <script>
 import FollowingList from '@/components/accounts/follow/FollowingList'
 import FollowerList from '@/components/accounts/follow/FollowerList'
-import MyReview from '@/components/accounts/MyReview'
-import MyPost from '@/components/accounts/MyPost'
-import MyComment from '@/components/accounts/MyComment'
+import MyReviewList from '@/components/accounts/my/MyReviewList'
+import MyPostList from '@/components/accounts/my/MyPostList'
+import MyCommentList from '@/components/accounts/my/MyCommentList'
 import LikeMovieList from '@/components/accounts/like/LikeMovieList'
 import LikePostList from '@/components/accounts/like/LikePostList'
+import { mapState } from 'vuex'
+
+const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
   name: 'Profile',
   components: {
     FollowingList,
     FollowerList,
-    MyReview,
-    MyPost,
-    MyComment,
+    MyReviewList,
+    MyPostList,
+    MyCommentList,
     LikeMovieList,
     LikePostList
   },
   data() {
     return {
+      userProfile: '',
+      // 숨기기 값들 
       showFollow: false,
       showMy: true,
       showLike: true,
@@ -112,14 +117,32 @@ export default {
       this.showMyC = false
     },
     clickLikeM() {
-      this.showLikeM = false,
+      this.showLikeM = false
       this.showLikeP = true
     },
     clickLikeP() {
       this.showLikeM = true
       this.showLikeP = false
     },
-    
+    getProfile() {
+      this.$axios({
+        method: 'get',
+        url: `${SERVER_URL}/accounts/${this.$route.params.userName}/`, 
+      })
+        .then(res => {
+          this.userProfile = res.data
+          console.log(res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+  },
+  created() {
+    this.getProfile()
+  },
+  computed: {
+    ...mapState(['userName'])
   }
 }
 </script>

@@ -1,19 +1,18 @@
 <template>
   <div>
-    like-post-item
-    <!-- <p @click="goToPost"></p> -->
+    my-review-item
+    <!-- <p @click="goToReview"></p> -->
   </div>
 </template>
 
 <script>
 export default {
-  name: 'LikePostItem',
+  name: 'MyReviewItem',
   methods: {
-    // goToPost() {
+    // goToReview() {
     //   // this.$route.push({ name: 'PostDetail', params: { postId: postId } })
     // }
   }
-
 }
 </script>
 

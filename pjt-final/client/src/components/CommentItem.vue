@@ -6,7 +6,7 @@
       <p>작성일: {{ comment.created_at }}</p>
         <div v-if="isSameUser">
           <button @click="showInput">update</button> |
-          <button @click="deleteComment()">delete</button>
+          <button @click="deleteComment">delete</button>
         </div>
     </div>
     <div :class="{'show': !isUpdate }">
@@ -51,7 +51,7 @@ export default {
           console.log(err)
         })
     },
-    updateComment() { // 
+    updateComment() { 
       this.$axios({
         method: 'put',
         url: `${SERVER_URL}/community/${this.comment.post_id}/comment/${this.comment.id}/`, 

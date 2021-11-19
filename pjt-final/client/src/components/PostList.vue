@@ -2,8 +2,8 @@
   <div>
     <h1>PostList</h1>
     <div
-      v-for="(post, idx) in posts"
-      :key="idx"
+      v-for="post in posts"
+      :key="post.id"
     >
       <h1 @click="postDetail(post.id)">{{ post.title }}
       </h1>
@@ -12,14 +12,14 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import { mapActions } from 'vuex'
+const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
   name: 'PostList',
-  computed: {
-    // 전체 게시글 가져오기 
-    ...mapState(['posts'])
+  data() {
+    return {
+      posts: null,
+    }
   },
   methods: {
     // 클릭한 게시글로 이동 
@@ -27,7 +27,18 @@ export default {
       this.$router.push({ name: 'PostDetail', params: { postNum: id } })
     },
     // 전체 게시글 서버에서 불러오기 
-    ...mapActions(['getPosts'])
+    getPosts() {
+      this.$axios({
+        method: 'get',
+        url: `${SERVER_URL}/community/`,
+      })
+        .then(res => {
+          this.posts = res.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
   },
   created() {
     this.getPosts()
