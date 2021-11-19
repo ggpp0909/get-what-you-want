@@ -1,17 +1,21 @@
 <template>
   <div>
-    like-post-item
-    <!-- <p @click="goToPost"></p> -->
+    <div @click="goToPost">
+      <h3>{{ post.title }}</h3>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'LikePostItem',
+  props: {
+    post: Object
+  },
   methods: {
-    // goToPost() {
-    //   // this.$route.push({ name: 'PostDetail', params: { postId: postId } })
-    // }
+    goToPost() {
+      this.$router.push({ name: 'PostDetail', params: { postNum: this.post.id } })
+    }
   }
 
 }

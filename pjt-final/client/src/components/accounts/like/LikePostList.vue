@@ -1,7 +1,12 @@
 <template>
   <div>
     like post
-    <like-post-item></like-post-item>
+    <like-post-item
+      v-for="post in likePosts"
+      :key=post.id
+      :post="post"
+    >
+    </like-post-item>
   </div>
 </template>
 
@@ -12,6 +17,9 @@ export default {
   name: 'LikePostList',
   components: {
     LikePostItem
+  },
+  props: {
+    likePosts: Array,
   }
 }
 </script>

@@ -44,10 +44,10 @@
       <!-- 유저가 좋아요한 것들 -->
       <div :class="{'hide': showLike }">
         <button @click="clickLikeM">Like Movie</button> |
-        <button @click="clickLikeP">Like Post</button>
+        <button @click="clickLikeP">Like Post</button> <span>{{ userProfile.like_post_count }}</span> 
 
         <like-movie-list :class="{'hide': showLikeM }"></like-movie-list>
-        <like-post-list :class="{'hide': showLikeP }"></like-post-list>
+        <like-post-list :class="{'hide': showLikeP }" :like-posts="userProfile.like_posts"></like-post-list> 
       </div>
     </div>
   </div>
