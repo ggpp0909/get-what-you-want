@@ -1,8 +1,8 @@
 <template>
   <div>
     <div @click="goToUserProfile">
-      <img :src="followingItem.profile_image" alt="프로필이미지">
-      {{ followingItem.nickname }}
+      <img :src="followingUser.profile_image" alt="프로필이미지">
+      {{ followingUser.nickname }}
     </div>
     
     <button 
@@ -19,13 +19,13 @@ const SERVER_URL = process.env.VUE_APP_SERVER_URL
 export default {
   name: 'FollowingItem',
   props: {
-    followingItem: Object
+    followingUser: Object
   },
   methods: {
     followingChangeState() {
       this.$axios({
         method: 'post',
-        url: `${SERVER_URL}/accounts/${this.followingItem.username}/follow/`,
+        url: `${SERVER_URL}/accounts/${this.followingUser.username}/follow/`,
         headers: this.config
       })
         .then(res => {
@@ -38,7 +38,7 @@ export default {
     },
     // 클릭한 유저 프로필로 이동
     goToUserProfile() {
-      this.$route.push({ name: 'Profile', params: { userName: this.followingItem.username } })
+      this.$router.push({ name: 'Profile', params: { userName: this.followingUser.username } })
     }
   },
   computed: {

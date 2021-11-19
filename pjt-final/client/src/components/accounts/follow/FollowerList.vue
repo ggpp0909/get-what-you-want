@@ -2,18 +2,16 @@
   <div>
     Follower
     <follower-item 
-      v-for="followerItem in this.followers"
-      :key="followerItem.id"
-      :followerItem="followerItem"
-      :reloadFollower="reloadFollower"
+      v-for="follower in followerUsers"
+      :key="follower.id"
+      :follower="follower"
+      @reload-follower="reloadFollower"
     ></follower-item>
   </div>
 </template>
 
 <script>
 import FollowerItem from '@/components/accounts/follow/FollowerItem'
-
-const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
   name: 'FollowerList',
@@ -22,29 +20,24 @@ export default {
   },
   data() {
     return {
-      followers: this.followerList,
+      followerUsers: this.followers,
     }
   },
   props: {
-    followerList: Array,
+    followers: Array,
   },
   methods: {
-    reloadFollower() {
-      this.$axios({
-        method: 'get',
-        url: `${SERVER_URL}/accounts/${this.$route.params.userName}/`,
-      })
-        .then(res => {
-          console.log(res.data)
-          this.follower = res.data.followings
-          this.$emit('delete-follower')
-        })
-        .catch(err => {
-          console.log(err)
-        })
+    // 팔로워 삭제했을때 리스트 업뎃 및 숫자 감소
+    reloadFollower(newFollowers) {
+      this.followerUsers = newFollowers
+      this.$emit('delete-follower')
     }
-  }
-
+  }, 
+  watch: {
+    followers() {
+      this.followerUsers = this.followers
+    }
+  },
 }
 </script>
 

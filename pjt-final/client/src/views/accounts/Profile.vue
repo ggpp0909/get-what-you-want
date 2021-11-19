@@ -1,6 +1,10 @@
 <template>
   <div>
-    <h1>user</h1>
+    <h1>{{ userProfile.nickname }}</h1>
+    <div v-if="this.userName != this.$route.params.userName">
+      <button v-if="followState" @click="changeFollowState">unfollow</button>
+      <button v-else @click="changeFollowState">follow</button>
+    </div>
     <button @click="clickFollow">〠</button> |
     <button @click="clickMy">✎</button> |
     <button @click="clickLike">♥︎</button>
@@ -15,12 +19,12 @@
 
         <following-list 
           :class="{'hide': showFollowing }" 
-          :followingList="userProfile.followings"
+          :followings="userProfile.followings"
           @unfollow="decreaseFollowingCount"
         ></following-list>
         <follower-list 
           :class="{'hide': showFollower }" 
-          :followerList="userProfile.followers"
+          :followers="userProfile.followers"
           @delete-follower="decreaseFollowerCount"
         ></follower-list>
       </div>
@@ -57,6 +61,7 @@ import MyCommentList from '@/components/accounts/my/MyCommentList'
 import LikeMovieList from '@/components/accounts/like/LikeMovieList'
 import LikePostList from '@/components/accounts/like/LikePostList'
 import { mapState } from 'vuex'
+import _ from 'lodash'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
@@ -76,6 +81,7 @@ export default {
       userProfile: '',
       followerCount: 0,
       followingCount: 0,
+      followState: false,
       // 숨기기 값들 
       showFollow: false,
       showMy: true,
@@ -150,6 +156,9 @@ export default {
           this.followingCount = res.data.followings_count
           console.log(res.data)
         })
+        .then(() => {
+          this.didFollow()
+        })
         .catch(err => {
           console.log(err)
         })
@@ -161,13 +170,31 @@ export default {
     // following 수 감소
     decreaseFollowingCount() {
       this.followingCount -= 1
+    }, 
+    // follow 했는지 알아보기
+    didFollow() {
+      this.followState = _.some(this.userProfile.followers, ['username', this.userName])
+    },
+    // follow 또는 언팔 하기 
+    changeFollowState() {
+      this.$axios({
+        method: 'post',
+        url: `${SERVER_URL}/accounts/${this.$route.params.userName}/follow/`,
+        headers: this.config
+      })
+        .then(() => {
+          this.getProfile()
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   },
   created() {
     this.getProfile()
   },
   computed: {
-    ...mapState(['userName'])
+    ...mapState(['userName', 'config'])
   }
 }
 </script>
