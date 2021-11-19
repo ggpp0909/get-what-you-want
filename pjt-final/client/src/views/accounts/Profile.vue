@@ -37,7 +37,7 @@
         <button @click="clickMyC">My Comment</button> 
 
         <my-review-list :class="{'hide': showMyR }"></my-review-list>
-        <my-post-list :class="{'hide': showMyP }"></my-post-list>
+        <my-post-list :class="{'hide': showMyP }" :post-list="userProfile.post_set"></my-post-list>
         <my-comment-list :class="{'hide': showMyC }"></my-comment-list>
       </div>
 
