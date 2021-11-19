@@ -3,15 +3,20 @@ import VueRouter from 'vue-router'
 
 import Home from '@/views/Home'
 
+// 자유게시판
 import Board from '@/views/board/Board'
 import PostDetail from '@/views/board/PostDetail'
 import PostCreate from '@/views/board/PostCreate'
 
 import Recommend from '@/views/Recommend'
 
+// 유저
 import Profile from '@/views/accounts/Profile'
 import Signup from '@/views/accounts/Signup'
 import Login from '@/views/accounts/Login'
+
+// 영화 
+import MovieDetail from '@/views/movie/MovieDetail'
 
 
 Vue.use(VueRouter)
@@ -62,6 +67,13 @@ const routes = [
     path: '/profile/:userName',
     name: 'Profile',
     component: Profile
+  },
+
+  // 영화
+  {
+    path: '/movie/:movieId',
+    name: 'MovieDetail',
+    component: MovieDetail
   },
 ]
 
