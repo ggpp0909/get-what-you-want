@@ -2,7 +2,9 @@
   <div>
     Follower
     <follower-item 
-  
+      v-for="followerItem in this.followers"
+      :key="followerItem.id"
+      :followerItem="followerItem"
     ></follower-item>
   </div>
 </template>
@@ -15,10 +17,8 @@ export default {
   components: {
     FollowerItem
   },
-  data() {
-    return {
-      followers: null,
-    }
+  props: {
+    followers: Array
   },
   methods: {
   //   reloadFollower(followers) {
@@ -26,10 +26,7 @@ export default {
   //   }
   // }
   }
-    // @follower="reloadFollower"
-    //   v-for="followerItem in followers"
-    //   :key="followerItem.username"
-    //   :followerItem="followerItem"
+
 }
 </script>
 

@@ -11,8 +11,8 @@
         <button @click="clickFollowing">Following</button> | |
         <button @click="clickFollower">Follower</button>
 
-        <following-list :class="{'hide': showFollowing }"></following-list>
-        <follower-list :class="{'hide': showFollower }"></follower-list>
+        <following-list :class="{'hide': showFollowing }" :followings="userProfile.followings"></following-list>
+        <follower-list :class="{'hide': showFollower }" :followers="userProfile.followers"></follower-list>
       </div>
 
       <!-- 유저가 작성한 글 -->
@@ -63,7 +63,7 @@ export default {
   },
   data() {
     return {
-      userProfile: null,
+      userProfile: '',
       // 숨기기 값들 
       showFollow: false,
       showMy: true,
@@ -139,7 +139,7 @@ export default {
     }
   },
   created() {
-    this.getProfile
+    this.getProfile()
   },
   computed: {
     ...mapState(['userName'])
