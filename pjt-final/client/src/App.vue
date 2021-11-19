@@ -15,7 +15,7 @@
     </nav>
 
     <v-main>
-      <router-view @login="isLogin=true"/>
+      <router-view @login="isLogin=true"  :key="$route.fullPath"/>
     </v-main>
   </v-app>
 </template>

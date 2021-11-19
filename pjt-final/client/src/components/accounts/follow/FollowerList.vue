@@ -2,9 +2,10 @@
   <div>
     Follower
     <follower-item 
-      v-for="followerItem in this.followers"
-      :key="followerItem.id"
-      :followerItem="followerItem"
+      v-for="follower in followerUsers"
+      :key="follower.id"
+      :follower="follower"
+      @reload-follower="reloadFollower"
     ></follower-item>
   </div>
 </template>
@@ -17,16 +18,26 @@ export default {
   components: {
     FollowerItem
   },
+  data() {
+    return {
+      followerUsers: this.followers,
+    }
+  },
   props: {
-    followers: Array
+    followers: Array,
   },
   methods: {
-  //   reloadFollower(followers) {
-  //     this.followers = followers
-  //   }
-  // }
-  }
-
+    // 팔로워 삭제했을때 리스트 업뎃 및 숫자 감소
+    reloadFollower(newFollowers) {
+      this.followerUsers = newFollowers
+      this.$emit('delete-follower')
+    }
+  }, 
+  watch: {
+    followers() {
+      this.followerUsers = this.followers
+    }
+  },
 }
 </script>
 

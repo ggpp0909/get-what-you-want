@@ -1,39 +1,61 @@
 <template>
   <div>
-    following item
-    <!-- <button v-if="this.userName === this.$route.params.userName" @click="followingChangeState">??</button> -->
+    <div @click="goToUserProfile">
+      <img :src="followingUser.profile_image" alt="프로필이미지">
+      {{ followingUser.nickname }}
+    </div>
+    
+    <!-- <button 
+      v-if="this.userName === this.$route.params.userName" 
+      @click="followingChangeState"
+    >??</button> -->
+    <v-btn
+      v-if="this.userName === followingUser.username" 
+      :value="followState ? 'unfollow' : 'follow'"
+    >+</v-btn>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 
-// const SERVER_URL = process.env.VUE_APP_SERVER_URL
+const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
   name: 'FollowingItem',
   data() {
     return {
-      
+      followState: true,
     }
   },
+  props: {
+    followingUser: Object
+  },
   methods: {
-    // followingChangeState() {
-    //   this.$axios({
-    //     method: 'post',
-    //     url: `${SERVER_URL}/`,
-    //     headers: this.config
-    //   })
-    //     .then(() => {
-          
-    //     })
-    //     .catch(err => {
-    //       console.log(err)
-    //     })
-    // }
+    followingChangeState() {
+      this.$axios({
+        method: 'post',
+        url: `${SERVER_URL}/accounts/${this.followingUser.username}/follow/`,
+        headers: this.config
+      })
+        .then(res => {
+          console.log(res)
+          this.$emit('unfollow')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 클릭한 유저 프로필로 이동
+    goToUserProfile() {
+      this.$router.push({ name: 'Profile', params: { userName: this.followingUser.username } })
+    }
   },
   computed: {
     ...mapState(['config', 'userName'])
+  },
+  created() {
+    console.log(this.followingUser.username)
   }
 }
 </script>

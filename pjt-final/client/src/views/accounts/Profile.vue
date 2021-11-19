@@ -1,6 +1,10 @@
 <template>
   <div>
-    <h1>user</h1>
+    <h1>{{ userProfile.nickname }}</h1>
+    <div v-if="this.userName != this.$route.params.userName">
+      <button v-if="followState" @click="changeFollowState">unfollow</button>
+      <button v-else @click="changeFollowState">follow</button>
+    </div>
     <button @click="clickFollow">〠</button> |
     <button @click="clickMy">✎</button> |
     <button @click="clickLike">♥︎</button>
@@ -8,11 +12,21 @@
     <div>
       <!-- 팔로우 팔로워 -->
       <div :class="{'hide': showFollow }">
-        <button @click="clickFollowing">Following</button> | |
+        <h1>Following : {{ followingCount }}</h1>
+        <h1>Follower: {{ followerCount }}</h1> 
+        <button @click="clickFollowing">Following</button> | 
         <button @click="clickFollower">Follower</button>
 
-        <following-list :class="{'hide': showFollowing }" :followings="userProfile.followings"></following-list>
-        <follower-list :class="{'hide': showFollower }" :followers="userProfile.followers"></follower-list>
+        <following-list 
+          :class="{'hide': showFollowing }" 
+          :followings="userProfile.followings"
+          @unfollow="decreaseFollowingCount"
+        ></following-list>
+        <follower-list 
+          :class="{'hide': showFollower }" 
+          :followers="userProfile.followers"
+          @delete-follower="decreaseFollowerCount"
+        ></follower-list>
       </div>
 
       <!-- 유저가 작성한 글 -->
@@ -47,6 +61,7 @@ import MyCommentList from '@/components/accounts/my/MyCommentList'
 import LikeMovieList from '@/components/accounts/like/LikeMovieList'
 import LikePostList from '@/components/accounts/like/LikePostList'
 import { mapState } from 'vuex'
+import _ from 'lodash'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
@@ -64,6 +79,9 @@ export default {
   data() {
     return {
       userProfile: '',
+      followerCount: 0,
+      followingCount: 0,
+      followState: false,
       // 숨기기 값들 
       showFollow: false,
       showMy: true,
@@ -78,6 +96,7 @@ export default {
     }
   },
   methods: {
+    // ------ 버튼 클릭 --------
     clickFollow() {
       this.showFollow = false
       this.showMy = true
@@ -124,6 +143,8 @@ export default {
       this.showLikeM = true
       this.showLikeP = false
     },
+
+    // 프로필 받아오기 
     getProfile() {
       this.$axios({
         method: 'get',
@@ -131,7 +152,38 @@ export default {
       })
         .then(res => {
           this.userProfile = res.data
+          this.followerCount = res.data.followers_count
+          this.followingCount = res.data.followings_count
           console.log(res.data)
+        })
+        .then(() => {
+          this.didFollow()
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // follower 수 감소
+    decreaseFollowerCount() {
+      this.followerCount -= 1
+    },
+    // following 수 감소
+    decreaseFollowingCount() {
+      this.followingCount -= 1
+    }, 
+    // follow 했는지 알아보기
+    didFollow() {
+      this.followState = _.some(this.userProfile.followers, ['username', this.userName])
+    },
+    // follow 또는 언팔 하기 
+    changeFollowState() {
+      this.$axios({
+        method: 'post',
+        url: `${SERVER_URL}/accounts/${this.$route.params.userName}/follow/`,
+        headers: this.config
+      })
+        .then(() => {
+          this.getProfile()
         })
         .catch(err => {
           console.log(err)
@@ -142,7 +194,7 @@ export default {
     this.getProfile()
   },
   computed: {
-    ...mapState(['userName'])
+    ...mapState(['userName', 'config'])
   }
 }
 </script>
