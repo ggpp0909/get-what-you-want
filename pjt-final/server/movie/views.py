@@ -47,17 +47,16 @@ def detail(request, movie_id):
 
 
     if not Like.objects.filter(user_id=request.user.pk).exists():
-            Like.objects.create(user_id=request.user.pk, movie_id=movie_id)
-            liked = True
+            liked = False
     else:
         # 테이블에 내가 좋아요한 영화가 존재한다면
         mylikes = Like.objects.filter(user_id=request.user.pk)
         # 내가 좋아요한 영화중에 지금 좋아요 하려는 영화가 없다면?
         if not mylikes.filter(movie_id=movie_id).exists():
-            liked = True
+            liked = False
         else:
             # 내가 좋아요한 영화중에 내가 좋아요 하려는 영화가 있다면?
-            liked = False
+            liked = True
 
     if data['status'] == 'Rumored':
         movie_status = ''

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div @click="goToUserProfile">
-      <img :src="follower.profile_image" alt="프로필이미지">
+      <img :src="follower.profile_image" :alt="`${ follower.nickname }님의 프로필 사진`">
       {{ follower.nickname }}
     </div>
     <button v-if="this.userName === this.$route.params.userName" @click="deleteFollower(follower.username)">삭제</button>

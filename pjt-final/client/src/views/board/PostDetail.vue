@@ -9,6 +9,10 @@
       <button @click="updatePost">update</button> |
       <button @click="deletePost">delete</button>
     </div>
+    <h3 v-if="likeState">꽉찬 하트</h3>
+    <h3 v-else>빈하트</h3>
+    
+    <span>{{ post.likes_count }}개</span>
     <h3>-----댓글-----</h3>
     <comment-list :comments="post.comment_set"></comment-list>
   </div>
@@ -29,6 +33,7 @@ export default {
     return {
       post: '',
       isSameUser: false,
+      likeState: null,
     }
   },
   computed: {
@@ -63,7 +68,7 @@ export default {
     deletePost() {
       this.$axios({
         method: 'delete',
-        url: `${SERVER_URL}/community/${this.$route.params.postNum}/`, 
+        url: `${SERVER_URL}/community/${this.post.id}/`, 
         headers: this.config
       })
         .then(() => {
@@ -75,8 +80,22 @@ export default {
     },
     // 게시글 수정
     updatePost() {
-      this.$router.push({ name: 'PostCreate', params: { postId: this.$route.params.postNum } })
+      this.$router.push({ name: 'PostCreate', params: { postId: this.post.id } })
     },
+    // 좋아요
+    changeLike() {
+      this.$axios({
+        method: 'post',
+        url: `${SERVER_URL}/community/${this.post.id}/likes/`, 
+        headers: this.config
+      })
+        .then(() => {
+          this.likeState = !this.likeState
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
 
   },
   created() {

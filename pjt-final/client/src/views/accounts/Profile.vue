@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>{{ userProfile.nickname }}</h1>
+    <img :src="userProfile.profile_image" :alt="`${ userProfile.nickname }님의 프로필 사진`">
     <div v-if="this.userName != this.$route.params.userName">
       <button v-if="followState" @click="changeFollowState">unfollow</button>
       <button v-else @click="changeFollowState">follow</button>

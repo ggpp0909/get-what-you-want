@@ -1,7 +1,7 @@
 <template>
   <div>
     <div @click="goToUserProfile">
-      <img :src="followingUser.profile_image" alt="프로필이미지">
+      <img :src="followingUser.profile_image" :alt="`${ followingUser.nickname }님의 프로필 사진`">
       {{ followingUser.nickname }}
     </div>
     
