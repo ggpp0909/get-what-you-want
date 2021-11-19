@@ -78,12 +78,20 @@ class ProfileSerializer(serializers.ModelSerializer):
         source='followings.count',
         read_only=True
     )
+    post_count = serializers.IntegerField(
+        source='post_set.count',
+        read_only=True
+    )
+    comment_count = serializers.IntegerField(
+        source='comment_set.count',
+        read_only=True
+    )
 
     like_posts = PostSerializer(many=True, read_only=True)
 
     class Meta:
         model = get_user_model()
-        fields = ('id', 'username', 'nickname', 'profile_image', 'followers', 'followings', 'followers_count', 'followings_count',  'comment_set', 'post_set', 'like_posts')
+        fields = ('id', 'username', 'nickname', 'profile_image', 'followers', 'followings', 'followers_count', 'followings_count',  'comment_set', 'post_set', 'comment_count', 'post_count', 'like_posts')
 
 
 class FollowerSerializer(serializers.ModelSerializer):

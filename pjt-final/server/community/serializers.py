@@ -68,6 +68,7 @@ class PostDetailSerializer(serializers.ModelSerializer):
         
     user = UserSerializer(read_only=True)
     comment_set = CommentSerializer(many=True, read_only=True)
+    # liked = True if like_users
 
     class Meta:
         model = Post

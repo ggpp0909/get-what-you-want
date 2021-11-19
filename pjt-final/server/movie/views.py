@@ -1,10 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import get_list_or_404, render
 import requests
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny
+
+from .models import Like
 
 
 def get_request_url(method='/movie/popular', **kwargs):
@@ -148,3 +150,27 @@ def upcoming(request):
     # print(results)
     return Response(results)
 
+@api_view(['GET'])
+def like(request, movie_id):
+    if request.user.is_authenticated:
+        post = get_object_or_404(Post, pk=post_pk)
+        # 내가 좋아요한 영화들 목록
+        likemovies = get_list_or_404(Like, user=request.user)
+        # 현재 좋아요를 요청하는 회원(request.user)이
+        # 해당 게시글의 좋아요를 누른 회원 목록에 이미 있다면,
+        if post.like_users.filter(pk=request.user.pk).exists():
+        
+        # if request.user in article.like_users.all(): 
+            # 좋아요 취소
+            post.like_users.remove(request.user)
+            liked = False
+        else:
+            # 좋아요 하기
+            post.like_users.add(request.user)
+            liked = True
+        context = {
+            'liked': liked,
+            'count': post.like_users.count(),
+        }
+        return Response(context)
+    return Response({ 'detail': '인증되지 않은 사용자 입니다.' }, status=status.HTTP_401_UNAUTHORIZED)
