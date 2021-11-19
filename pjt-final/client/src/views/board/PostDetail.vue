@@ -53,6 +53,7 @@ export default {
           if (this.userName === res.data.user.username) {
             this.isSameUser = true
           }
+          console.log(this.post)
         })
         .catch(err => {
           console.log(err)
@@ -80,6 +81,7 @@ export default {
   },
   created() {
     this.getPost() // 영화 디테일 불러오기  
+    
   }
 }
 </script>

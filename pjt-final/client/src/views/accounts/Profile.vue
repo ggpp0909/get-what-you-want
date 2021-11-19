@@ -21,6 +21,7 @@
           :class="{'hide': showFollowing }" 
           :followings="userProfile.followings"
           @unfollow="decreaseFollowingCount"
+          @follow="increaseFollowingCount"
         ></following-list>
         <follower-list 
           :class="{'hide': showFollower }" 
@@ -36,7 +37,7 @@
         <button @click="clickMyC">My Comment</button> 
 
         <my-review-list :class="{'hide': showMyR }"></my-review-list>
-        <my-post-list :class="{'hide': showMyP }"></my-post-list>
+        <my-post-list :class="{'hide': showMyP }" :post-list="userProfile.post_set"></my-post-list>
         <my-comment-list :class="{'hide': showMyC }"></my-comment-list>
       </div>
 
@@ -163,6 +164,7 @@ export default {
           console.log(err)
         })
     },
+
     // follower 수 감소
     decreaseFollowerCount() {
       this.followerCount -= 1
@@ -171,6 +173,11 @@ export default {
     decreaseFollowingCount() {
       this.followingCount -= 1
     }, 
+    // following 수 증가
+    increaseFollowingCount() {
+      this.followingCount += 1
+    },
+
     // follow 했는지 알아보기
     didFollow() {
       this.followState = _.some(this.userProfile.followers, ['username', this.userName])

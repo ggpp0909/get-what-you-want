@@ -9,10 +9,11 @@
       v-if="this.userName === this.$route.params.userName" 
       @click="followingChangeState"
     >??</button> -->
-    <v-btn
-      v-if="this.userName === followingUser.username" 
-      :value="followState ? 'unfollow' : 'follow'"
-    >+</v-btn>
+    <div v-if="this.userName === this.$route.params.userName" >
+      <button :class="{ 'hide' : !followState }" @click="followingChangeState">unfollow</button>
+      <button :class="{ 'hide' : followState }" @click="followingChangeState">follow</button>
+    </div>
+    
   </div>
 </template>
 
@@ -40,7 +41,13 @@ export default {
       })
         .then(res => {
           console.log(res)
-          this.$emit('unfollow')
+          if (this.followState) {
+            this.$emit('unfollow')
+            this.followState = false
+          } else {
+            this.$emit('follow')
+            this.followState = true
+          }
         })
         .catch(err => {
           console.log(err)
@@ -54,12 +61,11 @@ export default {
   computed: {
     ...mapState(['config', 'userName'])
   },
-  created() {
-    console.log(this.followingUser.username)
-  }
 }
 </script>
 
 <style>
-
+.hide {
+  display: none;
+}
 </style>

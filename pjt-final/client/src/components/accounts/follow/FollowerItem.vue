@@ -35,23 +35,12 @@ export default {
     },
     // 클릭한 유저 프로필로 이동
     goToUserProfile() {
-      // if (this.follower.username === this.userName) { // NavigationDuplicated 방지 
-      //   console.log(this.follower.username)
-      //   this.$router.go(this.$router.currentRoute)
-      // } else {
-      //   this.$router.push({ name: 'Profile', params: { userName: this.follower.username } })
-      // }
       this.$router.push({ name: 'Profile', params: { userName: this.follower.username } })
-      
     }
   },
   computed: {
     ...mapState(['config', 'userName'])
   },
-  created() {
-    console.log('item')
-    console.log(this.follower.username)
-  }
 }
 </script>
 
