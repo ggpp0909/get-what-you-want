@@ -8,8 +8,6 @@ import Board from '@/views/board/Board'
 import PostDetail from '@/views/board/PostDetail'
 import PostCreate from '@/views/board/PostCreate'
 
-import Recommend from '@/views/Recommend'
-
 // 유저
 import Profile from '@/views/accounts/Profile'
 import Signup from '@/views/accounts/Signup'
@@ -17,7 +15,7 @@ import Login from '@/views/accounts/Login'
 
 // 영화 
 import MovieDetail from '@/views/movie/MovieDetail'
-
+import MovieRecommend from '@/views/movie/MovieRecommend'
 
 Vue.use(VueRouter)
 
@@ -44,13 +42,6 @@ const routes = [
     name: 'PostCreate',
     component: PostCreate
   },
-  
-  // 상세 추천
-  {
-    path: '/recommend',
-    name: 'Recommend',
-    component: Recommend
-  },
 
   // 유저
   {
@@ -69,11 +60,17 @@ const routes = [
     component: Profile
   },
 
-  // 영화
+  // 영화 조회 
   {
     path: '/movie/:movieId',
     name: 'MovieDetail',
     component: MovieDetail
+  },
+  // 상세 추천
+  {
+    path: '/movie/recommend',
+    name: 'MovieRecommend',
+    component: MovieRecommend
   },
 ]
 

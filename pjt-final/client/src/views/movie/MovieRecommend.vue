@@ -4,7 +4,8 @@
 
 <script>
 export default {
-  name: 'Recommend'
+  name: 'Recommend',
+
 }
 </script>
 
