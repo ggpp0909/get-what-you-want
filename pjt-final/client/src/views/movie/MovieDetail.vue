@@ -16,6 +16,12 @@
     <movie-trailer :video-id="movieData.video_id"></movie-trailer>
     <recommend-movie-list></recommend-movie-list>
     <similar-movie-list></similar-movie-list>
+    <h3>-----------</h3>
+    <!-- <h3>영화 좋아요 {{ movieData.likes_count }}</h3> -->
+    <button @click="changeLike">
+      <p v-if="likeState">꽉찬 하트</p>
+      <p v-else>빈 하트</p>
+    </button>
   </div>
 </template>
 
@@ -24,6 +30,7 @@ import MovieTrailer from '@/components/movie/MovieTrailer'
 import RecommendMovieList from '@/components/movie/recommend/RecommendMovieList'
 import SimilarMovieList from '@/components/movie/recommend/SimilarMovieList'
 import _ from 'lodash'
+import { mapState } from 'vuex'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
@@ -39,6 +46,7 @@ export default {
       movieData: '',
       posterPath: null,
       genres: null,
+      likeState: false,
     }
   },
   methods: {
@@ -56,7 +64,10 @@ export default {
         .then(res => {
           console.log(res)
           this.movieData = res.data
+          // 포스터 경로 설정 
           this.posterPath = `https://image.tmdb.org/t/p/w500${res.data.poster_path}`
+          // 해당 영화 좋아요 상태
+          this.likeState = res.data.liked
           // 장르만 뽑아내기 
           const genres = []
           _.forEach(res.data.genres, genre => {
@@ -67,10 +78,27 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    // 좋아요
+    changeLike() {
+      this.$axios({
+        method: 'post',
+        url: `${SERVER_URL}/movie/${this.movieData.movie_id}/like/`, 
+        headers: this.config
+      })
+        .then(() => {
+          this.likeState = !this.likeState
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   },
   created() {
     this.getMovieDetail()
+  },
+  computed: {
+    ...mapState(['config'])
   }
 }
 </script>
