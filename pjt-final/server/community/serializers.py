@@ -30,11 +30,16 @@ class PostSerializer(serializers.ModelSerializer):
             model = get_user_model()
             fields = ('id', 'username', 'password', 'profile_image', 'nickname')
 
+    likes_count = serializers.IntegerField(
+        source='like_users.count',
+        read_only=True
+    )
+
     user = UserSerializer(read_only=True)
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'content', 'user', 'created_at', 'updated_at', )
+        fields = ('id', 'title', 'content', 'user', 'created_at', 'updated_at', 'like_count')
         read_only_fields = ('user_id',)
 
 
@@ -49,7 +54,6 @@ class CommentSerializer(serializers.ModelSerializer):
 
     user = UserSerializer(read_only=True)
     
-
     class Meta:
         model = Comment
         fields = ('id', 'content', 'post_id', 'user', 'created_at', 'updated_at')
@@ -68,9 +72,12 @@ class PostDetailSerializer(serializers.ModelSerializer):
         
     user = UserSerializer(read_only=True)
     comment_set = CommentSerializer(many=True, read_only=True)
-    # liked = True if like_users
+    likes_count = serializers.IntegerField(
+        source='like_users.count',
+        read_only=True
+    )
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'content', 'user', 'created_at', 'updated_at', 'comment_set')
+        fields = ('id', 'title', 'content', 'user', 'created_at', 'updated_at', 'comment_set', 'likes_count')
         read_only_fields = ('user_id',)

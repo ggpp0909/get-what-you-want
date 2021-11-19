@@ -142,11 +142,17 @@ sqlite3 db.sqlite3
 .import tmdb.csv movie_crawledmovie
 ```
 
+- ### 커밋
 
+- profileserializer에 쓴 게시물수, 댓글수 반영
+
+- ### 커밋
+
+- post 시리얼라이저에 좋아요한 유저들 수 반영
+
+- 프로필에 좋아요한 게시글 수 반영
 
 남은 할것
-
-url 다양하게 만들어서 각 url로 보냈을때 다른 api url주소로 요청을 보내서 데이터 받아오기
 
 영화 좋아요
 

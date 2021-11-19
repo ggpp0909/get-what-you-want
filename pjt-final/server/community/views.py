@@ -105,7 +105,7 @@ def likes(request, post_pk):
             liked = True
         context = {
             'liked': liked,
-            'count': post.like_users.count(),
+            'count': post.like_users.count()
         }
         return Response(context)
     return Response({ 'detail': '인증되지 않은 사용자 입니다.'}, status=status.HTTP_401_UNAUTHORIZED)
