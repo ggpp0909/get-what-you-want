@@ -13,17 +13,21 @@
     <p>간단소개 : {{ movieData.tagline }}</p>
     <p>평점 {{ movieData.vote_average }}</p>
     <p>투표한 사람 수 {{ movieData.vote_count }}</p>
-
+    <movie-trailer :video-id="movieData.video_id"></movie-trailer>
   </div>
 </template>
 
 <script>
+import MovieTrailer from '@/components/movie/MovieTrailer'
 import _ from 'lodash'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
   name: 'MovieDetail',
+  components: {
+    MovieTrailer
+  },
   data() {
     return {
       movieData: null,
