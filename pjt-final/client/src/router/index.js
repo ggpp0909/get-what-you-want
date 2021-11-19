@@ -16,6 +16,7 @@ import Login from '@/views/accounts/Login'
 // 영화 
 import MovieDetail from '@/views/movie/MovieDetail'
 import MovieRecommend from '@/views/movie/MovieRecommend'
+import IsAdult from '@/views/movie/IsAdult'
 
 Vue.use(VueRouter)
 
@@ -71,6 +72,12 @@ const routes = [
     path: '/movie/recommend',
     name: 'MovieRecommend',
     component: MovieRecommend
+  },
+  // 성인 영화
+  {
+    path: '/movie/forbidden',
+    name: 'IsAdult',
+    component: IsAdult
   },
 ]
 

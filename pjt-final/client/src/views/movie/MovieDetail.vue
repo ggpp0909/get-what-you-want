@@ -48,6 +48,12 @@ export default {
         url: `${SERVER_URL}/movie/${this.$route.params.movieId}/detail/`, 
       })
         .then(res => {
+          if (res.data.adult) {
+            this.$router.push({ name: 'IsAdult'})
+            return res
+          }
+        })
+        .then(res => {
           console.log(res)
           this.movieData = res.data
           this.posterPath = `https://image.tmdb.org/t/p/w500${res.data.poster_path}`
