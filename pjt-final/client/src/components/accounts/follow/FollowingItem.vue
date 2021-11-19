@@ -1,8 +1,13 @@
 <template>
   <div>
-    <img :src="followingItem.profile_image" alt="프로필이미지">
-    {{ followingItem.nickname }}
-    <button v-if="this.userName === this.$route.params.userName" @click="followingChangeState">??</button>
+    <div @click="goToUserProfile">
+      <img :src="followingItem.profile_image" alt="프로필이미지">
+      {{ followingItem.nickname }}
+    </div>
+    
+    <button 
+      v-if="this.userName === this.$route.params.userName" @click="followingChangeState"
+    >??</button>
   </div>
 </template>
 
@@ -30,6 +35,10 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    // 클릭한 유저 프로필로 이동
+    goToUserProfile() {
+      this.$route.push({ name: 'Profile', params: { userName: this.followingItem.username } })
     }
   },
   computed: {

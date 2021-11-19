@@ -1,7 +1,9 @@
 <template>
   <div>
-    <img :src="follower.profile_image" alt="프로필이미지">
-    {{ follower.nickname }}
+    <div @click="goToUserProfile">
+      <img :src="follower.profile_image" alt="프로필이미지">
+      {{ follower.nickname }}
+    </div>
     <button v-if="this.userName === this.$route.params.userName" @click="deleteFollower(followerItem.username)">삭제</button>
   </div>
 </template>
@@ -37,6 +39,10 @@ export default {
           console.log(err)
         })
     },
+    // 클릭한 유저 프로필로 이동
+    goToUserProfile() {
+      this.$route.push({ name: 'Profile', params: { userName: this.follower.username } })
+    }
   },
   computed: {
     ...mapState(['config'])
