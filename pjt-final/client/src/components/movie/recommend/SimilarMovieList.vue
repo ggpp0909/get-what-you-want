@@ -1,6 +1,9 @@
 <template>
   <div>
-    <h1>Similar movie</h1>
+    <!-- 영화 디테일 페이지에서 접근 -->
+    <h1 v-if="accessDetail">recommend movie</h1>
+    <!-- 영화 추천 페이지에서 접근 -->
+    <h1 v-else>회원님이 좋아요를 누른 000 영화와 비슷한 영화들은 어때요?  </h1>
     <div class="d-flex">
       <similar-movie-item
         v-for="similarItem in similarMovies"
@@ -24,13 +27,14 @@ export default {
   data() {
     return {
       similarMovies: [],
+      accessDetail: true,
     }
   },
   methods: {
-    getSimilarMovie() {
+    getSimilarMovie(movieId) {
       this.$axios({
         method: 'get',
-        url: `${SERVER_URL}/movie/${this.$route.params.movieId}/similar/`, 
+        url: `${SERVER_URL}/movie/${movieId}/similar/`, 
       })
         .then(res => {
           this.similarMovies = res.data
@@ -39,10 +43,17 @@ export default {
           console.log(err)
         })
     },
+    pickLikeMovie() {
+
+    }
   },
   created() {
-      this.getSimilarMovie()
+    if (this.$route.params.movieId) { // 영화 디테일 페이지에서 접근 했을때 
+      this.getSimilarMovie(this.$route.params.movieId)
+    } else {  // 영화 추천 페이지에서 접근 했을때 
+      this.accessDetail = false
     }
+  }
 }
 </script>
 
