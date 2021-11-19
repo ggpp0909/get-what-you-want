@@ -34,11 +34,11 @@
       <div :class="{'hide': showMy }">
         <button @click="clickMyR">My Review</button> | 
         <button @click="clickMyP">My Post</button> <span>{{ userProfile.post_count }}</span> |
-        <button @click="clickMyC">My Comment</button> 
+        <button @click="clickMyC">My Comment</button> <span>{{ userProfile.comment_count }}</span>
 
         <my-review-list :class="{'hide': showMyR }"></my-review-list>
         <my-post-list :class="{'hide': showMyP }" :post-set="userProfile.post_set"></my-post-list>
-        <my-comment-list :class="{'hide': showMyC }"></my-comment-list>
+        <my-comment-list :class="{'hide': showMyC }" :comment-set="userProfile.comment_set"></my-comment-list>
       </div>
 
       <!-- 유저가 좋아요한 것들 -->

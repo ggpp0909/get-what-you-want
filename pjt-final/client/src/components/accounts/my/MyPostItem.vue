@@ -15,7 +15,6 @@ export default {
   },
   methods: {
     goToPost() {
-      console.log(this.post)
       this.$router.push({ name: 'PostDetail', params: { postNum: this.post.id } })
     }
   }

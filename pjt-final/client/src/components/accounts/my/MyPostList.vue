@@ -19,9 +19,6 @@ export default {
   props: {
     postSet: Array
   },
-  created() {
-    console.log(this.postSet)
-  }
 }
 </script>
 
