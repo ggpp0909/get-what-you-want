@@ -1,7 +1,11 @@
 <template>
   <div>
     mycomment
-    <my-comment-item></my-comment-item>
+    <my-comment-item
+      v-for="comment in this.commentSet"
+      :key="comment.id"
+      :comment="comment"
+    ></my-comment-item>
   </div>
 </template>
 
@@ -12,6 +16,9 @@ export default {
   name: 'MyCommentList',
   components: {
     MyCommentItem
+  },
+  props: {
+    commentSet: Array
   }
 }
 </script>

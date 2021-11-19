@@ -1,17 +1,22 @@
 <template>
   <div>
-    my-comment-item
-    <!-- <p @click="goToPost"></p> -->
+    <div @click="goToPost">
+      <h3>{{ comment.content }}</h3>
+      <p>{{ comment.created_at }}</p>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'MyCommentItem',
+  props: {
+    comment: Object,
+  },
   methods: {
-    // goToPost() {
-    //   // this.$route.push({ name: 'PostDetail', params: { postId: postId } })
-    // }
+    goToPost() {
+      this.$router.push({ name: 'PostDetail', params: { postNum: this.comment.post_id } })
+    }
   }
 }
 </script>

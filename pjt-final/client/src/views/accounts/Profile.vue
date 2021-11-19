@@ -32,22 +32,22 @@
 
       <!-- 유저가 작성한 글 -->
       <div :class="{'hide': showMy }">
-        <button @click="clickMyR">My Review</button> |
-        <button @click="clickMyP">My Post</button> |
-        <button @click="clickMyC">My Comment</button> 
+        <button @click="clickMyR">My Review</button> | 
+        <button @click="clickMyP">My Post</button> <span>{{ userProfile.post_count }}</span> |
+        <button @click="clickMyC">My Comment</button> <span>{{ userProfile.comment_count }}</span>
 
         <my-review-list :class="{'hide': showMyR }"></my-review-list>
-        <my-post-list :class="{'hide': showMyP }" :post-list="userProfile.post_set"></my-post-list>
-        <my-comment-list :class="{'hide': showMyC }"></my-comment-list>
+        <my-post-list :class="{'hide': showMyP }" :post-set="userProfile.post_set"></my-post-list>
+        <my-comment-list :class="{'hide': showMyC }" :comment-set="userProfile.comment_set"></my-comment-list>
       </div>
 
       <!-- 유저가 좋아요한 것들 -->
       <div :class="{'hide': showLike }">
         <button @click="clickLikeM">Like Movie</button> |
-        <button @click="clickLikeP">Like Post</button>
+        <button @click="clickLikeP">Like Post</button> <span>{{ userProfile.like_post_count }}</span> 
 
         <like-movie-list :class="{'hide': showLikeM }"></like-movie-list>
-        <like-post-list :class="{'hide': showLikeP }"></like-post-list>
+        <like-post-list :class="{'hide': showLikeP }" :like-posts="userProfile.like_posts"></like-post-list> 
       </div>
     </div>
   </div>

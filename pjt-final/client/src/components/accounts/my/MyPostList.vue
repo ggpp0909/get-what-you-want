@@ -1,8 +1,7 @@
 <template>
   <div>
-    my-post
     <my-post-item
-      v-for="post in this.PostList"
+      v-for="post in this.postSet"
       :key="post.id"
       :post="post"
     ></my-post-item>
@@ -18,11 +17,8 @@ export default {
     MyPostItem
   },
   props: {
-    postList: Array
+    postSet: Array
   },
-  created() {
-    console.log(this.postList)
-  }
 }
 </script>
 

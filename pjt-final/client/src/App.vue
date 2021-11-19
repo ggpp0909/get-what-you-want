@@ -3,7 +3,7 @@
     <nav>
       <router-link :to="{ name: 'Home' }">HOME</router-link> |
       <router-link :to="{ name: 'Board' }">Board</router-link> |
-      <router-link :to="{ name: 'Recommend' }">Recommend</router-link> |
+      <router-link :to="{ name: 'MovieRecommend' }">MovieRecommend</router-link> |
       <div v-if="isLogin">
         <router-link :to="{ name: 'Profile', params: { userName: this.userName } }">Profile</router-link> |
         <router-link to="#" @click.native="logout">Logout</router-link>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div @click="goToPost">
-      <p>{{ post.title }}</p>
+      <h3>{{ post.title }}</h3>
       <p>{{ post.created_at }}</p>
     </div>
   </div>
@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     goToPost() {
-      this.$route.push({ name: 'PostDetail', params: { postId: this.post.id } })
+      this.$router.push({ name: 'PostDetail', params: { postNum: this.post.id } })
     }
   }
 }

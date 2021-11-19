@@ -3,16 +3,20 @@ import VueRouter from 'vue-router'
 
 import Home from '@/views/Home'
 
+// 자유게시판
 import Board from '@/views/board/Board'
 import PostDetail from '@/views/board/PostDetail'
 import PostCreate from '@/views/board/PostCreate'
 
-import Recommend from '@/views/Recommend'
-
+// 유저
 import Profile from '@/views/accounts/Profile'
 import Signup from '@/views/accounts/Signup'
 import Login from '@/views/accounts/Login'
 
+// 영화 
+import MovieDetail from '@/views/movie/MovieDetail'
+import MovieRecommend from '@/views/movie/MovieRecommend'
+import IsAdult from '@/views/movie/IsAdult'
 
 Vue.use(VueRouter)
 
@@ -39,13 +43,6 @@ const routes = [
     name: 'PostCreate',
     component: PostCreate
   },
-  
-  // 상세 추천
-  {
-    path: '/recommend',
-    name: 'Recommend',
-    component: Recommend
-  },
 
   // 유저
   {
@@ -62,6 +59,25 @@ const routes = [
     path: '/profile/:userName',
     name: 'Profile',
     component: Profile
+  },
+
+  // 영화 조회 
+  {
+    path: '/movie/:movieId',
+    name: 'MovieDetail',
+    component: MovieDetail
+  },
+  // 상세 추천
+  {
+    path: '/movie/recommend',
+    name: 'MovieRecommend',
+    component: MovieRecommend
+  },
+  // 성인 영화
+  {
+    path: '/movie/forbidden',
+    name: 'IsAdult',
+    component: IsAdult
   },
 ]
 

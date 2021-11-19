@@ -87,46 +87,46 @@
   ### < 프로필 >
 
   - **views > accounts > Profile.vue** - 프로필 
-    - 해당 버튼에 맞게 창 보여주기
-    - 유저 아이디(username)으로 라우트 구성 
-    - 유저 데이터 받아와서 알맞게 내려주기
+    - ~~해당 버튼에 맞게 창 보여주기~~
+    - ~~유저 아이디(username)으로 라우트 구성~~ 
+    - ~~유저 데이터 받아와서 알맞게 내려주기~~
 
   ##### 1) 팔로잉 / 팔로워 
 
   - **views > accounts > follow > FollowingList** - 유저가 팔로잉하는 리스트
-    - ㄴㅇㄹ
+    - 완료 
   - **views > accounts > follow > FollowingItem** - 유저가 팔로잉하는 사람 한명 
-    - ㅁㄴㅇ
+    - 완
   - **views > accounts > follow > FollowerList** - 유저를 팔로우하는 리스트
-    - ㅁㄴㅇㄹ
+    - 완
   - **views > accounts > follow > FollowerItem** - 유저를 팔로우하는 리스트
-    - ㅁㄴㅇ
+    - 완
 
   ##### 2) 유저가 작성한 글
 
   - **views > accounts > my > MyReviewList** - 유저가 작성한 영화 리뷰 리스트
-    - ㅁㄴㅇㄹ
+    - 아직 안함 
   - **views > accounts > my > MyReviewItem** - 유저가 작성한 영화 리뷰 하나
-    - ㅁㄴㅇㄹ
+    - 아직
   - **views > accounts > my > MyPostList** - 유저가 작성한 게시물 리스트
-    - 작성 개수
+    - 완료 
   - **views > accounts > my > MyPostItem** - 유저가 작성한 게시물 하나 
-    - ㅁㄴㅇㄹ
+    - 완료 
   - **views > accounts > my > MyCommentList** - 유저가 작성한 댓글 리스트
-    - ㅁㄴㅇㄹ
+    - 완료 
   - **views > accounts > my > MyCommentItem** - 유저가 작성한 댓글 하나
-    - ㅁㄴㅇㄹ
+    - 댓글 너무 길면 어느정도 자르기 
 
   ##### 3) 좋아요
 
   - **views > accounts > Like > LikeMovieList** - 유저가 좋아요한 영화 목록
-    - ㅁㄴㅇㄹ
+    - 아직
   - **views > accounts > Like > LikeMovieItem** - 유저가 좋아요한 영화 하나
-    - ㅁㄴㅇㄹ
+    - 아직
   - **views > accounts > Like > LikePostList** - 유저가 좋아요한 게시글 목록
-    - ㅁㄴㅇㄹ
+    - 완료, 테스트 안함 
   - **views > accounts > Like > LikePostItem** - 유저가 좋아요한 게시글 하나
-    - ㅁㄴㅇㄹ
+    - 완료, 테스트 안함 
 
 
 
@@ -274,9 +274,26 @@
 ## 11.18
 
 - 회원가입시 자동로그인할때 유저네임 및 토큰 저장
-- 팔로우 팔로워 
-  - 숫자 반영 
-  - 클릭시 ㅍ로필로 이동 크
+- 팔로잉 팔로워 
+  - 각 숫자 적용 
+  - 클릭시 해당 유저의 ㅍ로필로 이동 
+  - 팔로워 목록에서 삭제
+  - 팔로잉 목록에서 끊을 수 있도록 반영
+  - 다른 유저의 프로필에 들어갔을 시, 팔로우 안되어 있다면 팔로우 아님 언팔 버튼
+- 작성한 게시글
+  - 게시글 클릭 시 넘어가게 
+  - 게시글 개수
+- 작성한 댓글 
+  - 댓글 클릭시 해당 게시글로 이동
+  - 댓글 개수 
+- 좋아요 한 글
+  - 글 클릭시 해당 게시글로 이동
+  - 글 개수 
+- 영화 디테일 출력
+  - 트레일러도 출력 
+  - 비슷한 영화 
+  - 추천 영화 
+- adult 영화 검색하면 막기 
 
 
 
@@ -303,4 +320,14 @@
 ```vue
 <router-view @login="isLogin=true"  :key="$route.fullPath"/>
 ```
+
+recommend
+
+유저들의 평점, 좋아요를 관련 지어 추천
+
+
+
+similar
+
+키워드, 장르
 
