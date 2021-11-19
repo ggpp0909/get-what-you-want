@@ -26,11 +26,19 @@ def post_list_create(request):
             serializer.save(user=request.user) # 어떤유저가 썼는지도 같이보내
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def post_get_detail(request, post_pk):
     post = get_object_or_404(Post, pk=post_pk)
     serializer = PostDetailSerializer(post)
+    # if post in request.user.like_posts.filter(pk=post_pk):
+    #     serializer.is_liked = True
+    # else:
+    #     serializer.is_liked = False
+    # if serializer.is_valid(data=request.data):
+    #     serializer.save()
+    
     return Response(serializer.data)
 
 # PUT일때 게시글 수정, DELETE일때 게시글 삭제
@@ -98,13 +106,14 @@ def likes(request, post_pk):
         # if request.user in article.like_users.all(): 
             # 좋아요 취소
             post.like_users.remove(request.user)
-            liked = False
+            post.is_liked = False
         else:
             # 좋아요 하기
             post.like_users.add(request.user)
-            liked = True
+            post.is_liked = True
+        post.save()
         context = {
-            'liked': liked,
+            'liked': post.is_liked,
             'count': post.like_users.count()
         }
         return Response(context)

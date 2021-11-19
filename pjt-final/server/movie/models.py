@@ -15,7 +15,10 @@ class Review(models.Model):
 
 class Like(models.Model):
     movie_id = models.CharField(max_length=10)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    like_poster_path = models.TextField(null=True)
+    like_movie_title = models.CharField(max_length=100, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='like_movie')
+
 
 class CrawledMovie(models.Model):
     movie_id = models.IntegerField(primary_key=True)
