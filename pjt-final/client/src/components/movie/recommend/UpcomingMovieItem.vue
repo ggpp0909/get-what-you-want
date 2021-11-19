@@ -1,7 +1,10 @@
 <template>
   <div>
-    <img :src="posterPath" :alt="`${ upcomingItem.title } 포스터`" height="100">
-    <p>{{ upcomingItem.title }}</p>
+    <div @click="goToMovieDetail">
+      <img :src="posterPath" :alt="`${ upcomingItem.title } 포스터`" height="100">
+      <p>{{ upcomingItem.title }}</p>
+    </div>
+
   </div>
 </template>
 
@@ -15,6 +18,11 @@ export default {
   },
   props: {
     upcomingItem: Object
+  },
+  methods: {
+    goToMovieDetail() {
+      this.$router.push({ name: 'MovieDetail', params: { movieId: this.upcomingItem.id } })
+    }
   }
 }
 </script>

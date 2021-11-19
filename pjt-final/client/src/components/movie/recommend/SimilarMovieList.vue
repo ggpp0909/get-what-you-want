@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 영화 디테일 페이지에서 접근 -->
-    <h1 v-if="accessDetail">recommend movie</h1>
+    <h1 v-if="accessDetail">similar movie</h1>
     <!-- 영화 추천 페이지에서 접근 -->
     <h1 v-else>회원님이 좋아요를 누른 000 영화와 비슷한 영화들은 어때요?  </h1>
     <div class="d-flex">

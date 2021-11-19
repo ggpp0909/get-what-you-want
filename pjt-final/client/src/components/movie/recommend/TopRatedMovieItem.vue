@@ -1,7 +1,9 @@
 <template>
   <div>
-    <img :src="posterPath" :alt="`${topRatedItem.title} 포스터`" height="100">
-    <p>{{ topRatedItem.title }}</p>
+    <div @click="goToMovieDetail">
+      <img :src="posterPath" :alt="`${topRatedItem.title} 포스터`" height="100">
+      <p>{{ topRatedItem.title }}</p>
+    </div>
   </div>
 </template>
 
@@ -15,6 +17,11 @@ export default {
   },
   props: {
     topRatedItem: Object
+  },
+  methods: {
+    goToMovieDetail() {
+      this.$router.push({ name: 'MovieDetail', params: { movieId: this.topRatedItem.id } })
+    }
   }
 }
 </script>
