@@ -11,8 +11,8 @@
         <button @click="clickFollowing">Following</button> | |
         <button @click="clickFollower">Follower</button>
 
-        <following-list :class="{'hide': showFollowing }" :followings="userProfile.followings"></following-list>
-        <follower-list :class="{'hide': showFollower }" :followers="userProfile.followers"></follower-list>
+        <following-list :class="{'hide': showFollowing }" :followingList="userProfile.followings"></following-list>
+        <follower-list :class="{'hide': showFollower }" :followerList="userProfile.followers"></follower-list>
       </div>
 
       <!-- 유저가 작성한 글 -->
