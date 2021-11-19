@@ -109,7 +109,7 @@
   - **views > accounts > my > MyReviewItem** - 유저가 작성한 영화 리뷰 하나
     - ㅁㄴㅇㄹ
   - **views > accounts > my > MyPostList** - 유저가 작성한 게시물 리스트
-    - ㅁㄴㅇㄹ
+    - 작성 개수
   - **views > accounts > my > MyPostItem** - 유저가 작성한 게시물 하나 
     - ㅁㄴㅇㄹ
   - **views > accounts > my > MyCommentList** - 유저가 작성한 댓글 리스트
@@ -274,5 +274,33 @@
 ## 11.18
 
 - 회원가입시 자동로그인할때 유저네임 및 토큰 저장
+- 팔로우 팔로워 
+  - 숫자 반영 
+  - 클릭시 ㅍ로필로 이동 크
+
+
+
+어려웠던거
+
+- 팔로우 팔로워에서 유저 링크 클릭하면 해당 유저의 팔로잉 리스트는 잘 나오는데 팔로워 리스트는 안나왔다.
+
+- 이유는 팔로잉 리스트는 prop해오는 데이터를 바로 dom에 출력하는데
+
+- 팔로우 리스트는 prop데이터 를 data에 덮어씌운 data에 있는 리스트를 가져오기때문이다.
+
+- ```vue
+    watch: {
+      followers() {
+        this.followerUsers = this.followers
+      }
+    },
+  ```
+
 - 
+
+![스크린샷 2021-11-19 오후 3.54.52](Client 작업 일지.assets/스크린샷 2021-11-19 오후 3.54.52.png)
+
+```vue
+<router-view @login="isLogin=true"  :key="$route.fullPath"/>
+```
 
