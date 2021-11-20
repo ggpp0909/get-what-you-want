@@ -1,6 +1,6 @@
 <template>
   <div>
-     <v-text-field v-model.trim="fields.content" color="error" @keyup.enter="createComment"></v-text-field>
+     <v-text-field v-model.trim="content" color="error" @keyup.enter="createComment"></v-text-field>
      <button @click="createComment">+</button>
   </div>
 </template>
@@ -14,9 +14,7 @@ export default {
   name: 'CommentCreate',
   data() {
     return {
-      fields: {
-         content: null,
-      }
+      content: null,
     }
   },
   props: {
@@ -24,16 +22,19 @@ export default {
   },
   methods: {
     createComment() {
+      const commentItem = {
+        content: this.content
+      }
       if (this.config) {
         this.$axios({
           method: 'post',
           url: `${SERVER_URL}/community/${this.$route.params.postNum}/comment/`,
-          data: this.fields,
+          data: commentItem,
           headers: this.config
         })
           .then(() => {
             this.reloadComment()
-            this.fields.content = null
+            this.content = null
           })
           .catch(err => {
             console.log(err)

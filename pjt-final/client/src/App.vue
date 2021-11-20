@@ -12,6 +12,9 @@
         <router-link :to="{ name: 'Signup' }">Signup</router-link> | 
         <router-link :to="{ name: 'Login' }">Login</router-link>
       </div>
+      <div>
+        <input v-model="searchMovie" @keyup.enter="goToSearchPage" type="text">
+      </div>
     </nav>
 
     <v-main>
@@ -23,22 +26,27 @@
 <script>
 import { mapState } from 'vuex'
 
+
 export default {
   name: 'App',
   data: function () {
     return {
       isLogin: false,
+      searchMovie: '',
     }
   },
   methods: {
-    logout: function() {
+    logout() {
       this.isLogin = false
       localStorage.removeItem('jwt')
       this.$store.dispatch('deleteUserName')
       this.$router.push({ name: 'Login' })
+    },
+    goToSearchPage() {
+      // this.$router({ name: Search, params: {keyword: }})
     }
   },
-  created: function () {
+  created() {
     const token = localStorage.getItem('jwt')
     if (token) {
       this.isLogin = true
