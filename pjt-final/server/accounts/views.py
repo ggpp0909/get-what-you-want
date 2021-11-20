@@ -7,6 +7,8 @@ from rest_framework.permissions import AllowAny
 from django.shortcuts import get_list_or_404, get_object_or_404
 from django.contrib.auth import get_user_model
 from django.http.response import JsonResponse
+from rest_framework_jwt.views import refresh_jwt_token, verify_jwt_token
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -31,6 +33,17 @@ def signup(request):
         # password는 직렬화 과정에는 포함 되지만 → 표현(response)할 때는 나타나지 않는다. (write_only)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+# @api_view(['POST'])
+# def change_profile(request):
+#    nickname = request.data.get('nickname')
+#    email = request.data.get('email')
+#    profile_image = request.data.get('profile_image')
+
+#    serializer = UserSerializer(data=request.data)
+#    if serializer.is_valid(raise_exception=True):
+#         serializer.save(nickname=nickname, email=email, profile_image=profile_image)
+
+#         return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([AllowAny])

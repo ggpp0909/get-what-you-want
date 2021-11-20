@@ -4,7 +4,8 @@ from rest_framework_jwt.views import obtain_jwt_token
 
 
 urlpatterns = [
-    path('signup/', views.signup),  # 회원가입
+    path('signup/', views.signup),  # (POST) 회원가입
+    # path('change_profile/', views.change_profile),  # (POST) 회원정보 수정
     path('api-token-auth/', obtain_jwt_token),  # jwt 토큰
     path('<me_username>/delete/<you_username>/', views.delete_follower), # (POST) 내 팔로워중 한명 팔로우 끊기
     path('<username>/follow/', views.follow),   # (POST) 팔로우 or 언팔로우
