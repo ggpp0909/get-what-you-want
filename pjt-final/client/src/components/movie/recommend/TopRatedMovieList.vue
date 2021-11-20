@@ -34,7 +34,6 @@ export default {
       })
         .then(res => {
           this.topRatedMovies = res.data
-          console.log(res.data)
         })
         .catch(err => {
           console.log(err)

@@ -69,7 +69,7 @@ const routes = [
   },
   // 상세 추천
   {
-    path: '/movie/recommend',
+    path: '/recommend',
     name: 'MovieRecommend',
     component: MovieRecommend
   },
