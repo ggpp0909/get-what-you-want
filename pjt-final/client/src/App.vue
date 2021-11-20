@@ -4,7 +4,7 @@
       <router-link :to="{ name: 'Home' }">HOME</router-link> |
       <router-link :to="{ name: 'Board' }">Board</router-link> |
       <router-link :to="{ name: 'MovieRecommend' }">MovieRecommend</router-link> |
-      <div v-if="isLogin">
+      <div v-if="userName">
         <router-link :to="{ name: 'Profile', params: { userName: this.userName } }">Profile</router-link> |
         <router-link to="#" @click.native="logout">Logout</router-link>
       </div>
@@ -18,7 +18,7 @@
     </nav>
 
     <v-main>
-      <router-view @login="isLogin=true"  :key="$route.fullPath"/>
+      <router-view :key="$route.fullPath"/>
     </v-main>
   </v-app>
 </template>
@@ -31,13 +31,11 @@ export default {
   name: 'App',
   data: function () {
     return {
-      isLogin: false,
       searchMovie: '',
     }
   },
   methods: {
     logout() {
-      this.isLogin = false
       localStorage.removeItem('jwt')
       this.$store.dispatch('deleteUserName')
       this.$router.push({ name: 'Login' })
@@ -45,12 +43,6 @@ export default {
     goToSearchPage() {
       this.$router.push({ name: 'SearchMovie', params: { keyword: this.searchMovie } }).catch(()=> {})
 
-    }
-  },
-  created() {
-    const token = localStorage.getItem('jwt')
-    if (token) {
-      this.isLogin = true
     }
   },
   computed: {

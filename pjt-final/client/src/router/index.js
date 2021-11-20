@@ -12,7 +12,8 @@ import PostCreate from '@/views/board/PostCreate'
 import Profile from '@/views/accounts/Profile'
 import Signup from '@/views/accounts/Signup'
 import Login from '@/views/accounts/Login'
-import test from '@/views/test'
+import ChangeProfile from '@/views/accounts/ChangeProfile'
+import DeleteUser from '@/views/accounts/DeleteUser'
 
 // 영화 
 import MovieDetail from '@/views/movie/MovieDetail'
@@ -62,10 +63,17 @@ const routes = [
     name: 'Profile',
     component: Profile
   },
+  // 회원 정보 수정 
   {
-    path: '/test',
-    name: 'test',
-    component: test
+    path: '/change-userinfo',
+    name: 'ChangeProfile',
+    component: ChangeProfile
+  },
+  // 회원 탈퇴
+  {
+    path: '/delete-userinfo',
+    name: 'DeleteUser',
+    component: DeleteUser
   },
 
   // 영화 조회 
