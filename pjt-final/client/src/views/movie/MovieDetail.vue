@@ -13,7 +13,8 @@
     <p>간단소개 : {{ movieData.tagline }}</p>
     <p>평점 {{ movieData.vote_average }}</p>
     <p>투표한 사람 수 {{ movieData.vote_count }}</p>
-    <movie-videos :video-list="movieData.video"></movie-videos>
+    <movie-videos :video-list="movieData.video" v-if="isVideo"></movie-videos>
+    <div v-if="!isVideo">예고편을 준비중입니다</div>
     <recommend-movie-list></recommend-movie-list>
     <similar-movie-list></similar-movie-list>
     <h3>-----------</h3>
@@ -23,7 +24,7 @@
       <p v-else>빈 하트</p>
     </button>
     <h3>----댓글----</h3>
-    <movie-review-list :movie-id="movieData.movie_id"></movie-review-list>
+    <movie-review-list></movie-review-list>
     
   </div>
 </template>
@@ -54,6 +55,7 @@ export default {
       genres: null,
       likeState: false,
       likeCount: '',
+      isVideo: false,
     }
   },
   methods: {
@@ -84,6 +86,8 @@ export default {
             genres.push(genre.name)
           })
           this.genres = genres
+          // 예고편 있나요
+          this.isVideo = res.data.video.length > 0 ? true : false
         })
         .catch(err => {
           console.log(err)

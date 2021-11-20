@@ -1,12 +1,12 @@
 <template>
   <div>
-    <movie-review-create :reload-review="getMovieReview" :movie-id="movieId"></movie-review-create>
+    <movie-review-create :reload-review="getMovieReview"></movie-review-create>
     <movie-review-item 
       v-for="review in reviewList"
       :key="review.id"
+      :old-review="review"
       :reload-review="getMovieReview"
-    >
-    </movie-review-item>
+    ></movie-review-item>
   </div>
 </template>
 
@@ -22,9 +22,6 @@ export default {
     MovieReviewItem,
     MovieReviewCreate
   },
-  props: {
-    movieId: Number
-  },
   data() {
     return {
       reviewList: []
@@ -35,10 +32,11 @@ export default {
     getMovieReview() {
       this.$axios({
         method: 'get',
-        url: `${SERVER_URL}/movie/${this.movieId}/review_list/`, 
+        url: `${SERVER_URL}/movie/${this.$route.params.movieId}/review_list/`, 
       })
         .then(res => {
-          console.log(res)
+          this.reviewList = res.data
+          console.log(res.data)
         })
         .catch(err => {
           console.log(err)
