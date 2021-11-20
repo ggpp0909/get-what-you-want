@@ -50,6 +50,8 @@ export default {
         ...videoListWithoutT
       ]
       this.notRVideos = this.notRVideos.length > 1 ? this.notRVideos : false
+      console.log(this.notRVideos)
+      console.log(this.representVideo)
     }
   },
   watch: {
