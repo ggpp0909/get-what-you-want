@@ -20,9 +20,6 @@ export default new Vuex.Store({
       state.token = null
       state.config = null
     },
-    GET_POSTS(state, posts) {
-      state.posts = posts
-    },
     SET_TOKEN(state, token) {
       state.token = token
       state.config = {

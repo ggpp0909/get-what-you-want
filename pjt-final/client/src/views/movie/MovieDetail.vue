@@ -7,7 +7,7 @@
       :key="genre"
     >{{ genre }}</p>
     <p>{{ movieData.overview }}</p>
-    <p>개봉일 : {{ movieData.release_data }}</p>
+    <p>개봉일 : {{ movieData.release_date }}</p>
     <p>런타임: {{ movieData.runtime }}분</p>
     <p>상태 : {{ movieData.status }}</p>
     <p>간단소개 : {{ movieData.tagline }}</p>

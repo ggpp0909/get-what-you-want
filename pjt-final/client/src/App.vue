@@ -43,7 +43,7 @@ export default {
       this.$router.push({ name: 'Login' })
     },
     goToSearchPage() {
-      // this.$router({ name: Search, params: {keyword: }})
+      this.$router.push({ name: 'SearchMovie', params: { keyword: this.searchMovie } })
     }
   },
   created() {
