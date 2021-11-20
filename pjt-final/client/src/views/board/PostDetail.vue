@@ -9,10 +9,14 @@
       <button @click="updatePost">update</button> |
       <button @click="deletePost">delete</button>
     </div>
-    <h3 v-if="likeState">꽉찬 하트</h3>
-    <h3 v-else>빈하트</h3>
+    <div @click="changeLike" class="d-flex">
+      <h3 v-if="likeState">꽉찬 하트</h3>
+      <h3 v-else>빈하트</h3>
+      <span>{{ likeCount }}개</span>
+    </div>
     
-    <span>{{ post.likes_count }}개</span>
+    
+    
     <h3>-----댓글-----</h3>
     <comment-list :comments="post.comment_set"></comment-list>
   </div>
@@ -34,6 +38,7 @@ export default {
       post: '',
       isSameUser: false,
       likeState: null,
+      likeCount: null,
     }
   },
   computed: {
@@ -58,6 +63,10 @@ export default {
           if (this.userName === res.data.user.username) {
             this.isSameUser = true
           }
+          // 좋아요 상태
+          this.likeState = res.data.is_liked
+          // 좋아요 개수 
+          this.likeCount = res.data.likes_count
           console.log(this.post)
         })
         .catch(err => {
@@ -90,6 +99,11 @@ export default {
         headers: this.config
       })
         .then(() => {
+          if (this.likeState) {
+            this.likeCount -= 1
+          } else {
+            this.likeCount += 1
+          }
           this.likeState = !this.likeState
         })
         .catch(err => {
