@@ -38,7 +38,6 @@ export default {
       })
         .then(res => {
           this.recommendMovies = res.data
-          console.log(res.data)
         })
         .catch(err => {
           console.log(err)

@@ -17,7 +17,7 @@
     <recommend-movie-list></recommend-movie-list>
     <similar-movie-list></similar-movie-list>
     <h3>-----------</h3>
-    <!-- <h3>영화 좋아요 {{ movieData.likes_count }}</h3> -->
+    <h3>영화 좋아요 {{ likeCount }}</h3>
     <button @click="changeLike">
       <p v-if="likeState">꽉찬 하트</p>
       <p v-else>빈 하트</p>
@@ -47,6 +47,7 @@ export default {
       posterPath: null,
       genres: null,
       likeState: false,
+      likeCount: '',
     }
   },
   methods: {
@@ -68,6 +69,8 @@ export default {
           this.posterPath = `https://image.tmdb.org/t/p/w500${res.data.poster_path}`
           // 해당 영화 좋아요 상태
           this.likeState = res.data.liked
+          // 좋아요 개수 
+          this.likeCount = res.data.like_count
           // 장르만 뽑아내기 
           const genres = []
           _.forEach(res.data.genres, genre => {
@@ -87,6 +90,11 @@ export default {
         headers: this.config
       })
         .then(() => {
+          if (this.likeState) {
+            this.likeCount -= 1
+          } else {
+            this.likeCount += 1
+          }
           this.likeState = !this.likeState
         })
         .catch(err => {

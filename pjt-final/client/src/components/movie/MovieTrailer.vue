@@ -1,7 +1,7 @@
 <template>
   <div>
     <iframe v-if="videoId" :src="videoURI" frameborder="0" width="800" height="500"></iframe>
-    <div v-else>예고편이 없습니다. </div>
+    <div v-else>예고편을 준비중입니다</div>
   </div>
 </template>
 
