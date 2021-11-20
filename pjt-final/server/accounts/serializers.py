@@ -113,3 +113,19 @@ class FollowerSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ('followers',)
+
+
+class ProfileChangeSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = get_user_model()
+        fields = ('id', 'username', 'nickname', 'profile_image', 'email')
+        read_only_fields = ('username', 'password')
+
+class PasswordChangeSerializer(serializers.ModelSerializer):
+    # password = serializers.CharField(write_only=True) # 패스워드는 리턴으로 나오지 않게하기 위해, serializing에는 사용이 된다.
+
+    class Meta:
+        model = get_user_model()
+        fields = ('id', 'username', 'nickname', 'password', 'profile_image', 'email')
+        read_only_fields = ('username', 'nickname')
