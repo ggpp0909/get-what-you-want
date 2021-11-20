@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from community.models import Comment, Post
-from movie.models import Like
+from movie.models import Like, Review
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True) # 패스워드는 리턴으로 나오지 않게하기 위해, serializing에는 사용이 된다.
@@ -70,6 +70,12 @@ class ProfileSerializer(serializers.ModelSerializer):
             model = Like
             fields = ('movie_id', 'like_movie_title', 'like_poster_path')
     
+    class MovieReviewSerializer(serializers.ModelSerializer):
+
+        class Meta:
+            model = Review
+            fields = ('id', 'movie_id', 'movie_title', 'poster_path', 'created_at', 'content', 'rank')
+    
 
     comment_set = CommentSerializer(many=True, read_only=True)
     post_set = PostSerializer(many=True, read_only=True)
@@ -104,7 +110,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = get_user_model()
-        fields = ('id', 'username', 'nickname', 'profile_image', 'followers', 'followings', 'followers_count', 'followings_count',  'comment_set', 'post_set', 'comment_count', 'post_count', 'like_posts', 'like_post_count', 'like_movie')
+        fields = ('id', 'username', 'nickname', 'profile_image', 'email', 'followers', 'followings', 'followers_count', 'followings_count',  'comment_set', 'post_set', 'comment_count', 'post_count', 'like_posts', 'like_post_count', 'like_movie')
 
 
 class FollowerSerializer(serializers.ModelSerializer):
