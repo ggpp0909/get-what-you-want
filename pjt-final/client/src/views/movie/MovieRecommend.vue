@@ -3,8 +3,11 @@
     Recommend
     <popular-movie-list></popular-movie-list>
     <top-rated-movie-list></top-rated-movie-list>
-    <recommend-movie-list :pick-recommend-movie="pickForRecommendMovie"></recommend-movie-list>
-    <similar-movie-list :pick-similar-movie="pickForSimilarMovie"></similar-movie-list>
+    <div v-if="userName">
+      <recommend-movie-list :pick-recommend-movie="pickForRecommendMovie"></recommend-movie-list>
+      <similar-movie-list :pick-similar-movie="pickForSimilarMovie"></similar-movie-list>
+    </div>
+    
   </div>
 </template>
 

@@ -187,7 +187,8 @@ export default {
     },
     // follow 또는 언팔 하기 
     changeFollowState() {
-      this.$axios({
+      if (this.config) {
+        this.$axios({
         method: 'post',
         url: `${SERVER_URL}/accounts/${this.$route.params.userName}/follow/`,
         headers: this.config
@@ -198,6 +199,9 @@ export default {
         .catch(err => {
           console.log(err)
         })
+      } else {
+        this.$router.push({ name: 'Login' })
+      }
     }
   },
   created() {

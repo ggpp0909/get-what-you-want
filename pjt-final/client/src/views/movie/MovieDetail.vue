@@ -84,22 +84,26 @@ export default {
     },
     // 좋아요
     changeLike() {
-      this.$axios({
-        method: 'post',
-        url: `${SERVER_URL}/movie/${this.movieData.movie_id}/like/`, 
-        headers: this.config
-      })
-        .then(() => {
-          if (this.likeState) {
-            this.likeCount -= 1
-          } else {
-            this.likeCount += 1
-          }
-          this.likeState = !this.likeState
+      if (this.config) {
+        this.$axios({
+          method: 'post',
+          url: `${SERVER_URL}/movie/${this.movieData.movie_id}/like/`, 
+          headers: this.config
         })
-        .catch(err => {
-          console.log(err)
-        })
+          .then(() => {
+            if (this.likeState) {
+              this.likeCount -= 1
+            } else {
+              this.likeCount += 1
+            }
+            this.likeState = !this.likeState
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      } else {
+        this.$router.push({ name: 'Login' })
+      }
     }
   },
   created() {

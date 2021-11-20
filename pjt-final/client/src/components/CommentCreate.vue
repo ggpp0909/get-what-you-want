@@ -24,19 +24,23 @@ export default {
   },
   methods: {
     createComment() {
-      this.$axios({
-        method: 'post',
-        url: `${SERVER_URL}/community/${this.$route.params.postNum}/comment/`,
-        data: this.fields,
-        headers: this.config
-      })
-        .then(() => {
-          this.reloadComment()
-          this.fields.content = null
+      if (this.config) {
+        this.$axios({
+          method: 'post',
+          url: `${SERVER_URL}/community/${this.$route.params.postNum}/comment/`,
+          data: this.fields,
+          headers: this.config
         })
-        .catch(err => {
-          console.log(err)
-        })
+          .then(() => {
+            this.reloadComment()
+            this.fields.content = null
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      } else {
+        this.$router.push({ name: 'Login' })
+      }
     }
   },
   computed: {
