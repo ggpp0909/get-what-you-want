@@ -7,7 +7,7 @@
       :key="genre"
     >{{ genre }}</p>
     <p>{{ movieData.overview }}</p>
-    <p>개봉일 : {{ movieData.release_data }}</p>
+    <p>개봉일 : {{ movieData.release_date }}</p>
     <p>런타임: {{ movieData.runtime }}분</p>
     <p>상태 : {{ movieData.status }}</p>
     <p>간단소개 : {{ movieData.tagline }}</p>
@@ -22,6 +22,9 @@
       <p v-if="likeState">꽉찬 하트</p>
       <p v-else>빈 하트</p>
     </button>
+    <h3>----댓글----</h3>
+    <movie-review-list :movie-id="movieData.movie_id"></movie-review-list>
+    
   </div>
 </template>
 
@@ -29,8 +32,10 @@
 import MovieVideos from '@/components/movie/MovieVideos'
 import RecommendMovieList from '@/components/movie/recommend/RecommendMovieList'
 import SimilarMovieList from '@/components/movie/recommend/SimilarMovieList'
-import _ from 'lodash'
+import MovieReviewList from '@/components/movie/MovieReviewList'
+
 import { mapState } from 'vuex'
+import _ from 'lodash'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
@@ -39,7 +44,8 @@ export default {
   components: {
     MovieVideos,
     RecommendMovieList,
-    SimilarMovieList
+    SimilarMovieList,
+    MovieReviewList,
   },
   data() {
     return {

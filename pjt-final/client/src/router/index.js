@@ -12,11 +12,13 @@ import PostCreate from '@/views/board/PostCreate'
 import Profile from '@/views/accounts/Profile'
 import Signup from '@/views/accounts/Signup'
 import Login from '@/views/accounts/Login'
+import test from '@/views/test'
 
 // 영화 
 import MovieDetail from '@/views/movie/MovieDetail'
 import MovieRecommend from '@/views/movie/MovieRecommend'
 import IsAdult from '@/views/movie/IsAdult'
+import SearchMovie from '@/views/movie/SearchMovie'
 
 Vue.use(VueRouter)
 
@@ -60,6 +62,11 @@ const routes = [
     name: 'Profile',
     component: Profile
   },
+  {
+    path: '/test',
+    name: 'test',
+    component: test
+  },
 
   // 영화 조회 
   {
@@ -78,6 +85,12 @@ const routes = [
     path: '/movie/forbidden',
     name: 'IsAdult',
     component: IsAdult
+  },
+  // 영화 검색
+  {
+    path: '/search/:keyword',
+    name: 'SearchMovie',
+    component: SearchMovie
   },
 ]
 

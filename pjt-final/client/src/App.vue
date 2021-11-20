@@ -13,7 +13,7 @@
         <router-link :to="{ name: 'Login' }">Login</router-link>
       </div>
       <div>
-        <input v-model="searchMovie" @keyup.enter="goToSearchPage" type="text">
+        <input v-model="searchMovie" @keyup.enter="goToSearchPage" @click="searchMovie=''" type="text">
       </div>
     </nav>
 
@@ -43,7 +43,8 @@ export default {
       this.$router.push({ name: 'Login' })
     },
     goToSearchPage() {
-      // this.$router({ name: Search, params: {keyword: }})
+      this.$router.push({ name: 'SearchMovie', params: { keyword: this.searchMovie } }).catch(()=> {})
+
     }
   },
   created() {
