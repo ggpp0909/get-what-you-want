@@ -8,7 +8,7 @@ from django.shortcuts import get_list_or_404, get_object_or_404
 from django.contrib.auth import get_user_model
 from django.http.response import JsonResponse
 from rest_framework_jwt.views import refresh_jwt_token, verify_jwt_token
-
+from .models import Feedback
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -53,7 +53,7 @@ def change_password(request):
 	# 1-2. 패스워드 일치 여부 체크
     if password != password_confirmation:
         return Response({'error': '비밀번호가 일치하지 않습니다.'}, status=status.HTTP_400_BAD_REQUEST)
-		
+
 	# 2. UserSerializer를 통해 데이터 직렬화
     user = request.user
     serializer = PasswordChangeSerializer(user, data=request.data)
@@ -131,5 +131,7 @@ def delete_follower(request, me_username, you_username):
 
 @api_view(['DELETE'])
 def withdrawal(request):
+    Feedback.objects.create(user=request.user.username, feedback=request.data['feedback'])
     request.user.delete()
-    return
+
+    return Response({ 'detail': '회원탈퇴가 완료되었습니다.'}, status=status.HTTP_200_OK)

@@ -8,4 +8,13 @@ class User(AbstractUser):
     last_name = None
 
     followings = models.ManyToManyField('self', symmetrical=False, related_name='followers')
-    pass
+    
+    def __str__(self):
+        return self.username
+
+class Feedback(models.Model):
+    user = models.TextField()
+    feedback = models.TextField()
+
+    def __str__(self):
+        return self.feedback

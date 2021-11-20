@@ -169,39 +169,11 @@ def upcoming(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def search(request, word):
-    upcoming_url = get_request_url('/search/movie', query=f'{word}', language='ko-KR', region='KR', )
+    upcoming_url = get_request_url('/search/movie', query=f'{word}', language='ko-KR', region='KR')
     data = requests.get(upcoming_url).json()
     results = data['results']
 
     return Response(results)
-
-# @api_view(['POST'])
-# def like(request, movie_id): # movie_like에 user_id <-> movie_id 추가하는 행위
-#     if request.user.is_authenticated:
-#         me = request.user
-#         # me_likemovies = get_list_or_404(Like, user_id=me.pk) # 내가 좋아요한 영화들 목록
-#         me_likemovies = Like.objects.filter(user_id=me.pk) # 내가 좋아요한 영화들 목록
-#         # 현재 좋아요를 요청하는 회원(request.user)이
-#         # 해당 게시글의 좋아요를 누른 회원 목록에 이미 있다면,
-#         # if request.user in article.like_users.all():
-#         if me_likemovies.filter(movie_id=movie_id).exists():
-#             me_likemovies.remove()
-        
-#         # if request.user in article.like_users.all(): 
-#             # 좋아요 취소
-#             post.like_users.remove(request.user)
-#             liked = False
-#         else:
-#             # 좋아요 하기
-#             post.like_users.add(request.user)
-#             liked = True
-
-#         context = {
-#             'liked': liked,
-#             'count': post.like_users.count(),
-#         }
-#         return Response(context)
-#     return Response({ 'detail': '인증되지 않은 사용자 입니다.' }, status=status.HTTP_401_UNAUTHORIZED)
 
 
 @api_view(['POST'])
@@ -237,10 +209,8 @@ def like(request, movie_id):
 @permission_classes([AllowAny])
 def review_list(request, movie_id):
     # 모델 db에서 다 가져와서 JSON으로 넘겨
-    # 진짜 대박이다 이거 일기에 써야곘다.
     # reviews = get_list_or_404(Review.objects.order_by('-pk'), movie_id=movie_id)
     reviews = Review.objects.filter(movie_id=movie_id).order_by('-pk')
-
 
     serializer = ReviewSerializer(reviews, many=True)
     return Response(serializer.data)
