@@ -65,7 +65,8 @@ def post_update_delete(request, post_pk):
 def comment_list(request, post_pk):
     # 모델 db에서 다 가져와서 JSON으로 넘겨
     # 진짜 대박이다 이거 일기에 써야곘다.
-    comments = get_list_or_404(Comment.objects.order_by('-pk'), post_id=post_pk)
+    # comments = get_list_or_404(Comment.objects.order_by('-pk'), post_id=post_pk)
+    comments = Comment.objects.filter(post_id=post_pk).order_by('-pk')
     
     serializer = CommentSerializer(comments, many=True)
     return Response(serializer.data)
@@ -118,3 +119,9 @@ def likes(request, post_pk):
         }
         return Response(context)
     return Response({ 'detail': '인증되지 않은 사용자 입니다.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+@api_view(['GET'])
+def search(request, word):
+    posts = Post.objects.filter(title__icontains=word).order_by('-pk')
+    serializer = PostListSerializer(posts, many=True)
+    return Response(serializer.data)

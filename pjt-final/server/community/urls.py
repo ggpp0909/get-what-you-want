@@ -11,4 +11,5 @@ urlpatterns = [
 
     path('<int:post_pk>/likes/', views.likes),  # (POSt) 게시글 좋아요 or 좋아요 취소
     path('<int:post_pk>/comment/<int:comment_pk>/', views.comment_update_delete),   # (PUT) 댓글 업데이트, (DELETE) 댓글 삭제
+    path('<word>/search/', views.search),   # (GET) 게시글 검색
 ]

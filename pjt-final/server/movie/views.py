@@ -238,7 +238,9 @@ def like(request, movie_id):
 def review_list(request, movie_id):
     # 모델 db에서 다 가져와서 JSON으로 넘겨
     # 진짜 대박이다 이거 일기에 써야곘다.
-    reviews = get_list_or_404(Review.objects.order_by('-pk'), movie_id=movie_id)
+    # reviews = get_list_or_404(Review.objects.order_by('-pk'), movie_id=movie_id)
+    reviews = Review.objects.filter(movie_id=movie_id).order_by('-pk')
+
 
     serializer = ReviewSerializer(reviews, many=True)
     return Response(serializer.data)
