@@ -3,7 +3,7 @@
     <!-- 영화 디테일 페이지에서 접근 -->
     <h1 v-if="accessDetail">similar movie</h1>
     <!-- 영화 추천 페이지에서 접근 -->
-    <h1 v-else>회원님이 좋아요를 누른 000 영화와 비슷한 영화들은 어때요?  </h1>
+    <h1 v-else>회원님이 좋아요를 누른 영화 "{{ pickSimilarMovie.like_movie_title }}"와 비슷한 영화들은 어때요?  </h1>
     <div class="d-flex">
       <similar-movie-item
         v-for="similarItem in similarMovies"
@@ -23,6 +23,9 @@ export default {
   name: 'SimilarMovieList',
   components: {
     SimilarMovieItem
+  },
+  props: {
+    pickSimilarMovie: Object,
   },
   data() {
     return {
@@ -47,10 +50,17 @@ export default {
 
     }
   },
-  created() {
-    if (this.$route.params.movieId) { // 영화 디테일 페이지에서 접근 했을때 
+  created() { 
+    if (this.$route.name === 'MovieRecommend') { // 영화 추천 페이지에서 접근 했을때 
+      this.getSimilarMovie(this.pickSimilarMovie.movie_id)
+      this.accessDetail = false
+    } else {  // 영화 디테일 페이지에서 접근 했을때 
       this.getSimilarMovie(this.$route.params.movieId)
-    } else {  // 영화 추천 페이지에서 접근 했을때 
+    }
+  },
+  watch: {
+    pickSimilarMovie() {
+      this.getSimilarMovie(this.pickSimilarMovie.movie_id)
       this.accessDetail = false
     }
   }

@@ -44,10 +44,10 @@
 
       <!-- 유저가 좋아요한 것들 -->
       <div :class="{'hide': showLike }">
-        <button @click="clickLikeM">Like Movie</button> |
+        <button @click="clickLikeM">Like Movie</button> <span>{{ likeMovieCount }}</span> |
         <button @click="clickLikeP">Like Post</button> <span>{{ userProfile.like_post_count }}</span> 
 
-        <like-movie-list :class="{'hide': showLikeM }"></like-movie-list>
+        <like-movie-list :class="{'hide': showLikeM }" :like-movies="userProfile.like_movie"></like-movie-list>
         <like-post-list :class="{'hide': showLikeP }" :like-posts="userProfile.like_posts"></like-post-list> 
       </div>
     </div>
@@ -84,6 +84,7 @@ export default {
       followerCount: 0,
       followingCount: 0,
       followState: false,
+      likeMovieCount: 0,
       // 숨기기 값들 
       showFollow: false,
       showMy: true,
@@ -156,6 +157,7 @@ export default {
           this.userProfile = res.data
           this.followerCount = res.data.followers_count
           this.followingCount = res.data.followings_count
+          this.likeMovieCount = res.data.like_movie.length
           console.log(res.data)
         })
         .then(() => {
@@ -185,7 +187,8 @@ export default {
     },
     // follow 또는 언팔 하기 
     changeFollowState() {
-      this.$axios({
+      if (this.config) {
+        this.$axios({
         method: 'post',
         url: `${SERVER_URL}/accounts/${this.$route.params.userName}/follow/`,
         headers: this.config
@@ -196,6 +199,9 @@ export default {
         .catch(err => {
           console.log(err)
         })
+      } else {
+        this.$router.push({ name: 'Login' })
+      }
     }
   },
   created() {

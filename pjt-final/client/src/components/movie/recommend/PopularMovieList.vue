@@ -34,7 +34,6 @@ export default {
       })
         .then(res => {
           this.popularMovie = res.data
-          console.log(res.data)
         })
         .catch(err => {
           console.log(err)
