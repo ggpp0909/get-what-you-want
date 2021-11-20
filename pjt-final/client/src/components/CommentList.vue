@@ -36,7 +36,7 @@ export default {
     reloadComment() {
       this.$axios({
         method: 'get',
-        url: `${SERVER_URL}/community/${this.$route.params.postNum}/comment/`,
+        url: `${SERVER_URL}/community/${this.$route.params.postNum}/comment_list/`,
       })
         .then(res => {
           this.commentList = res.data

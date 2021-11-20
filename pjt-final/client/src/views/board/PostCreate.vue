@@ -56,7 +56,7 @@ export default {
     createPost() {
       this.$axios({
         method: 'post',
-        url: `${SERVER_URL}/community/`,
+        url: `${SERVER_URL}/community/post/`,
         data: this.post,
         headers: this.config
       })
