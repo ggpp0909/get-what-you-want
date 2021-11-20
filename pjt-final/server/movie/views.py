@@ -5,8 +5,8 @@ from rest_framework import serializers, status
 from rest_framework.decorators import api_view
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny
-from .serializers import LikeSerializer
-from .models import Like
+from .serializers import LikeSerializer, ReviewSerializer
+from .models import Like, Review
 
 
 def get_request_url(method='/movie/popular', **kwargs):
@@ -231,3 +231,41 @@ def like(request, movie_id):
         }
         return Response(context)
     return Response({ 'detail': '인증되지 않은 사용자 입니다.' }, status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def review_list(request, movie_id):
+    # 모델 db에서 다 가져와서 JSON으로 넘겨
+    # 진짜 대박이다 이거 일기에 써야곘다.
+    reviews = get_list_or_404(Review.objects.order_by('-pk'), movie_id=movie_id)
+
+    serializer = ReviewSerializer(reviews, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def review_create(request, movie_id):
+    serializer = ReviewSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+
+        serializer.save(user=request.user, movie_id=movie_id) # 어떤유저가 썼는지도 같이보내
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+# PUT일때 리뷰 수정, DELETE일때 리뷰 삭제
+@api_view(['PUT', 'DELETE'])
+def review_update_delete(request, movie_id, review_pk):
+    review = get_object_or_404(Review, movie_id=movie_id, pk=review_pk)
+
+    if not request.user.review_set.filter(pk=review_pk).exists():
+        return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDON)
+
+    if request.method == 'PUT':
+        serializer = ReviewSerializer(review, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+
+    elif request.method == 'DELETE':
+        review.delete()
+        return Response({ 'movie_id': movie_id, 'review_id': review_pk }, status=status.HTTP_204_NO_CONTENT)

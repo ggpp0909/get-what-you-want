@@ -9,22 +9,22 @@ from rest_framework.permissions import AllowAny
 
 # Create your views here.
 # GET일때 게시글 받아오기, POST 일때 게시글 생성
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 @permission_classes([AllowAny])
-def post_list_create(request):
-    if request.method == 'GET':
-        # 모델 db에서 다 가져와서 JSON으로 넘겨
-        # posts = get_list_or_404(Post)
-        posts = Post.objects.order_by('-pk')
-        serializer = PostListSerializer(posts, many=True)
-        return Response(serializer.data)
+def post_list(request):
+    # 모델 db에서 다 가져와서 JSON으로 넘겨
+    # posts = get_list_or_404(Post)
+    posts = Post.objects.order_by('-pk')
+    serializer = PostListSerializer(posts, many=True)
+    return Response(serializer.data)
 
-    elif request.method == 'POST':
-        serializer = PostSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
+@api_view(['POST'])
+def post_create(request):
+    serializer = PostSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
 
-            serializer.save(user=request.user) # 어떤유저가 썼는지도 같이보내
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        serializer.save(user=request.user) # 어떤유저가 썼는지도 같이보내
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET'])
@@ -60,23 +60,23 @@ def post_update_delete(request, post_pk):
         return Response({ 'id': post_pk }, status=status.HTTP_204_NO_CONTENT)
 
 # GET 요청일때 댓글 가져오기, POST요청일때 댓글 작성
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 @permission_classes([AllowAny])
-def comment_list_create(request, post_pk):
-    if request.method == 'GET':
-        # 모델 db에서 다 가져와서 JSON으로 넘겨
-        # 진짜 대박이다 이거 일기에 써야곘다.
-        comments = get_list_or_404(Comment.objects.order_by('-pk'), post_id=post_pk)
-       
-        serializer = CommentSerializer(comments, many=True)
-        return Response(serializer.data)
+def comment_list(request, post_pk):
+    # 모델 db에서 다 가져와서 JSON으로 넘겨
+    # 진짜 대박이다 이거 일기에 써야곘다.
+    comments = get_list_or_404(Comment.objects.order_by('-pk'), post_id=post_pk)
+    
+    serializer = CommentSerializer(comments, many=True)
+    return Response(serializer.data)
 
-    elif request.method == 'POST':
-        serializer = CommentSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
+@api_view(['POST'])
+def comment_create(request, post_pk):
+    serializer = CommentSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
 
-            serializer.save(user=request.user, post_id=post_pk) # 어떤유저가 썼는지도 같이보내
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        serializer.save(user=request.user, post_id=post_pk) # 어떤유저가 썼는지도 같이보내
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 # PUT일때 댓글 수정, DELETE일때 댓글 삭제
 @api_view(['PUT', 'DELETE'])

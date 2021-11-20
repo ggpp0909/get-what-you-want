@@ -12,4 +12,8 @@ urlpatterns = [
     path('upcoming/', views.upcoming),   # (GET) 개봉 예정인 영화 받기 20개, TMDB API
     path('<word>/search/', views.search), # (GET) word가 포함된영화 검색
     path('<movie_id>/like/', views.like),   # (POST)영화 좋아요
+
+    path('<movie_id>/review_list/', views.review_list),  # (GET) 리뷰 전체 리스트 받아오기,
+    path('<movie_id>/review_create/', views.review_create),  # (POST) 리뷰 작성
+    path('<movie_id>/review/<int:review_pk>/', views.review_update_delete),   # (PUT) 댓글 업데이트, (DELETE) 댓글 삭제
 ]
