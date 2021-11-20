@@ -5,7 +5,6 @@ from django.conf import settings
 class Review(models.Model):
     movie_id = models.CharField(max_length=10)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    title = models.CharField(max_length=100)
     content = models.TextField()
     rank = models.IntegerField()
     is_spoiler = models.BooleanField()
