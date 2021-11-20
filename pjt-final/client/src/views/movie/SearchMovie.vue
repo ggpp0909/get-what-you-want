@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>{{ this.$route.params.keyword }} 검색 결과</h1>
     <div v-if="searchResult">
       <search-movie-item
         v-for="movie in searchResult"
@@ -22,7 +23,7 @@ const SERVER_URL = process.env.VUE_APP_SERVER_URL
 export default {
   name: 'Search',
   components:{
-    SearchMovieItem
+    SearchMovieItem,
   },
   data() {
     return {
@@ -37,7 +38,7 @@ export default {
           url: `${SERVER_URL}/movie/${this.$route.params.keyword}/search/`,
        })
         .then(res => {
-          this.searchResult = res.data
+          this.searchResult = res.data.length > 0 ? res.data : false
           console.log(res.data)
         })
         .catch(err => {
