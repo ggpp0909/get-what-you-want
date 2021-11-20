@@ -1,7 +1,11 @@
 <template>
   <div>
     like movie
-    <like-movie-item></like-movie-item>
+    <like-movie-item
+      v-for="movie in likeMovies"
+      :key=movie.movie_id
+      :movie="movie"
+    ></like-movie-item>
   </div>
 </template>
 
@@ -12,6 +16,9 @@ export default {
   name: 'LikeMovieList',
   components: {
     LikeMovieItem,
+  },
+  props: {
+    likeMovies: Array,
   }
 }
 </script>
