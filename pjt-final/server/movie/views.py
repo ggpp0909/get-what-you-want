@@ -247,10 +247,13 @@ def review_list(request, movie_id):
 
 @api_view(['POST'])
 def review_create(request, movie_id):
+    detail_url = get_request_url(f'/movie/{movie_id}', language='ko-KR')
+    data = requests.get(detail_url).json()
+        
     serializer = ReviewSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
 
-        serializer.save(user=request.user, movie_id=movie_id) # 어떤유저가 썼는지도 같이보내
+        serializer.save(user=request.user, movie_id=movie_id, poster_path=data['poster_path'], movie_title=data['title']) # 어떤유저가 썼는지도 같이보내
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 

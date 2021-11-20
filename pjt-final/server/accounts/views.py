@@ -127,10 +127,9 @@ def delete_follower(request, me_username, you_username):
             return JsonResponse(serializer.data)
         return Response({ 'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
     else:
-        return Response({ 'detail': '인증되지 않은 사용자 입니다.'}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({ 'detail': '인증되지 않은 사용자 입니다.' }, status=status.HTTP_401_UNAUTHORIZED)
 
 @api_view(['DELETE'])
 def withdrawal(request):
     request.user.delete()
     return
-    
