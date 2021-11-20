@@ -28,7 +28,7 @@ export default {
       if (this.config) {
         this.$axios({
           method: 'post',
-          url: `${SERVER_URL}/community/${this.$route.params.postNum}/comment/`,
+          url: `${SERVER_URL}/community/${this.$route.params.postNum}/comment_create/`,
           data: commentItem,
           headers: this.config
         })
