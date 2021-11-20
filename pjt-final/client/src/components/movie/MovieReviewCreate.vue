@@ -1,7 +1,7 @@
 <template>
   <div>
     <input type="number" v-model="rank" value="별점">
-    <input type="checkbox" value="스포일러를 포함한 내용인가요?" v-model="isSpoiler">
+    <v-checkbox value="True" v-model="isSpoiler" label="스포일러를 포함한 내용인가요?"></v-checkbox>
     <v-text-field v-model.trim="review" color="error" @keyup.enter="createReview"></v-text-field>
     <button @click="createReview">+</button>
   </div>
@@ -28,18 +28,23 @@ export default {
   methods: {
     createReview() {
       const reviewItem = {
-        content: this.review
+        content: this.review,
+        rank: this.rank,
+        is_spoiler: this.isSpoiler ? true : false,
       }
+      console.log(this.is_spoiler)
       if (this.config) {
         this.$axios({
           method: 'post',
-          url: `${SERVER_URL}/movie/${this.movieId}/review_create/`,
+          url: `${SERVER_URL}/movie/${this.$route.params.movieId}/review_create/`,
           data: reviewItem,
           headers: this.config
         })
           .then(() => {
             this.reloadReview()
             this.review = null
+            this.rank = 0
+            this.isSpoiler = false
           })
           .catch(err => {
             console.log(err)
