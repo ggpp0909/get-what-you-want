@@ -7,6 +7,8 @@ class Review(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField()
     rank = models.IntegerField()
+    movie_title = models.TextField()
+    poster_path = models.TextField()
     is_spoiler = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
