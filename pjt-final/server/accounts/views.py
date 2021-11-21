@@ -10,6 +10,7 @@ from django.http.response import JsonResponse
 from rest_framework_jwt.views import refresh_jwt_token, verify_jwt_token
 from .models import Feedback
 
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def signup(request):

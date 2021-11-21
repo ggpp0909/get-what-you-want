@@ -15,5 +15,7 @@ urlpatterns = [
 
     path('<movie_id>/review_list/', views.review_list),  # (GET) 리뷰 전체 리스트 받아오기,
     path('<movie_id>/review_create/', views.review_create),  # (POST) 리뷰 작성
-    path('<movie_id>/review/<int:review_pk>/', views.review_update_delete),   # (PUT) 댓글 업데이트, (DELETE) 댓글 삭제
+    path('<movie_id>/review/<int:review_pk>/', views.review_update_delete),   # (PUT) 리뷰 업데이트, (DELETE) 리뷰 삭제
+
+    path('signup_like/', views.signup_like),    # (GET) 회원가입시 받은 관심장르별로 영화 5개씩 묶어서 주기
 ]

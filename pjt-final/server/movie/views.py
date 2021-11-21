@@ -7,6 +7,7 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny
 from .serializers import LikeSerializer, ReviewSerializer
 from .models import Like, Review
+from django.core.paginator import Paginator
 
 
 def get_request_url(method='/movie/popular', **kwargs):
@@ -211,9 +212,13 @@ def review_list(request, movie_id):
     # 모델 db에서 다 가져와서 JSON으로 넘겨
     # reviews = get_list_or_404(Review.objects.order_by('-pk'), movie_id=movie_id)
     reviews = Review.objects.filter(movie_id=movie_id).order_by('-pk')
-
-    serializer = ReviewSerializer(reviews, many=True)
-    return Response(serializer.data)
+    paginator = Paginator(reviews, 10)
+    page_num = request.GET.get('page')
+    page_obj = paginator.get_page(page_num)
+    serializer = ReviewSerializer(page_obj, many=True)
+    data = serializer.data
+    data.append({'possible_page': paginator.num_pages})
+    return Response(data)
 
 @api_view(['POST'])
 def review_create(request, movie_id):
@@ -244,3 +249,29 @@ def review_update_delete(request, movie_id, review_pk):
     elif request.method == 'DELETE':
         review.delete()
         return Response({ 'movie_id': movie_id, 'review_id': review_pk }, status=status.HTTP_204_NO_CONTENT)
+
+
+# Vue에서 실험 필요, POST맨에서 form-data로 배열을 못전하는거같애
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def signup_like(request):
+    genres = request.data['genres']
+    context = {}
+    for genre in genres:
+        detail_url = get_request_url(f'/discover/movie', language='ko-KR')
+        detail_url += f'&with_genres={genre}'
+        data = requests.get(detail_url).json()
+        results = data['results'][:5]
+        temp = []
+        for result in results:
+            temp.append(
+                {
+                'movie_id': result['id'],
+                'title': result['title'],
+                'poster_path': result['poster_path'],
+                'genre_ids': result['genre_ids']
+                }
+            )
+        context[genre] = temp
+
+    return Response(context)
