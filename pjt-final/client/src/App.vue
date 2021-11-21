@@ -90,7 +90,7 @@
 
     <v-sheet
       id="scrolling-techniques-2"
-      class="overflow-y-auto"
+      class="overflow-y-auto temp"
       max-height="100vh"
     >
       <v-container style="height: 1000px;">
@@ -133,5 +133,8 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@700&display=swap');
 .application {
   font-family: 'Playfair Display SC', serif;
+}
+.temp {
+  padding-top: 200px;
 }
 </style>
