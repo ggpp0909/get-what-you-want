@@ -14,6 +14,7 @@ import Signup from '@/views/accounts/Signup'
 import Login from '@/views/accounts/Login'
 import ChangeProfile from '@/views/accounts/ChangeProfile'
 import DeleteUser from '@/views/accounts/DeleteUser'
+import AfterSignup from '@/views/accounts/AfterSignup'
 
 // 영화 
 import MovieDetail from '@/views/movie/MovieDetail'
@@ -74,6 +75,12 @@ const routes = [
     path: '/delete-userinfo',
     name: 'DeleteUser',
     component: DeleteUser
+  },
+  // 회원 가입 후 좋아요 
+  {
+    path: '/welcome',
+    name: 'AfterSignup',
+    component: AfterSignup
   },
 
   // 영화 조회 

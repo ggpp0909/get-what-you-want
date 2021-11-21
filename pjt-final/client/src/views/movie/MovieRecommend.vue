@@ -3,7 +3,7 @@
     Recommend
     <popular-movie-list></popular-movie-list>
     <top-rated-movie-list></top-rated-movie-list>
-    <div v-if="userName">
+    <div v-if="showRS">
       <recommend-movie-list :pick-recommend-movie="pickForRecommendMovie"></recommend-movie-list>
       <similar-movie-list :pick-similar-movie="pickForSimilarMovie"></similar-movie-list>
     </div>
@@ -34,6 +34,7 @@ export default {
     return {
       pickForRecommendMovie: null,
       pickForSimilarMovie: null,
+      showRS: false,
     }
   },
   methods:{
@@ -44,14 +45,24 @@ export default {
         url: `${SERVER_URL}/accounts/${this.userName}/`, 
       })
         .then(res => {
-          const pickTwo = _.sampleSize(res.data.like_movie, 2)
-          this.pickForRecommendMovie = pickTwo[0]
-          this.pickForSimilarMovie = pickTwo[1]
+          // 로그인 상태 및 좋아요한 개수에 따라 추천, 비슷한 영화 보여주는거 결정 
+          if (this.userName) {
+            if (res.data.like_movie.length > 1) {
+              const pickTwo = _.sampleSize(res.data.like_movie, 2)
+              this.pickForRecommendMovie = pickTwo[0]
+              this.pickForSimilarMovie = pickTwo[1]
+            } else if (res.data.like_movie.length === 1) {
+              this.pickForRecommendMovie = res.data.like_movie[0]
+              this.pickForSimilarMovie = res.data.like_movie[0]
+            } else {
+              this.showRS = false
+            }
+          }
         })
         .catch(err => {
           console.log(err)
         })
-    }
+    },
   },
   computed: {
     ...mapState(['userName'])
