@@ -414,11 +414,11 @@ def YNs_recommend(request):
         for j in country:
             v[i][j] = node_num
             node_num += 1
-    '''
+    
     for i in arr:
         for j in arr[i]['genres']:
-        v[0][arr[i]['']]
-    '''
+            v[0][j['id']]
+    
     # print(arr)
     # detail_url = get_request_url(f'/movie/{movie_id}', language='ko-KR')
     # data = requests.get(detail_url).json()

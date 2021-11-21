@@ -5,9 +5,9 @@ from django.conf import settings
 import os
 
 def user_directory_path(instance, filename):
-    return 'users/{0}/{1}'.format(instance.user.username, filename)  # user를 upload_user로 저장했기 때문에 instance.upload_user로 사용함
+    return 'users/{0}/{1}'.format(instance.pk, filename)  # user를 upload_user로 저장했기 때문에 instance.upload_user로 사용함
 def user_path(instance):
-    return 'users/{0}'.format(instance.user.username)
+    return 'users/{0}'.format(instance.pk)
 
 
 class User(AbstractUser):
@@ -20,7 +20,7 @@ class User(AbstractUser):
     def delete(self, *args, **kargs):   # DB 를 삭제하면 저장한 이미지도 삭제되도록 하기 위해
         if self.profile_image:
             img_path = f'{settings.MEDIA_ROOT}/{user_path}'
-            os.remove(os.path.join(img_path, self.upload_image.path))
+            os.remove(os.path.join(img_path, self.profile_image.path))
         super(User, self).delete(*args, **kargs)
 
     def __str__(self):
