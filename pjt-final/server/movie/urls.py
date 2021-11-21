@@ -17,5 +17,6 @@ urlpatterns = [
     path('<movie_id>/review_create/', views.review_create),  # (POST) 리뷰 작성
     path('<movie_id>/review/<int:review_pk>/', views.review_update_delete),   # (PUT) 리뷰 업데이트, (DELETE) 리뷰 삭제
 
-    path('signup_like/', views.signup_like),    # (GET) 회원가입시 받은 관심장르별로 영화 5개씩 묶어서 주기
+    path('signup_like/', views.signup_like),    # (GET) 회원가입시 받은 관심장르별로 영화 5개씩 묶어서 주기   
+    path('weather_recommend/', views.weather_recommend), # (GET) 날씨에 따른 영화 추천
 ]

@@ -6,7 +6,7 @@ class User(AbstractUser):
     profile_image = models.TextField(null=True)
     first_name = None
     last_name = None
-
+    location = models.TextField(default='Seoul')
     followings = models.ManyToManyField('self', symmetrical=False, related_name='followers')
     
     def __str__(self):
@@ -14,7 +14,8 @@ class User(AbstractUser):
 
 class Feedback(models.Model):
     user = models.TextField()
-    feedback = models.TextField()
+    reason = models.TextField()     # 드롭다운
+    feedback = models.TextField(null=True)   # 선택사항, 디테일한이유
 
     def __str__(self):
-        return self.feedback
+        return self.reason
