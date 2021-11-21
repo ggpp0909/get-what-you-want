@@ -13,6 +13,8 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.content
 
 class Like(models.Model):
     movie_id = models.CharField(max_length=10)
@@ -20,6 +22,8 @@ class Like(models.Model):
     like_movie_title = models.CharField(max_length=100, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='like_movie')
 
+    def __str__(self):
+        return self.like_movie_title
 
 class CrawledMovie(models.Model):
     movie_id = models.IntegerField(primary_key=True)
@@ -40,4 +44,5 @@ class CrawledMovie(models.Model):
     vote_average = models.FloatField(null=True)
     vote_count =models.IntegerField(null=True)
     poster_path = models.TextField(null=True)
+
 

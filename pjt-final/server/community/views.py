@@ -6,6 +6,8 @@ from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer, PostListSerializer, PostDetailSerializer
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny
+from django.core.paginator import Paginator
+
 
 # Create your views here.
 # GET일때 게시글 받아오기, POST 일때 게시글 생성
@@ -15,8 +17,13 @@ def post_list(request):
     # 모델 db에서 다 가져와서 JSON으로 넘겨
     # posts = get_list_or_404(Post)
     posts = Post.objects.order_by('-pk')
-    serializer = PostListSerializer(posts, many=True)
-    return Response(serializer.data)
+    paginator = Paginator(posts, 10)
+    page_num = request.GET.get('page')
+    page_obj = paginator.get_page(page_num)
+    serializer = PostListSerializer(page_obj, many=True)
+    data = serializer.data
+    data.append({'possible_page': paginator.num_pages})
+    return Response(data)
 
 @api_view(['POST'])
 def post_create(request):
@@ -120,7 +127,9 @@ def likes(request, post_pk):
         return Response(context)
     return Response({ 'detail': '인증되지 않은 사용자 입니다.'}, status=status.HTTP_401_UNAUTHORIZED)
 
+
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def search(request, word):
     posts = Post.objects.filter(title__icontains=word).order_by('-pk')
     serializer = PostListSerializer(posts, many=True)

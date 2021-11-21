@@ -197,7 +197,7 @@ sqlite3 db.sqlite3
 
 - 회원정보 수정 추가(닉네임, 프로필이미지, )
 
-- 비밀번호 변경 url추가( 변경한 비밀번호를 해싱후 기존 비밀번호와 바꿔치기 )
+- 비밀번호 변경 url추가( db에서 변경한 비밀번호를 해싱후 기존 비밀번호와 바꿔치기 )
 
 ```
 비밀번호 변경
@@ -205,23 +205,61 @@ client: 로컬 저장소에서 기존 jwt 삭제, 새 jwt발급후 로컬에 넣
 server: 새비밀번호를 해싱후 DB에 업데이트
 ```
 
+- ### 커밋
 
+- 회원탈퇴 (db에서삭제)
 
+- ### 커밋
 
+- 모델 변경(Review에 영화제목, 포스터패스 추가), 프로필정보 받아올때 이메일까지 받아오게
 
-진행중:
+- 프로필에 내가 작성한 리뷰와 그 개수 나타나게
 
-회원정보 수정 (nickname, email, profile_image, 비밀번호 수정(refresh_jwt_token은 url 따로)
+- ### 커밋
 
+- 모델 추가 (탈퇴사유 모델만들어서 관리자가 사이트에대한 피드백가능하도록)
 
+- 회원 탈퇴시 받아온 feedback 데이터를 모델에 추가하도록 함
 
-남은 할것
+- 관리자 페이지 추가
 
-회원정보 수정, 비밀번호 수정, 회원탈퇴
+- ### 커밋
+
+### 1121 추움, 구름 조금
+
+- 회원가입시 유저가 좋아하는 장르 기반 영화좋아요 하기 위해 영화리스트들 넘겨주는 url(signup_like) 추가
+- 
+
+해야할것
+
+페이지네이션
+
+날씨에따른 영화추천(모델수정)-> 날씨api가 어떤 날씨 상태를 주는지, 그날씨상태에따른 장르는 어떻게 할지
+
+```
+SF878, TV 영화10770, 가족10751, 공포27, 다큐멘터리99, 드라마18, 로맨스10749, 모험12, 미스터리9648, 범죄80, 서부37, 스릴러53, 애니메이션16, 액션28, 역사36, 음악10402, 판타지14, 전쟁10752, 코미디35
+
+Thunderstorm(뇌우) - 뭔가 격한거: SF 공포 범죄 스릴러 전쟁
+Drizzle(보슬비) - 감성: 드라마 애니메이션 음악 판타지
+Rain(비) - 무서운거 or 감성: 공포 범죄 스릴러 음악
+Snow(눈) - 감성, 동심: 로맨스 애니메이션 음악 코미디 가족
+Atmosphere(안개, 먼지, 돌풍) - 격한거: SF 범죄 스릴러
+Clear(맑음) - 밝은거: SF 드라마 로맨스 애니메이션 액션 음악 애니메이션 판타지 가족
+Clouds(구름) - 우울: 공포 범죄 스릴러 전쟁
+
+회원가입
+영화 좋아요 몇개 고르라
+
+```
+
+영남's 알고리즘 구현
 
 
 
 ```
+날씨 API 키
+9b2fdd2bd99c6b378a098370ee54ef51
+
 1. Tell us What you want (TU WYW) 투와이
 2. Get What You Want (과이)
 3. Get Ready With Me
@@ -231,5 +269,13 @@ server: 새비밀번호를 해싱후 DB에 업데이트
 7. 영화원
 8. 무비다방
 9. 지플릭스
+
+photo_tickets = PhotoTicket.objects.filter(user__pk=request.user.pk)
+paginator = Paginator(photo_tickets, 12)
+page_num = request.GET.get('page_num')
+photo_tickets = paginator.get_page(page_num)
+serializer = PhotoTicketSerializer(photo_tickets, many=True)
+data = serializer.data
+data.append({'possible_page': paginator.num_pages})
 ```
 

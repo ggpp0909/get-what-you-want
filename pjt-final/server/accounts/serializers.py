@@ -104,13 +104,18 @@ class ProfileSerializer(serializers.ModelSerializer):
         source='like_posts.count',
         read_only=True
     )
+    review_count = serializers.IntegerField(
+        source='review_set.count',
+        read_only=True
+    )
 
     like_posts = PostSerializer(many=True, read_only=True)
     like_movie = MovieLikeSerializer(many=True, read_only=True)
+    review_set = MovieReviewSerializer(many=True, read_only=True)
     
     class Meta:
         model = get_user_model()
-        fields = ('id', 'username', 'nickname', 'profile_image', 'email', 'followers', 'followings', 'followers_count', 'followings_count',  'comment_set', 'post_set', 'comment_count', 'post_count', 'like_posts', 'like_post_count', 'like_movie')
+        fields = ('id', 'username', 'nickname', 'profile_image', 'email', 'followers', 'followings', 'followers_count', 'followings_count',  'comment_set', 'post_set', 'comment_count', 'post_count', 'like_posts', 'like_post_count', 'like_movie', 'review_set', 'review_count')
 
 
 class FollowerSerializer(serializers.ModelSerializer):
