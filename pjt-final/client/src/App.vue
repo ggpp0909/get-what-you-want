@@ -1,96 +1,90 @@
 <template>
   <v-app>
-    <v-app-bar absolute color="white" shrink-on-scroll scroll-target="#scrolling-techniques-2"
-      class="application"
-    >
-      <!-- home -->
-      <router-link :to="{ name: 'Home' }" 
-        class="text-decoration-none black--text"
-      >HOME</router-link>
+    <v-app-bar color="white" absolute shrink-on-scroll scroll-target="#scrolling-techniques-2" fade-img-on-scroll prominent
+      elevation="1"
+      class="application">
 
-      <v-spacer></v-spacer>
-      <!-- 자유게시판 -->
-      <router-link :to="{ name: 'Board' }" 
-        class="text-decoration-none black--text mx-3"
-      >BOARD</router-link>
-      <!-- 영화 추천 -->
-      <router-link :to="{ name: 'MovieRecommend' }"
-        class="text-decoration-none black--text mx-3"
-      >RECOMMEND</router-link>
-      <!-- 검색창 -->
-      <div>
-        <input v-model="searchMovie" @keyup.enter="goToSearchPage" @click="searchMovie=''" type="text">
-      </div>
+      <!-- <template v-slot:img="{ props }">
+            <img :src="require(`@/assets/test.png`)" alt="유저프로필" v-bind="props" >
+          </template> -->
+      <v-row>
+        <!-- home -->
+        <v-col cols="2">
+          <router-link :to="{ name: 'Home' }" 
+            class="text-decoration-none black--text" 
+          >HOME</router-link>
+        </v-col>
+        <v-col cols="7" class="d-flex justify-center">
+          <!-- 자유게시판 -->
+          <div>
+            <router-link :to="{ name: 'Board' }" 
+              class="text-decoration-none black--text mx-3"
+            >BOARD</router-link>
+            <!-- 영화 추천 -->
+            <router-link :to="{ name: 'MovieRecommend' }"
+              class="text-decoration-none black--text mx-3"
+            >RECOMMEND</router-link>
+          </div>
+        </v-col>
+        <!-- 검색창 -->
+        <v-col cols="2" >
+          <v-text-field v-model.trim="searchMovie" @keyup.enter="goToSearchPage" 
+            placeholder="검색어를 입력하세요" outlined dense label="Search Movie" >
+          <v-icon slot="append" @click="goToSearchPage">mdi-magnify</v-icon>
+          </v-text-field>
+        </v-col>
 
-      <!-- 로그인-->
-      <div v-if="userName">
-        <router-link :to="{ name: 'Profile', params: { userName: this.userName } }"
-          class="text-decoration-none black--text"
-        >Profile</router-link>
-        <router-link to="#" @click.native="logout"
-          class="text-decoration-none black--text"
-        >Logout</router-link>
-      </div>
-      <!-- 프로필 이미지 -->
-      <div v-else>
-        <v-menu bottom min-width="150px" rounded offset-y>
-          <template v-slot:activator="{ on }">
-            <v-btn icon x-large v-on="on">
-              <v-avatar color="white" size="48">
-                <!-- <span class="black--text text-h5">JS</span> -->
+        <v-col cols="1">
+          <!-- 프로필 이미지 -->
+          <v-menu bottom min-width="150px" rounded offset-y>
+            <template v-slot:activator="{ on }">
+              <v-btn icon x-large v-on="on">
+                <v-avatar color="white" size="48">
+                  <!-- <span class="black--text text-h5">JS</span> -->
+                  <!-- 로그인 -->
+                  <img :src="require(`@/assets/money.png`)" alt="유저프로필" height="70" v-if="userName">
+                  <!-- 비로그인 -->
+                  <img :src="require(`@/assets/어피치.png`)" alt="기본프로필" height="70" v-else>
+                </v-avatar>
+              </v-btn>
+            </template>
+          <!-- 프로필 이미지 눌렀을때 메뉴 -->
+            <v-card>
+              <v-list-item-content class="justify-center">
                 <!-- 로그인 -->
-                <img :src="require(`@/assets/money.png`)" alt="유저로필" height="70" v-if="userName">
-                <!-- 비로그인 -->
-                <img :src="require(`@/assets/어피치.png`)" alt="기본프로필" height="70" v-else>
-              </v-avatar>
-            </v-btn>
-          </template>
-        <!-- 프로필 이미지 눌렀을때 메뉴 -->
-          <v-card>
-            <v-list-item-content class="justify-center">
-              <!-- 로그인 -->
-              <div class="mx-auto text-center" v-if="userName">
-                <v-btn depressed rounded text>
+                <div class="mx-auto text-center" v-if="userName">
                   <router-link :to="{ name: 'Profile', params: { userName: this.userName } }"
                     class="text-decoration-none black--text"
-                  >MY PROFILE</router-link>
-                </v-btn>
-                <v-divider class="my-3"></v-divider>
-                <v-btn depressed rounded text>
+                  ><v-btn depressed rounded text>MY PROFILE</v-btn></router-link>
+                  <v-divider class="my-3"></v-divider>
                   <router-link :to="{ name: 'ChangeProfile' }"
                     class="text-decoration-none black--text"
-                  >SETTING</router-link>
-                </v-btn>
-                <v-divider class="my-3"></v-divider>
-                <v-btn depressed rounded text>
+                  ><v-btn depressed rounded text>SETTING</v-btn></router-link>
+                  <v-divider class="my-3"></v-divider>
                   <router-link to="#" @click.native="logout"
                     class="text-decoration-none black--text"
-                  >LOGOUT</router-link>
-                </v-btn>
-              </div>
-              <!-- 비로그인 -->
-              <div class="mx-auto text-center" v-else>
-                <v-btn depressed rounded text>
+                  ><v-btn depressed rounded text>LOGOUT</v-btn></router-link>
+                </div>
+                <!-- 비로그인 -->
+                <div class="mx-auto text-center" v-else>
                   <router-link :to="{ name: 'Signup' }"
-                    class="text-decoration-none black--text mx-3"
-                  >SIGNUP</router-link>
-                </v-btn>
-                <v-divider class="my-3"></v-divider>
-                <v-btn depressed rounded text>
+                    class="text-decoration-none black--text"
+                  ><v-btn depressed rounded text>SIGNUP</v-btn></router-link>
+                  <v-divider class="my-3"></v-divider>
                   <router-link :to="{ name: 'Login' }"
-                    class="text-decoration-none black--text mx-3"
-                  >LOGIN</router-link>
-                </v-btn>
-              </div>
-            </v-list-item-content>
-          </v-card>
-        </v-menu>
-      </div>
+                    class="text-decoration-none black--text"
+                  ><v-btn depressed rounded text>LOGIN</v-btn></router-link>
+                </div>
+              </v-list-item-content>
+            </v-card>
+          </v-menu>
+        </v-col>
+      </v-row>
     </v-app-bar>
 
     <v-sheet
       id="scrolling-techniques-2"
-      class="overflow-y-auto temp"
+      class="overflow-y-auto padding"
       max-height="100vh"
     >
       <v-container style="height: 1000px;">
@@ -134,7 +128,7 @@ export default {
 .application {
   font-family: 'Playfair Display SC', serif;
 }
-.temp {
-  padding-top: 200px;
+.padding{
+  padding-top:150px
 }
 </style>
