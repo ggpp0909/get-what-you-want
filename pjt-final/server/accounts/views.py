@@ -40,8 +40,7 @@ def change_profile(request):
 
     serializer = ProfileChangeSerializer(user, data=request.data)
     if serializer.is_valid(raise_exception=True):
-        serializer.save()
-
+        serializer.save(profile_image=request.FILES['files'])
         return Response(serializer.data)
 
 
@@ -67,7 +66,7 @@ def change_password(request):
         user.save()
         # password는 직렬화 과정에는 포함 되지만 → 표현(response)할 때는 나타나지 않는다. (write_only)
         return Response(serializer.data)
-
+    return Response({ 'detail': '잘못된 요청입니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 @permission_classes([AllowAny])

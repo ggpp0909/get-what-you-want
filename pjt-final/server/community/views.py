@@ -39,12 +39,6 @@ def post_create(request):
 def post_get_detail(request, post_pk):
     post = get_object_or_404(Post, pk=post_pk)
     serializer = PostDetailSerializer(post)
-    # if post in request.user.like_posts.filter(pk=post_pk):
-    #     serializer.is_liked = True
-    # else:
-    #     serializer.is_liked = False
-    # if serializer.is_valid(data=request.data):
-    #     serializer.save()
     
     return Response(serializer.data)
 
@@ -71,8 +65,6 @@ def post_update_delete(request, post_pk):
 @permission_classes([AllowAny])
 def comment_list(request, post_pk):
     # 모델 db에서 다 가져와서 JSON으로 넘겨
-    # 진짜 대박이다 이거 일기에 써야곘다.
-    # comments = get_list_or_404(Comment.objects.order_by('-pk'), post_id=post_pk)
     comments = Comment.objects.filter(post_id=post_pk).order_by('-pk')
     
     serializer = CommentSerializer(comments, many=True)

@@ -19,4 +19,6 @@ urlpatterns = [
 
     path('signup_like/', views.signup_like),    # (GET) 회원가입시 받은 관심장르별로 영화 5개씩 묶어서 주기   
     path('weather_recommend/', views.weather_recommend), # (GET) 날씨에 따른 영화 추천
+    path('time_recommend/', views.time_recommend), # (GEt) 시간대에 따른 영화 추천
+    path('YNs_recommend/', views.YNs_recommend), # (GET) 영남s 알고리즘에 의한 추천
 ]
