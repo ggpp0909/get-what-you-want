@@ -9,6 +9,8 @@ from .serializers import LikeSerializer, ReviewSerializer
 from .models import Like, Review
 from django.core.paginator import Paginator
 import random
+from datetime import datetime
+
 
 def get_request_url(method='/movie/popular', **kwargs):
         api_key = '7682372ec7f0caa4ebe6d64b807d5293'
@@ -282,15 +284,21 @@ SF878, TV 영화10770, 가족10751, 공포27, 다큐멘터리99, 드라마18,
 로맨스10749, 모험12, 미스터리9648, 범죄80, 서부37, 스릴러53, 
 애니메이션16, 액션28, 역사36, 음악10402, 판타지14, 전쟁10752, 코미디35
 '''
+sentimental = ['18', '16', '10402', '14', '10749']
+gloomy = ['27', '80', '53', '10752', '9648']
+fierce = ['878', '27', '80', '53', '10752']
+scary = ['27', '80', '53']
+innocent = ['16', '10402', '35', '10752']
+positive = ['878', '18', '10749', '16', '28', '10402', '14', '10751', '35']
 
 weather_code = {
-    'Thunderstorm': ['878', '27', '80', '53', '10752'],
-    'Drizzle': ['18', '16', '10402', '14'], 
-    'Rain': ['27', '80', '53', '10402'],
-    'Snow': ['10749', '16', '10402', '35', '10752'],
-    'Atmosphere': ['878', '80', '53', '37', '10752'],
-    'Clear': ['878', '18', '10749', '16', '28', '10402', '14', '10751', '35'],
-    'Clouds': ['27', '80', '53', '10752', '9648']
+    'Thunderstorm': fierce,
+    'Drizzle': sentimental,
+    'Rain': sentimental + scary,
+    'Snow': sentimental + innocent,
+    'Atmosphere': gloomy + fierce,
+    'Clear': positive,
+    'Clouds': gloomy
 }
 
 
@@ -315,7 +323,50 @@ def weather_recommend(request):
             'weather': weather
         }
     ]
-    
+
     results.append(data['results'])
 
     return Response(results)
+
+time = {
+    'dawn': sentimental + scary + gloomy,
+    'morning': positive + innocent,
+    'afternoon': positive + fierce,
+    'dinner': sentimental + innocent,
+    'night': scary + gloomy,
+}
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def time_recommend(request):
+    current_time = datetime.now().hour # 0~ 23
+    if 1 <= current_time < 7:
+        now = 'dawn'
+    elif 7 <= current_time < 12:
+        now = 'morning'
+    elif 12 <= current_time < 18:
+        now = 'afternoon'
+    elif 18 <= current_time < 23:
+        now = 'dinner'
+    else:
+        now = 'night'
+    
+    genre = random.sample(time[now], 3)
+    genre = ','.join(genre)
+
+    movie_url = get_request_url(f'/discover/movie', language='ko-KR')
+    movie_url += f'&with_genres={genre}'
+    data = requests.get(movie_url).json()
+
+    results = [
+        {
+            'now': now,
+            'current_time': current_time
+        }
+    ]
+
+    results.append(data['results'])
+
+    return Response(results)
+
+    
