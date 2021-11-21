@@ -8,7 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ('id', 'username', 'password', 'profile_image', 'nickname', 'email', 'location')
+        fields = ('id', 'username', 'password', 'profile_image', 'nickname', 'email',)
 
 
 class FollowSerializer(serializers.ModelSerializer):
@@ -130,7 +130,7 @@ class ProfileChangeSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = get_user_model()
-        fields = ('id', 'username', 'nickname', 'profile_image', 'email', 'location')
+        fields = ('id', 'username', 'nickname', 'profile_image', 'email')
         read_only_fields = ('username', 'password')
 
 class PasswordChangeSerializer(serializers.ModelSerializer):
