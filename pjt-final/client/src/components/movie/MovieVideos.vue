@@ -14,6 +14,7 @@
 
 <script>
 import MovieVideoCList from '@/components/movie/MovieVideoCList'
+import _ from 'lodash'
 
 export default {
   name: 'MovieVideos',
@@ -32,34 +33,29 @@ export default {
   },
   methods: {
     getVideoURI() {
+      console.log(this.representVideo)
       return `https://www.youtube.com/embed/${this.representVideo.video_id}`
     },
     onSelectVideo(video) {
       this.representVideo = video
     },
     chooseRVideo() { // 대표 메인 비디오 골라내기
-      const videoListWithoutT = this.videoAllList.filter(video => {
-        return video.type != "Trailer"
-      })
-      const videoListT = this.videoAllList.filter(video => {
-        return video.type === "Trailer"
-      })
-      this.representVideo = videoListT[0]
-      this.notRVideos = [
-        ...videoListT,
-        ...videoListWithoutT
-      ]
-      this.notRVideos = this.notRVideos.length > 1 ? this.notRVideos : false
-      console.log(this.notRVideos)
-      console.log(this.representVideo)
+      const order = _.reverse(this.videoAllList)
+      this.representVideo = order[0]
+      this.notRVideos = order
     }
   },
   watch: {
     videoList() {
       this.videoAllList = this.videoList
       this.chooseRVideo()
+      console.log('hi')
     }
+  },
+  created() {
+    this.chooseRVideo()
   }
+
 }
 </script>
 
