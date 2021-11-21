@@ -4,9 +4,9 @@
     <div>
       <input type="text" v-model="nickname">
       <input type="email" v-model="email">
-      <v-file-input v-model="files" name="files" label="File input"></v-file-input>
-      <img :src="profileImage" alt="기존 프로필이미지">
-      <img :src="newProfileImage" alt="새 프로필이미지">
+      <v-file-input v-model="files" name="files" label="File input" @change="changeProfileImg"></v-file-input>
+      <img :src="profileImage" alt="기존 프로필이미지" height="100">
+      <img :src="newProfileImage" alt="새 프로필이미지" height="100">
       <button @click="changeUserInfo">회원 정보 수정 완료</button>
 
       <change-password></change-password>
@@ -48,7 +48,8 @@ export default {
         .then(res => {
           this.nickname = res.data.nickname
           this.email = res.data.email
-          this.profileImage = res.data.profile_image
+          this.profileImage = `http://127.0.0.1:8000${res.data.profile_image}`
+          console.log(res)
         })
         .catch(err => {
           console.log(err)
@@ -63,30 +64,34 @@ export default {
       // } else {
       //   info.append('image', this.files);
       // }
-      // info.append('profile_image', this.files);
       // let config = {
-      //     'Content-Type': 'multipart/form-data', // Content-Type을 변경해야 파일이 전송됨
+        //     'Content-Type': 'multipart/form-data', // Content-Type을 변경해야 파일이 전송됨
       //     'Authorization': `JWT ${this.token}`
       // }
       // if (this.nickname === '') {
-      //   swal ("닉네임을 입력해주세요.", {
+        //   swal ("닉네임을 입력해주세요.", {
       //     dangerMode: true,
       //   })
       // }
+      // const changeInfo = {
+      //   nickname: this.nickname,
+      //   email: this.email,
+      //   profile_image: info,
+      // }
+      info.append('files', this.files);
+      info.append('nickname', this.nickname);
+      info.append('email', this.email);
+
       console.log(this.files)
       console.log(info)
-      const changeInfo = {
-        nickname: this.nickname,
-        email: this.email,
-        profile_image: this.files,
-        location: 'Seoul'
-      }
+      
+      console.log(this.files.name)
       this.$axios({
         method: 'put',
         url: `${SERVER_URL}/accounts/change_profile/`,
-        data: changeInfo,
+        data: info,
         headers: {
-          'Content-Type': 'multipart/form-data', // Content-Type을 변경해야 파일이 전송됨
+          'Content-Type': 'multipart/form-data',
           'Authorization': `JWT ${this.token}`
       }
       })
@@ -97,12 +102,13 @@ export default {
           console.log(err)
         })
     },
-    // 프로필 이미지 변경 
-    // changeProfileImg(file) {
-    //   this.newProfileImage = file
+   // 프로필 이미지 변경 
+    changeProfileImg(file) {
+      this.newProfileImage = URL.createObjectURL(file)
+      console.log(URL.createObjectURL(file))
       
-    // }
-    // ,
+     }
+     ,
     // 회원 탈퇴로 이동
     goToDelete() {
       this.$router.push({ name: 'DeleteUser' })
