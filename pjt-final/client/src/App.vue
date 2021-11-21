@@ -5,6 +5,7 @@
       color="white"
       shrink-on-scroll
       scroll-target="#scrolling-techniques-2"
+      class="application"
     >
     
       <router-link :to="{ name: 'Home' }" class="text-button">HOME</router-link>
@@ -61,3 +62,12 @@ export default {
   }
 }
 </script>
+
+
+<style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap');
+
+.application {
+  font-family: 'Ubuntu', sans-serif;
+}
+</style>
