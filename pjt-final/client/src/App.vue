@@ -1,7 +1,15 @@
 <template>
   <v-app>
-    <nav>
-      <router-link :to="{ name: 'Home' }">HOME</router-link> |
+    <v-app-bar
+      absolute
+      color="white"
+      shrink-on-scroll
+      scroll-target="#scrolling-techniques-2"
+      class="application"
+    >
+    
+      <router-link :to="{ name: 'Home' }" class="text-button">HOME</router-link>
+       <v-spacer></v-spacer>
       <router-link :to="{ name: 'Board' }">Board</router-link> |
       <router-link :to="{ name: 'MovieRecommend' }">MovieRecommend</router-link> |
       <div v-if="userName">
@@ -15,11 +23,15 @@
       <div>
         <input v-model="searchMovie" @keyup.enter="goToSearchPage" @click="searchMovie=''" type="text">
       </div>
-    </nav>
+    </v-app-bar>
 
-    <v-main>
+    <v-container
+      id="scrolling-techniques-2"
+      class="overflow-y-auto"
+      max-height="300"
+    >
       <router-view :key="$route.fullPath"/>
-    </v-main>
+    </v-container>
   </v-app>
 </template>
 
@@ -50,3 +62,12 @@ export default {
   }
 }
 </script>
+
+
+<style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap');
+
+.application {
+  font-family: 'Ubuntu', sans-serif;
+}
+</style>
