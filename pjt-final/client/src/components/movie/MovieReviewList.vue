@@ -36,7 +36,6 @@ export default {
       })
         .then(res => {
           this.reviewList = res.data
-          console.log(res.data)
         })
         .catch(err => {
           console.log(err)
