@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar color="white" absolute shrink-on-scroll scroll-target="#scrolling-techniques-2" fade-img-on-scroll prominent
-      elevation="0"
+      elevation="1"
       class="application">
 
       <!-- <template v-slot:img="{ props }">
