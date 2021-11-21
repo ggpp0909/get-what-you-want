@@ -2,6 +2,7 @@
   <div>
     <div :class="{'show': isUpdate }">
       {{ comment.content }}
+      <img :src="getUserProfileImg" alt="">
       <p>작성자: {{ comment.user.nickname }}</p>
       <p>작성일: {{ comment.created_at }}</p>
         <div v-if="isSameUser">
@@ -31,6 +32,7 @@ export default {
       },
       isSameUser: false,
       isUpdate: false,
+      profileImg: null,
     }
   },
   props: {
@@ -38,6 +40,7 @@ export default {
     reloadComment: Function
   },
   methods: {
+    // 댓글 삭제 
     deleteComment() {
       this.$axios({
         method: 'delete',
@@ -51,6 +54,7 @@ export default {
           console.log(err)
         })
     },
+    // 댓글 수정 
     updateComment() { 
       this.$axios({
         method: 'put',
@@ -71,6 +75,14 @@ export default {
       this.isUpdate = !this.isUpdate
       this.field.content = this.comment.content
     },
+    getUserProfileImg() {
+      console.log(this.comment.profile_image)
+      if (this.comment.profile_image === null) {
+        return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU00i-_pNcxxQ69OH2c8MyVuHS0Q4GdMDR7w&usqp=CAU'
+      } else {
+        return `http://127.0.0.1:8000${this.comment.profile_image}`
+      }
+    }
   },
   created() {
     // 지금 로그인한 유저가 글쓴 유저인지 

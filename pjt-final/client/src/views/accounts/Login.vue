@@ -48,6 +48,15 @@ export default {
           this.$store.dispatch('setToken')  // 토큰 state에 저장 
           this.$router.push({ name: 'Home' })
         })
+        .then(() => {
+          this.$axios({
+            method: 'get',
+            url: `${SERVER_URL}/accounts/${this.credentials.username}/`, 
+          })
+          .then(res => {
+            this.$store.dispatch('setUserProfileImg', res.data.profile_image) // 로그인한 유저 프로필 이미지 저장
+          })
+        })
         .catch(err => {
           console.log(err)
         })

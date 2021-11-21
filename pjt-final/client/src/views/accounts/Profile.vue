@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>{{ userProfile.nickname }}</h1>
-    <img :src="userProfile.profile_image" :alt="`${ userProfile.nickname }님의 프로필 사진`">
+    <img :src="profileImg" :alt="`${ userProfile.nickname }님의 프로필 사진`">
     <div v-if="this.userName != this.$route.params.userName">
       <button v-if="followState" @click="changeFollowState">unfollow</button>
       <button v-else @click="changeFollowState">follow</button>
@@ -154,7 +154,6 @@ export default {
         url: `${SERVER_URL}/accounts/${this.$route.params.userName}/`, 
       })
         .then(res => {
-          this.userProfile = res.data
           this.followerCount = res.data.followers_count
           this.followingCount = res.data.followings_count
           this.likeMovieCount = res.data.like_movie.length
@@ -208,7 +207,7 @@ export default {
     this.getProfile()
   },
   computed: {
-    ...mapState(['userName', 'config'])
+    ...mapState(['userName', 'config', 'profileImg'])
   }
 }
 </script>

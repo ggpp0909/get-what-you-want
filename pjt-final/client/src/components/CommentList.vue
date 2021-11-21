@@ -33,6 +33,7 @@ export default {
     }
   },
   methods: {
+    // 댓글 다시 로드 
     reloadComment() {
       this.$axios({
         method: 'get',
