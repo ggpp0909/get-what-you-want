@@ -228,24 +228,33 @@ server: 새비밀번호를 해싱후 DB에 업데이트
 ### 1121 추움, 구름 조금
 
 - 회원가입시 유저가 좋아하는 장르 기반 영화좋아요 하기 위해 영화리스트들 넘겨주는 url(signup_like) 추가
-- 
+
+- 페이지네이션
+
+- ### 커밋
+
+- user 모델에 location 추가(default는 서울) -> 날씨api에 활용하기위해
+- Feedback 모델에 reason필드 추가
+- 날씨추천 추가
 
 해야할것
 
-페이지네이션
-
 날씨에따른 영화추천(모델수정)-> 날씨api가 어떤 날씨 상태를 주는지, 그날씨상태에따른 장르는 어떻게 할지
+
+그럴려면 user 모델에 사는 지역 추가
+
+
 
 ```
 SF878, TV 영화10770, 가족10751, 공포27, 다큐멘터리99, 드라마18, 로맨스10749, 모험12, 미스터리9648, 범죄80, 서부37, 스릴러53, 애니메이션16, 액션28, 역사36, 음악10402, 판타지14, 전쟁10752, 코미디35
 
-Thunderstorm(뇌우) - 뭔가 격한거: SF 공포 범죄 스릴러 전쟁
+Thunderstorm(뇌우) - 뭔가 격한거: SF 공포 범죄 스릴러 전쟁 (랜덤 돌려)
 Drizzle(보슬비) - 감성: 드라마 애니메이션 음악 판타지
 Rain(비) - 무서운거 or 감성: 공포 범죄 스릴러 음악
 Snow(눈) - 감성, 동심: 로맨스 애니메이션 음악 코미디 가족
-Atmosphere(안개, 먼지, 돌풍) - 격한거: SF 범죄 스릴러
-Clear(맑음) - 밝은거: SF 드라마 로맨스 애니메이션 액션 음악 애니메이션 판타지 가족
-Clouds(구름) - 우울: 공포 범죄 스릴러 전쟁
+Atmosphere(안개, 먼지, 돌풍) - 격한거: SF 범죄 스릴러 서부 전쟁
+Clear(맑음) - 밝은거: SF 드라마 로맨스 애니메이션 액션 음악 판타지 가족 코미디
+Clouds(구름) - 우울: 공포 범죄 스릴러 전쟁 미스터리
 
 회원가입
 영화 좋아요 몇개 고르라
@@ -257,7 +266,7 @@ Clouds(구름) - 우울: 공포 범죄 스릴러 전쟁
 
 
 ```
-날씨 API 키
+날씨 API 키 openweathermap
 9b2fdd2bd99c6b378a098370ee54ef51
 
 1. Tell us What you want (TU WYW) 투와이
@@ -269,13 +278,5 @@ Clouds(구름) - 우울: 공포 범죄 스릴러 전쟁
 7. 영화원
 8. 무비다방
 9. 지플릭스
-
-photo_tickets = PhotoTicket.objects.filter(user__pk=request.user.pk)
-paginator = Paginator(photo_tickets, 12)
-page_num = request.GET.get('page_num')
-photo_tickets = paginator.get_page(page_num)
-serializer = PhotoTicketSerializer(photo_tickets, many=True)
-data = serializer.data
-data.append({'possible_page': paginator.num_pages})
 ```
 

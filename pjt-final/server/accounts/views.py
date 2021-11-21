@@ -136,3 +136,4 @@ def withdrawal(request):
     request.user.delete()
 
     return Response({ 'detail': '회원탈퇴가 완료되었습니다.'}, status=status.HTTP_200_OK)
+

@@ -8,7 +8,7 @@ from rest_framework.permissions import AllowAny
 from .serializers import LikeSerializer, ReviewSerializer
 from .models import Like, Review
 from django.core.paginator import Paginator
-
+import random
 
 def get_request_url(method='/movie/popular', **kwargs):
         api_key = '7682372ec7f0caa4ebe6d64b807d5293'
@@ -275,3 +275,49 @@ def signup_like(request):
         context[genre] = temp
 
     return Response(context)
+
+
+'''
+SF878, TV 영화10770, 가족10751, 공포27, 다큐멘터리99, 드라마18, 
+로맨스10749, 모험12, 미스터리9648, 범죄80, 서부37, 스릴러53, 
+애니메이션16, 액션28, 역사36, 음악10402, 판타지14, 전쟁10752, 코미디35
+'''
+
+weather_code = {
+    'Thunderstorm': [878, 27, 80, 53, 10752],
+    'Drizzle': [18, 16, 10402, 14], 
+    'Rain': [27, 80, 53, 10402],
+    'Snow': [10749, 16, 10402, 35, 10752],
+    'Atmosphere': [878, 80, 53, 37, 10752],
+    'Clear': [878, 18, 10749, 16, 28, 10402, 14, 10751, 35],
+    'Clouds': [27, 80, 53, 10752, 9648]
+}
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def weather_recommend(request):
+    API_key = '9b2fdd2bd99c6b378a098370ee54ef51'
+    cityname = request.user['location']
+    api_url = f'api.openweathermap.org/data/2.5/weather?q={cityname}&appid={API_key}'
+    data = requests.get(api_url).json()
+    weather = data['weather']['main']
+    genre = random.sample(weather_code[weather], 3)
+    genre = ','.join(genre)
+
+    movie_url = get_request_url(f'/discover/movie', language='ko-KR')
+    movie_url += f'&with_genres={genre}'
+    data = requests.get(movie_url).json()
+    # results = data['results'][:20]
+    results = data['results']
+
+    # context = {}
+    # for i in range(len(results)):
+    #     context[i] = {
+    #         'movie_id': results[i]['id'],
+    #         'title': results[i]['title'],
+    #         'poster_path': results[i]['poster_path'],
+    #         'genre_ids': results[i]['genre_ids']
+    #     }
+
+    return Response(results)
