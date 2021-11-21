@@ -130,7 +130,7 @@ class ProfileChangeSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = get_user_model()
-        fields = ('id', 'username', 'nickname', 'profile_image', 'email')
+        fields = ('id', 'username', 'nickname', 'profile_image', 'email', 'location')
         read_only_fields = ('username', 'password')
 
 class PasswordChangeSerializer(serializers.ModelSerializer):
