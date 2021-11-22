@@ -32,3 +32,10 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = ('id', 'user', 'movie_id', 'content', 'rank', 'is_spoiler', 'created_at', 'updated_at')
         read_only_fields = ('user_id', 'movie_id')
+
+class CrawledMovieSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CrawledMovie
+        fields = ('movie_id', 'title', 'poster_path')
+       

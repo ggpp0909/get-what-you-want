@@ -6,11 +6,12 @@ from rest_framework import serializers, status
 from rest_framework.decorators import api_view
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny
-from .serializers import LikeSerializer, ReviewSerializer
-from .models import Like, Review
+from .serializers import LikeSerializer, ReviewSerializer, CrawledMovieSerializer
+from .models import Like, Review, CrawledMovie
 from django.core.paginator import Paginator
 import random
 from datetime import datetime
+from django.db.models import Q
 
 
 def get_request_url(method='/movie/popular', **kwargs):
@@ -306,10 +307,6 @@ weather_code = {
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def weather_recommend(request):
-    # API_key = '9b2fdd2bd99c6b378a098370ee54ef51'
-    # cityname = request.user.location
-    # api_url = f'http://api.openweathermap.org/data/2.5/weather?q={cityname}&appid={API_key}'
-    # data = requests.get(api_url).json()
     weather = request.data['weather']
     genre = random.sample(weather_code[weather], 3)
     genre = ','.join(genre)
@@ -369,7 +366,7 @@ def time_recommend(request):
 
     return Response(results)
 
-
+# 내가 리뷰한 영화의 장르,국가, 내가 준 점수 기반 추천
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def YNs_recommend(request):
@@ -377,152 +374,127 @@ def YNs_recommend(request):
     reviewmovies = Review.objects.filter(user=request.user)
     serializer = ReviewSerializer(reviewmovies, many=True)
     data = serializer.data
-    arr = []
-    for i in range(len(data)):
-        # print(data[i]['movie_id']) # 된다!
-        movie_id = data[i]['movie_id']
-        detail_url = get_request_url(f'/movie/{movie_id}', language='ko-KR')
-        result = requests.get(detail_url).json()
-        arr.append(result) # for문을 다 돌면 arr에 내가 좋아요한 영화들 json데이터들 쌓여있음
-    
-    v = [{} for i in range(100000)]
+    if len(data) == 0:
+        return Response({detail: '등록한 리뷰가 없습니다'})
+    else:
+        arr = []
+        rank_arr = []
+        for i in range(len(data)):
+            # print(data[i]['movie_id']) # 된다!
+            movie_id = data[i]['movie_id']
+            rank_arr.append(data[i]['rank'])
+            detail_url = get_request_url(f'/movie/{movie_id}', language='ko-KR')
+            result = requests.get(detail_url).json()
+            arr.append(result) # for문을 다 돌면 arr에 내가 좋아요한 영화들 json데이터들 쌓여있음
 
-    # 장르레벨 세팅
-    genre_ids = ['878', '1077', '10751', '27', '99', '18', '10749', '12', '9648', '80', '37', '53', '16', '28', '36', '10402', '14', '10752', '35']
-    node = 1
-    # 일단 장르레벨 노드들 고유한 번호를 하나하나 부여해
-    # 루트에서부터 처음 장르로 타고 내려갈때 이름가지고 인덱스로 찾아갈수 있게  
-    for i in genre_ids:
-        v[0][i] = node
-        node += 1
+        v = [{} for i in range(100000)]
+        # 각 노드마다 rating, rating_list가 있음
+        rating = [3 for i in range(100000)] # 각 노드에서 rating_list의 평균
+        rating_list = [[3] for i in range(100000)]  # 누가 어떤 영화에 점수를 매기면 위의 트리를 타고 내려오면서 rating_list에 추가
 
-    # 국가레벨 세팅
-    country = []
-    for i in range(len(arr)):
-        for j in arr[i]['production_countries']:
-            country.append(j['iso_3166_1'])
-    country = list(set(country))
-    # print(country)
+        # 장르레벨 세팅
+        genre_ids = ['878', '1077', '10751', '27', '99', '18', '10749', '12', '9648', '80', '37', '53', '16', '28', '36', '10402', '14', '10752', '35']
+        node = 1
+        # 일단 장르레벨 노드들 고유한 번호를 하나하나 부여해
+        # 루트에서부터 처음 장르로 타고 내려갈때 이름가지고 인덱스로 찾아갈수 있게  
+        for i in genre_ids:
+            v[0][i] = node
+            node += 1
 
-    # 그다음 레벨(국가)의 시작번호가 node_num
-    node_num = node
+        # 국가레벨 세팅
+        country = []
+        for i in range(len(arr)):
+            for j in arr[i]['production_countries']:
+                country.append(j['iso_3166_1'])
+        country = list(set(country))
+        # print(country)
 
-    movie_list = [[] for i in range(100000)]
+        # 그다음 레벨(국가)의 시작번호가 node_num
+        node_num = node
 
-    # 지금 장르는 node개만큼 있으니까 for문 node번 돌면서 장르 밑에 국가 하나하나 다 달아
-    for i in range(1, node):
-        for j in country:
-            v[i][j] = node_num
-            node_num += 1
-    
-    for i in arr:
-        for j in arr[i]['genres']:
-            v[0][j['id']]
-    
-    # print(arr)
-    # detail_url = get_request_url(f'/movie/{movie_id}', language='ko-KR')
-    # data = requests.get(detail_url).json()
+        movie_list = [[] for i in range(100000)]
 
-    
-    return Response(serializer.data)
-    # arr = [["장르", "국가", ("감독"), "평점", "영화 이름"], [], [], [], []]
-
-
-    # root = 0
-    # 장르는 그냥 네이버에서 복붙해서 장르 리스트 만들어(20개정도)
-    genre = ["호러", "로맨스", "액션"]
-    node = 1
-
-    # 일단 장르레벨 노드들 고유한 번호를 하나하나 부여해
-    # 루트에서부터 처음 장르로 타고 내려갈때 이름가지고 인덱스로 찾아갈수 있게
-    for i in genre:
-        v[0][i] = node
-        node += 1
-
-    # 국가도 그냥 네이버에서 복붙해서 리스트 만들어)
-    country = ["한국", "미국", "일본"]
-
-    # 그다음 레벨(국가)의 시작번호가 node_num
-    node_num = node
-
-    movie_list = [[] for i in range(100000)]
-
-    # 지금 장르는 node개만큼 있으니까 for문 node번 돌면서 장르 밑에 국가 하나하나 다 달아
-    for i in range(1, node):
-        for j in country:
-            v[i][j] = node_num
-            node_num += 1
-
-    for i in arr:
-        # cur은 국가
-        # 0 루트
+        # 지금 장르는 node개만큼 있으니까 for문 node번 돌면서 장르 밑에 국가 하나하나 다 달아
+        for i in range(1, node):
+            for j in country:
+                v[i][j] = node_num
+                node_num += 1
         # v[0][i[0]] : 장르 노드 번호
         # v[v[0][i[0]][i[1]] : 국가 노드 번호
-        # v[v[v[0][i[0]][i[1]]][i[2]] : 감독 노드 번호
-        cur = v[v[0][i[0]]][i[1]]   # 국가까지 내려왔어
 
-        if i[2] not in v[cur]:  # i[2]가 감독이니까 그 국가에 감독이 이미 붙어있으면 넘어가고 없으면 추가해라
-            v[cur][i[2]] = node_num
-            node_num += 1
-        # 여기까지 트리가 완성
+        # cur = v[v[0][i[0]]][i[1]]   # 국가까지 내려왔어
+        for i in range(len(arr)):
+            for j in arr[i]['genres']: # arr의 i번째의 장르들 순회
+                for k in arr[i]['production_countries']: # 장르타고 왔어 이제 국가들 순회
+                    cur =v[v[0][str(j['id'])]][k['iso_3166_1']]
+                    movie_list[cur].append([arr[i]['id'], arr[i]['popularity']]) # 내가 리뷰한 영화의 정보를 기저노드에 저장시켜.
+                    # 기저노드에 [movie_id, 인기도(정렬목적)]
+                    # print(cur, i['id'], i['popularity'], i[])
 
-        # 그 감독 노드마다 리스트가 하나씩 있는데, 이렇게 타고 내려온 애들을 만족하는 영화가 이런게 있다 약간 빅데이터 느낌으로 영화(id) 쌓기
-        movie_list[v[cur][i[2]]].append([i[4], i[3]])
 
-    # 각 노드마다 rating, rating_list가 있음
-    rating = [3 for i in range(100000)] # 각 노드에서 rating_list의 평균
-    rating_list = [[3] for i in range(100000)]  # 누가 어떤 영화에 점수를 매기면 위의 트리를 타고 내려오면서 rating_list에 추가
+        def dfs(cur, depth, total):
+            total += rating[cur]
 
-    def dfs(cur, depth, total):
-        total += rating[cur]
+            # 감독까지 다 내려왔어?
+            if depth == 2:
+                for i in movie_list[cur]:
+                    recom_list.append([total, -i[1], i[0]]) # 감독까지 다 내려왔을때의 점수합과, 그 경로의 영화의 id
+                return
 
-        # 감독까지 다 내려왔어?
-        if depth == 3:
-            for i in movie_list[cur]:
-                recom_list.append([total, -i[1], i[0]]) # 감독까지 다 내려왔을때의 점수합과, 그 경로의 영화의 id
-            return
+            for i in v[cur]:
+                dfs(v[cur][i], depth + 1, total)
 
-        for i in v[cur]:
-            dfs(v[cur][i], depth + 1, total)
+        #movie_info : ["장르", "국가", "감독", "평점", "영화 이름"]
+        for i in range(len(arr)):
+            for j in arr[i]['genres']: # arr의 i번째의 장르들 순회
+                for k in arr[i]['production_countries']: # 장르타고 왔어 이제 국가들 순회
+                    # 루트
+                    cur = 0
+                    # rating_list[cur].append(movie_info[3])
+                    # rating[cur] = sum(rating_list[cur]) / len(rating_list[cur])
 
-    #movie_info : ["장르", "국가", "감독", "평점", "영화 이름"]
-    def update(movie_info):
-        global recom_list
+                    cur = v[cur][str(j['id'])] # 한단계 내려가
+                    # 장르
+                    rating_list[cur].append(rank_arr[i])
+                    rating[cur] = sum(rating_list[cur]) / len(rating_list[cur])
 
-        # 루트
-        cur = 0
-        # rating_list[cur].append(movie_info[3])
-        # rating[cur] = sum(rating_list[cur]) / len(rating_list[cur])
+                    cur = v[cur][k['iso_3166_1']]
+                    # 국가
+                    rating_list[cur].append(rank_arr[i])
+                    rating[cur] = sum(rating_list[cur]) / len(rating_list[cur])
 
-        cur = v[cur][movie_info[0]] # 한단계 내려가
-        # 장르
-        rating_list[cur].append(movie_info[3])
-        rating[cur] = sum(rating_list[cur]) / len(rating_list[cur])
-
-        cur = v[cur][movie_info[1]]
-        # 국가
-        rating_list[cur].append(movie_info[3])
-        rating[cur] = sum(rating_list[cur]) / len(rating_list[cur])
-
-        cur = v[cur][movie_info[2]]
-        # 감독
-        rating_list[cur].append(movie_info[3])
-        rating[cur] = sum(rating_list[cur]) / len(rating_list[cur])
 
         # 다업데이트 했어
         recom_list = []
         dfs(0, 0, 0)
-
         recom_list.sort(reverse=True)
+        best = recom_list[0][2]
+        # print(recom_list)
+        # print(best)
+        best_url = get_request_url(f'/movie/{best}', language='ko-KR')
+        result = requests.get(best_url).json()
+        best_genre = result['genres']
+        best_country = result['production_countries']
 
-    # 그냥 업데이트 안하고 추천했을 때
-    recom_list = [] # 영화들이 순서대로 나열될 리스트 (목표)
-    dfs(0, 0, 0)
-    recom_list.sort(reverse=True)
-    # db 업데이트 하는 로직
 
-    # 유저가 업데이트를 했을 때
-    update("평가한영화객체요소(리스트타입)")
-    # db 업데이트 하는 로직
+        # print(result)
+        print(best_genre)
+        print(best_country)
 
-    # 나중에 추천하고 싶을때는 그냥 db에서 꺼내쓰면 된다.
+        best_genre_arr = []
+        # best_genre_query = []
+        for i in best_genre:
+            best_genre_arr.append(i['name'])
+
+        best_country_arr = []
+        for i in best_country:
+            best_country_arr.append(i['name'])
+
+        print(best_genre_arr)
+        print(best_country_arr)
+
+        recommend_movie = CrawledMovie.objects.filter((Q(genre_1__in=best_genre_arr)|Q(genre_2__in=best_genre_arr)|Q(genre_3__in=best_genre_arr)|Q(genre_4__in=best_genre_arr))&(Q(country_1__in=best_country_arr)|Q(country_2__in=best_country_arr)|Q(country_3__in=best_country_arr))).order_by('-popularity')[:20]
+        
+        bestserializer = CrawledMovieSerializer(recommend_movie, many=True)
+
+        return Response(bestserializer.data)
