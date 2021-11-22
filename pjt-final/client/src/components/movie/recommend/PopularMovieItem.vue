@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div @click="goToMovieDetail">
-      <img :src="posterPath" :alt="`${popularItem.title} 포스터`" height="100">
+    <div @click="goToMovieDetail" class="movieitem">
+      <img :src="posterPath" :alt="`${popularItem.title} 포스터`" max-height="100%">
       <p>{{ popularItem.title }}</p>
     </div>
   </div>
@@ -27,5 +27,10 @@ export default {
 </script>
 
 <style>
-
+.movieitem {
+  height: 300px;
+  width: 150px;
+  border-top-style: solid;
+  box-sizing: border-box;
+}
 </style>

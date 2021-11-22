@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>BOARD</h1>
     <b-table-simple hover small caption-top responsive>
       <colgroup><col><col><col><col></colgroup>
       <b-thead head-variant="dark">
@@ -13,20 +12,20 @@
       </b-thead>
       <!-- 게시글 목록 -->
       <b-tbody v-if="isPost">
-        <b-tr v-for="post in posts"
+        <b-tr v-for="(post, index) in posts"
             :key="post.id"
             @click="postDetail(post.id)"
         >
-          <b-td colspan="1" >{{ post.id }}</b-td>
-          <b-td colspan="3">{{ post.title }}</b-td>
-          <b-td colspan="4" 
+          <b-td >{{ index+1 }}</b-td>
+          <b-th >{{ post.title }}</b-th>
+          <b-td  
             v-for="user in post" 
             :key="user.id"
           >
-            <img :src="`http://127.0.0.1:8000${user.profile_image}`" alt="" height="30">
+            <!-- <img :src="`http://127.0.0.1:8000${user.profile_image}`" alt="" height="30"> -->
             {{ user.nickname }}
           </b-td>
-          <b-td colspan="2">{{ post.created_at }}</b-td>
+          <b-td>{{changeDate(post.created_at)}}</b-td>
         </b-tr>
       </b-tbody>
       <b-tbody v-else>
@@ -37,6 +36,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
@@ -44,10 +45,10 @@ export default {
   data() {
     return {
       posts: null,
-      searchKeyword: null,
-      searchBeforeKeyword: null,
-      isPost: true,
     }
+  },
+  props: {
+    isPost: Boolean
   },
   methods: {
     // 클릭한 게시글로 이동 
@@ -68,23 +69,9 @@ export default {
           console.log(err)
         })
     },
-    // 게시글 검색
-    searchSearch() {
-      this.$axios({
-        method: 'get',
-        url: `${SERVER_URL}/community/${this.searchKeyword}/search/`,
-      })
-        .then(res => {
-          this.posts = res.data
-          console.log(res)
-          this.isPost = this.posts.length > 0 ? true : false
-          this.searchBeforeKeyword = this.searchKeyword
-          this.searchKeyword = null
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    }
+    changeDate(date) {
+      return _.join(_.slice(date, 0, 10), '')
+    },
   },
   created() {
     this.getPosts()

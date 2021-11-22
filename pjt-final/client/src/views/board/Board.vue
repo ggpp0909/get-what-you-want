@@ -1,28 +1,35 @@
 <template>
   <v-container>
-    <post-list></post-list>
-   <v-row>
-      <v-col class="pa-2">
-        <button @click="postCreate">Create</button>
-      </v-col>
-      <v-col>
-        <!-- 검색 -->
-        <v-text-field v-model.trim="searchMovie" @keyup.enter="searchSearch" 
-            placeholder="검색어를 입력하세요" outlined dense label="Search Movie" >
-          <v-icon slot="append" @click="searchSearch">mdi-magnify</v-icon>
+    <v-row >
+      <v-col md="2"><h1>BOARD</h1></v-col>
+      <v-col md="4" offset-md="6" class="searchInput">
+        <v-text-field v-model.trim="searchMovie" @keyup.enter="searchPost" 
+            placeholder="검색어를 입력하세요" dense flat shaped label="Search Movie">
+          <v-icon slot="append" @click="searchPost">mdi-magnify</v-icon>
         </v-text-field>
       </v-col>
     </v-row>
+  <post-list :is-post="isPost"></post-list>
+  <b-button @click="postCreate" squared variant="outline-dark">Create</b-button>
   </v-container>
 </template>
 
 <script>
   import PostList from '@/components/PostList'
 
+  const SERVER_URL = process.env.VUE_APP_SERVER_URL
+
   export default {
     name: 'Board',
     components: {
       PostList,
+    },
+    data() {
+      return {
+        searchKeyword: null,
+        searchBeforeKeyword: null,
+        isPost: true,
+      }
     },
     methods: {
       postCreate() {
@@ -34,5 +41,28 @@
         }
       },
     },
+    // 게시글 검색
+    searchPost() {
+      this.$axios({
+        method: 'get',
+        url: `${SERVER_URL}/community/${this.searchKeyword}/search/`,
+      })
+        .then(res => {
+          this.posts = res.data
+          console.log(res)
+          this.isPost = this.posts.length > 0 ? true : false
+          this.searchBeforeKeyword = this.searchKeyword
+          this.searchKeyword = null
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
   }
 </script>
+
+<style scoped>
+.searchInput {
+  margin-bottom: -30px;
+}
+</style>

@@ -51,7 +51,7 @@ export default {
             this.profileImage = this.profileImg
           } else {
             this.profileImage = `http://127.0.0.1:8000${res.data.profile_image}`
-            this.$store.dispatch('setUserProfileImg', this.profileImage)
+            this.$store.dispatch('setUserProfileImg', res.data.profile_image)
           }
         })
         .catch(err => {
@@ -82,6 +82,8 @@ export default {
       })
         .then(() => {
           this.getProfile()
+          this.$emit('changeProfileImg', this.newProfileImage)
+          this.profileImage = 'https://mblogthumb-phinf.pstatic.net/MjAxODA0MTBfMjI2/MDAxNTIzMzY2MjI5Nzk0.xDtjpIX7dGFtPIY5sakKXpIF6295RrBbaF88VDSGyEEg.WRuXJKeZJNbiaNzyceStJLk7Imcn5fk3MpWZbn5g1wcg.JPEG.0ooz05/%EB%B9%84%EA%B3%B5%EA%B0%9C_%EC%95%84%EB%B0%94%ED%83%80.jpg?type=w800'
         })
         .catch(err => {
           console.log(err)

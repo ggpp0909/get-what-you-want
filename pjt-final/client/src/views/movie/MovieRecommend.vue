@@ -1,8 +1,14 @@
 <template>
-  <div>
+  <div class="d-flex">
     Recommend
-    <popular-movie-list></popular-movie-list>
-    <top-rated-movie-list></top-rated-movie-list>
+    <div class="movieLine">
+    <h1>popular movie</h1>
+      <popular-movie-list></popular-movie-list>
+    </div>
+    <div class="movieLine">
+      <top-rated-movie-list></top-rated-movie-list>
+    </div>
+    
     <div v-if="showRS">
       <recommend-movie-list :pick-recommend-movie="pickForRecommendMovie"></recommend-movie-list>
       <similar-movie-list :pick-similar-movie="pickForSimilarMovie"></similar-movie-list>
@@ -19,8 +25,10 @@ import SimilarMovieList from '@/components/movie/recommend/SimilarMovieList'
 import { mapState } from 'vuex'
 
 import _ from 'lodash'
+import axios from 'axios'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
+const COORDS = "coords"
 
 export default {
   name: 'Recommend',
@@ -63,16 +71,77 @@ export default {
           console.log(err)
         })
     },
+    // 날씨 
+    askForCoords() {
+      navigator.geolocation.getCurrentPosition(this.handleGeoSuccess, this.handleGeoError);
+    },
+    handleGeoError() {
+      console.log("Cant aceess geo location");
+    },
+    handleGeoSuccess(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      const coordsObj = {
+        latitude,
+        longitude,
+      };
+      this.saveCoords(coordsObj);
+      this.getWeather(latitude, longitude);
+    },
+    loadCoords() {
+      const loadedCoords = localStorage.getItem(COORDS);
+      if (loadedCoords === null) {
+        this.askForCoords();
+      } else {
+        const parsedCoords = JSON.parse(loadedCoords);
+        this.getWeather(parsedCoords.latitude, parsedCoords.longitude);
+      }
+    },
+    saveCoords(coordsObj) {
+      localStorage.setItem(COORDS, JSON.stringify(coordsObj));
+    },
+    getWeather(lat, lng) {
+      const API_KEY = "c902eb9aee51998b30d90694ef0a29f7";
+        fetch(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${API_KEY}&units=metric`
+        )
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (json) {
+            const weather = json.weather[0].main
+            const sendWeather = {
+              weather: weather
+            }
+            axios({
+              method: 'post',
+              url: `${SERVER_URL}/movie/weather_recommend/`,
+              data: sendWeather,
+            })
+              .then(res => {
+                console.log(res)
+              })
+              .catch(err => {
+                console.log(err)
+              })
+            })
+    }
   },
   computed: {
-    ...mapState(['userName'])
+    ...mapState(['userName', 'config'])
   },
   created() {
     this.getProfile()
+    this.loadCoords()
   }
 }
 </script>
 
-<style>
+<style scoped>
+.movieLine {
+  border-style: solid;
+}
 
+div {
+}
 </style>

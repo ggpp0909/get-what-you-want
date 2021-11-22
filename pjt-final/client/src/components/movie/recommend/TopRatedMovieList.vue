@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>top Rated movie</h1>
-    <div class="d-flex">
+    <div>
       <top-rated-movie-item
         v-for="topRatedItem in topRatedMovies"
         :key="topRatedItem.id"

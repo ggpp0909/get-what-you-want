@@ -42,7 +42,7 @@
                 <v-avatar color="white" size="48">
                   <!-- <span class="black--text text-h5">JS</span> -->
                   <!-- 로그인 -->
-                  <img :src="profileImg" alt="" height="70" v-if="userName">
+                  <img :src="userProfileImg" alt="" height="70" v-if="userName">
                   <!-- 비로그인 -->
                   <img :src="baseProfileImg" alt="" height="70" v-else>
                 </v-avatar>
@@ -97,16 +97,14 @@
 <script>
 import { mapState } from 'vuex'
 
-const COORDS = "coords"
-const SERVER_URL = process.env.VUE_APP_SERVER_URL
-
 export default {
   name: 'App',
   data: function () {
     return {
       searchMovie: '', // 영화 키워드 
       baseProfileImg: 'https://mblogthumb-phinf.pstatic.net/MjAxODA0MTBfMjI2/MDAxNTIzMzY2MjI5Nzk0.xDtjpIX7dGFtPIY5sakKXpIF6295RrBbaF88VDSGyEEg.WRuXJKeZJNbiaNzyceStJLk7Imcn5fk3MpWZbn5g1wcg.JPEG.0ooz05/%EB%B9%84%EA%B3%B5%EA%B0%9C_%EC%95%84%EB%B0%94%ED%83%80.jpg?type=w800',
-    }
+      userProfileImg: this.profileImg
+   }
   },
   methods: {
     // 로그아웃 
@@ -119,68 +117,13 @@ export default {
     goToSearchPage() {
       this.$router.push({ name: 'SearchMovie', params: { keyword: this.searchMovie } }).catch(()=> {})
     },
-    // 유저 프로필 변경
+    // // 유저 프로필 변경
     changeProfileImg(img) {
-      this.userProfileImg = `http://127.0.0.1:8000${img}`
+      this.userProfileImg = img
     },
-    askForCoords() {
-      navigator.geolocation.getCurrentPosition(this.handleGeoSuccess, this.handleGeoError);
-    },
-    handleGeoError() {
-      console.log("Cant aceess geo location");
-    },
-    handleGeoSuccess(position) {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      const coordsObj = {
-        latitude,
-        longitude,
-      };
-      this.saveCoords(coordsObj);
-      this.getWeather(latitude, longitude);
-    },
-    loadCoords() {
-      const loadedCoords = localStorage.getItem(COORDS);
-      if (loadedCoords === null) {
-        this.askForCoords();
-      } else {
-        const parsedCoords = JSON.parse(loadedCoords);
-        this.getWeather(parsedCoords.latitude, parsedCoords.longitude);
-      }
-    },
-    saveCoords(coordsObj) {
-      localStorage.setItem(COORDS, JSON.stringify(coordsObj));
-    },
-    getWeather(lat, lng) {
-      const API_KEY = "c902eb9aee51998b30d90694ef0a29f7";
-        fetch(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${API_KEY}&units=metric`
-        )
-          .then(function (response) {
-            return response.json();
-          })
-          .then(function (json) {
-            console.log(json)
-            const weather = json.wather.main
-            this.$axios({
-              methods: 'get',
-              url: `${SERVER_URL}/movie/weather_recommend/`,
-              data: weather
-            })
-              .then(res => {
-                console.log(res)
-              })
-              .catch(err => {
-                console.log(err)
-              })
-            })
-    }
   },
   computed: {
     ...mapState(['userName', 'profileImg'])
-  },
-  create() {
-    this.loadCoords()
   },
 }
 </script>
