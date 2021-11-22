@@ -7,9 +7,11 @@
     </div> -->
 <!-- <MARQUEE class="movieTag"><h5>POPULAR MOVIE </h5><h5 class="test2 mx-2"> POPULAR MOVIE</h5><h5> POPULAR MOVIE</h5><h5 class="test2 mx-2"> POPULAR MOVIE</h5></MARQUEE> -->
 <div class="movieTag d-flex"><h5>POPULAR MOVIE </h5><h5 class="test2 mx-2"> POPULAR MOVIE</h5><h5> POPULAR MOVIE</h5><h5 class="test2 mx-2"> POPULAR MOVIE</h5></div>
-  <v-slide-group class="movieLine v-slide-item--active" show-arrows change center-active mandatory>
+
+  <v-slide-group class="movieLine v-slide-item--active" show-arrows active-class="success">
     <popular-movie-list></popular-movie-list>
   </v-slide-group>
+  
 
     <div class="movieTag">
       <h1>top Rated movie</h1>
