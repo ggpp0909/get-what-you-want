@@ -154,6 +154,7 @@ export default {
         url: `${SERVER_URL}/accounts/${this.$route.params.userName}/`, 
       })
         .then(res => {
+          this.userProfile = res.data
           this.followerCount = res.data.followers_count
           this.followingCount = res.data.followings_count
           this.likeMovieCount = res.data.like_movie.length

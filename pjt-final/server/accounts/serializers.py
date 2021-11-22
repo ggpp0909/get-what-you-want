@@ -115,7 +115,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = get_user_model()
-        fields = ('id', 'username', 'nickname', 'profile_image', 'email', 'followers', 'followings', 'followers_count', 'followings_count',  'comment_set', 'post_set', 'comment_count', 'post_count', 'like_posts', 'like_post_count', 'like_movie', 'review_set', 'review_count')
+        fields = ('id', 'username', 'nickname', 'profile_image', 'email', 'followers', 'followings', 'followers_count', 'followings_count',  'comment_set', 'post_set', 'comment_count', 'post_count', 'like_posts', 'like_post_count', 'like_movie', 'review_set', 'review_count', 'is_superuser')
 
 
 class FollowerSerializer(serializers.ModelSerializer):

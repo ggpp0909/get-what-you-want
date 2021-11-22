@@ -55,6 +55,7 @@ export default {
           })
           .then(res => {
             this.$store.dispatch('setUserProfileImg', res.data.profile_image) // 로그인한 유저 프로필 이미지 저장
+            this.$store.dispatch('setIsAdmin', res.data.is_superuser) // 로그인한 유저 관리자 여부 저장
           })
         })
         .catch(err => {
