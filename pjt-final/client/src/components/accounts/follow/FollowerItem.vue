@@ -1,9 +1,10 @@
 <template>
   <div>
     <div @click="goToUserProfile">
-      <img :src="follower.profile_image" :alt="`${ follower.nickname }님의 프로필 사진`">
+      <img :src="getUserProfileImg()" :alt="`${ follower.nickname }님의 프로필 사진`" height="100px">
       {{ follower.nickname }}
     </div>
+    <!-- 프로필에 해당하는 유저라면 팔로워 삭제 버튼 보이게 하기  -->
     <button v-if="this.userName === this.$route.params.userName" @click="deleteFollower(follower.username)">삭제</button>
   </div>
 </template>
@@ -36,6 +37,14 @@ export default {
     // 클릭한 유저 프로필로 이동
     goToUserProfile() {
       this.$router.push({ name: 'Profile', params: { userName: this.follower.username } })
+    },
+    // 프로필 이미지
+    getUserProfileImg() {
+      if (this.follower.profile_image === null) {
+        return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU00i-_pNcxxQ69OH2c8MyVuHS0Q4GdMDR7w&usqp=CAU'
+      } else {
+        return `http://127.0.0.1:8000${this.follower.profile_image}`
+      }
     }
   },
   computed: {

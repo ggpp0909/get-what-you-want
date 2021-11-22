@@ -42,7 +42,7 @@
                 <v-avatar color="white" size="48">
                   <!-- <span class="black--text text-h5">JS</span> -->
                   <!-- 로그인 -->
-                  <img :src="userProfileImg" alt="" height="70" v-if="userName">
+                  <img :src="profileImg" alt="" height="70" v-if="userName">
                   <!-- 비로그인 -->
                   <img :src="baseProfileImg" alt="" height="70" v-else>
                 </v-avatar>
@@ -53,33 +53,36 @@
               <v-list-item-content class="justify-center">
                 <!-- 로그인 -->
                 <div class="mx-auto text-center" v-if="userName">
+                  <!-- 프로필 -->
                   <router-link :to="{ name: 'Profile', params: { userName: this.userName } }"
                     class="text-decoration-none black--text"
                   ><v-btn depressed rounded text>MY PROFILE</v-btn></router-link>
                   <v-divider class="my-3"></v-divider>
+                  <!-- 프로필 수정 -->
                   <router-link :to="{ name: 'ChangeProfile' }"
                     class="text-decoration-none black--text"
                   ><v-btn depressed rounded text>SETTING</v-btn></router-link>
                   <v-divider class="my-3"></v-divider>
+                  <!-- 로그아웃 -->
                   <router-link to="#" @click.native="logout"
                     class="text-decoration-none black--text"
                   ><v-btn depressed rounded text>LOGOUT</v-btn></router-link>
+                  <!-- 관리자 페이지 -->
                   <div v-if="isAdmin">
                     <v-divider class="my-3"></v-divider>
                     <a href="http://127.0.0.1:8000/admin/" class="text-decoration-none black--text">
                       <v-btn depressed rounded text>ADMIN</v-btn>
                     </a>
                   </div>
-                  
-                    
-                  
                 </div>
                 <!-- 비로그인 -->
                 <div class="mx-auto text-center" v-else>
+                  <!-- 회원가입 -->
                   <router-link :to="{ name: 'Signup' }"
                     class="text-decoration-none black--text"
                   ><v-btn depressed rounded text>SIGNUP</v-btn></router-link>
                   <v-divider class="my-3"></v-divider>
+                  <!-- 로그인 -->
                   <router-link :to="{ name: 'Login' }"
                     class="text-decoration-none black--text"
                   ><v-btn depressed rounded text>LOGIN</v-btn></router-link>
@@ -91,13 +94,14 @@
       </v-row>
     </v-app-bar>
 
+    <!-- 본문 -->
     <v-sheet
       id="scrolling-techniques-2"
       class="overflow-y-auto padding"
       max-height="100vh"
     >
       <v-main style="height: 1000px;" class="mainFont">
-        <router-view :key="$route.fullPath" @changeProfileImg="changeProfileImg"/>
+        <router-view :key="$route.fullPath"/>
       </v-main> 
     </v-sheet>
   </v-app>
@@ -112,7 +116,6 @@ export default {
     return {
       searchMovie: '', // 영화 키워드 
       baseProfileImg: 'https://mblogthumb-phinf.pstatic.net/MjAxODA0MTBfMjI2/MDAxNTIzMzY2MjI5Nzk0.xDtjpIX7dGFtPIY5sakKXpIF6295RrBbaF88VDSGyEEg.WRuXJKeZJNbiaNzyceStJLk7Imcn5fk3MpWZbn5g1wcg.JPEG.0ooz05/%EB%B9%84%EA%B3%B5%EA%B0%9C_%EC%95%84%EB%B0%94%ED%83%80.jpg?type=w800',
-      userProfileImg: this.profileImg,
    }
   },
   methods: {
@@ -126,14 +129,15 @@ export default {
     goToSearchPage() {
       this.$router.push({ name: 'SearchMovie', params: { keyword: this.searchMovie } }).catch(()=> {})
     },
-    // // 유저 프로필 변경
-    changeProfileImg(img) {
-      this.userProfileImg = img
-    },
   },
   computed: {
     ...mapState(['userName', 'profileImg', 'isAdmin'])
   },
+  watch: {
+    userProfileImg() {
+      this.userProfileImg = this.profileImg
+    }
+  }
 }
 </script>
 

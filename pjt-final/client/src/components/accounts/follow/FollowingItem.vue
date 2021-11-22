@@ -1,14 +1,10 @@
 <template>
   <div>
     <div @click="goToUserProfile">
-      <img :src="followingUser.profile_image" :alt="`${ followingUser.nickname }님의 프로필 사진`">
+      <img :src="getUserProfileImg()" :alt="`${ followingUser.nickname }님의 프로필 사진`" height="100px">
       {{ followingUser.nickname }}
     </div>
-    
-    <!-- <button 
-      v-if="this.userName === this.$route.params.userName" 
-      @click="followingChangeState"
-    >??</button> -->
+    <!-- 프로필에 해당하는 유저라면 팔로우 버튼 보이게하기  -->
     <div v-if="this.userName === this.$route.params.userName" >
       <button :class="{ 'hide' : !followState }" @click="followingChangeState">unfollow</button>
       <button :class="{ 'hide' : followState }" @click="followingChangeState">follow</button>
@@ -33,14 +29,14 @@ export default {
     followingUser: Object
   },
   methods: {
+    // 팔로잉 상태 변경 
     followingChangeState() {
       this.$axios({
         method: 'post',
         url: `${SERVER_URL}/accounts/${this.followingUser.username}/follow/`,
         headers: this.config
       })
-        .then(res => {
-          console.log(res)
+        .then(() => {
           if (this.followState) {
             this.$emit('unfollow')
             this.followState = false
@@ -56,6 +52,14 @@ export default {
     // 클릭한 유저 프로필로 이동
     goToUserProfile() {
       this.$router.push({ name: 'Profile', params: { userName: this.followingUser.username } })
+    },
+    // 프로필 이미지
+    getUserProfileImg() {
+      if (this.followingUser.profile_image === null) {
+        return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU00i-_pNcxxQ69OH2c8MyVuHS0Q4GdMDR7w&usqp=CAU'
+      } else {
+        return `http://127.0.0.1:8000${this.followingUser.profile_image}`
+      }
     }
   },
   computed: {

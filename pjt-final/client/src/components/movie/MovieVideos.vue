@@ -33,7 +33,6 @@ export default {
   },
   methods: {
     getVideoURI() {
-      console.log(this.representVideo)
       return `https://www.youtube.com/embed/${this.representVideo.video_id}`
     },
     onSelectVideo(video) {
@@ -49,7 +48,6 @@ export default {
     videoList() {
       this.videoAllList = this.videoList
       this.chooseRVideo()
-      console.log('hi')
     }
   },
   created() {
