@@ -51,7 +51,7 @@ export default {
             this.profileImage = this.profileImg
           } else {
             this.profileImage = `http://127.0.0.1:8000${res.data.profile_image}`
-            this.$store.dispatch('setUserProfileImg', this.profileImage)
+            this.$store.dispatch('setUserProfileImg', res.data.profile_image)
           }
         })
         .catch(err => {
@@ -92,7 +92,6 @@ export default {
    // 프로필 이미지 변경 
     changeProfileImg(file) {
       this.newProfileImage = URL.createObjectURL(file)
-      this.$store.dispatch('setUserProfileImg', this.newProfileImage)
      }
      ,
     // 회원 탈퇴로 이동

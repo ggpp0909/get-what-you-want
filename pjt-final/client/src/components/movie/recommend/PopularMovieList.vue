@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h1>popular movie</h1>
-    <div class="d-flex">
+    <div>
       <popular-movie-item
         v-for="popularItem in popularMovie"
         :key="popularItem.id"
         :popular-item="popularItem"
+        class=""
       ></popular-movie-item>
     </div>
   </div>
@@ -33,6 +33,7 @@ export default {
         url: `${SERVER_URL}/movie/popular/`, 
       })
         .then(res => {
+          console.log(res)
           this.popularMovie = res.data
         })
         .catch(err => {
