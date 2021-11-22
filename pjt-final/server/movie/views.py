@@ -309,10 +309,7 @@ weather_code = {
 @permission_classes([AllowAny])
 def weather_recommend(request):
     # weather = request.data['weather']
-    print(request.GET)
-    print(request.data)
-    print(type(request.data['weather']))
-    weather = request.GET.get('weather')
+    weather = request.data.get('weather')
     genre = random.sample(weather_code[weather], 3)
     genre = ','.join(genre)
 
