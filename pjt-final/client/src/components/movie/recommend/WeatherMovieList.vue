@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>{{ weather }} 추천 </h1>
     <div class="d-flex">
       <weather-movie-item
         v-for="weatherItem in weatherMovies"
@@ -13,6 +14,9 @@
 <script>
 import WeatherMovieItem from '@/components/movie/recommend/WeatherMovieItem'
 import axios from 'axios'
+
+const WEATHER_API = "c902eb9aee51998b30d90694ef0a29f7"
+// const WEATHER_API = process.env.VUE_APP_WEATHER_API
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 const COORDS = "coords"
 
@@ -57,47 +61,35 @@ export default {
     saveCoords(coordsObj) {
       localStorage.setItem(COORDS, JSON.stringify(coordsObj));
     },
-    getWeatherMovies(lat, lng) {
-      const API_KEY = "c902eb9aee51998b30d90694ef0a29f7";
-        fetch(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${API_KEY}&units=metric`
+    async getWeatherMovies(lat, lng) {
+      let temp1 = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${WEATHER_API}&units=metric`
         )
-          .then(function (response) {
-            return response.json();
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (json) {
+          const weather = json.weather[0].main
+          const sendWeather = {
+            weather: weather
+          }
+          let temp2 = axios({ 
+            method: 'post',
+            url: `${SERVER_URL}/movie/weather_recommend/`,
+            data: sendWeather,
           })
-          .then(function (json) {
-            const weather = json.weather[0].main
-            const sendWeather = {
-              weather: weather
-            }
-            
-            this.myAxios(sendWeather)
-          })
-          .then(res => {
-            this.weatherMovies = res
-          })
-      
-    },
-    myAxios(sendWeather) {
-      axios({
-              method: 'post',
-              url: `${SERVER_URL}/movie/weather_recommend/`,
-              data: sendWeather,
+            .then(res => {
+              return res.data
             })
-              .then(res => {
-                console.log(res.data[1])
-                return res.data[1]
-              })
-              .catch(err => {
-                console.log(err)
-              })
-    }
-
+          return temp2
+          })
+        this.weatherMovies = temp1[1]
+        this.weather = temp1[0].weather
+    },
   },
   created() {
-      this.loadCoords()
-
-    }
+    this.loadCoords()
+  },
 }
 </script>
 

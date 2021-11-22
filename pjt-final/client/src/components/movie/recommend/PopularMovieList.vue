@@ -34,7 +34,6 @@ export default {
         url: `${SERVER_URL}/movie/popular/`, 
       })
         .then(res => {
-          console.log(res)
           this.popularMovie = res.data
         })
         .catch(err => {
