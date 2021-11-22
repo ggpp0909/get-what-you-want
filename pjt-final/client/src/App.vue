@@ -42,7 +42,7 @@
                 <v-avatar color="white" size="48">
                   <!-- <span class="black--text text-h5">JS</span> -->
                   <!-- 로그인 -->
-                  <img :src="profileImg" alt="" height="70" v-if="userName">
+                  <img :src="userProfileImg" alt="" height="70" v-if="userName">
                   <!-- 비로그인 -->
                   <img :src="baseProfileImg" alt="" height="70" v-else>
                 </v-avatar>
@@ -106,7 +106,8 @@ export default {
     return {
       searchMovie: '', // 영화 키워드 
       baseProfileImg: 'https://mblogthumb-phinf.pstatic.net/MjAxODA0MTBfMjI2/MDAxNTIzMzY2MjI5Nzk0.xDtjpIX7dGFtPIY5sakKXpIF6295RrBbaF88VDSGyEEg.WRuXJKeZJNbiaNzyceStJLk7Imcn5fk3MpWZbn5g1wcg.JPEG.0ooz05/%EB%B9%84%EA%B3%B5%EA%B0%9C_%EC%95%84%EB%B0%94%ED%83%80.jpg?type=w800',
-    }
+      userProfileImg: this.profileImg
+   }
   },
   methods: {
     // 로그아웃 
@@ -119,9 +120,10 @@ export default {
     goToSearchPage() {
       this.$router.push({ name: 'SearchMovie', params: { keyword: this.searchMovie } }).catch(()=> {})
     },
-    // 유저 프로필 변경
+    // // 유저 프로필 변경
     changeProfileImg(img) {
-      this.userProfileImg = `http://127.0.0.1:8000${img}`
+      console.log(img)
+      this.userProfileImg = img
     },
     askForCoords() {
       navigator.geolocation.getCurrentPosition(this.handleGeoSuccess, this.handleGeoError);
