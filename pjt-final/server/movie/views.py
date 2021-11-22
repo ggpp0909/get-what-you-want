@@ -256,10 +256,11 @@ def review_update_delete(request, movie_id, review_pk):
 
 
 # Vue에서 실험 필요, POST맨에서 form-data로 배열을 못전하는거같애
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes([AllowAny])
 def signup_like(request):
     genres = request.data['genres']
+    
     context = {}
     for genre in genres:
         detail_url = get_request_url(f'/discover/movie', language='ko-KR')
@@ -304,10 +305,14 @@ weather_code = {
 }
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes([AllowAny])
 def weather_recommend(request):
-    weather = request.data['weather']
+    # weather = request.data['weather']
+    print(request.GET)
+    print(request.data)
+    print(type(request.data['weather']))
+    weather = request.GET.get('weather')
     genre = random.sample(weather_code[weather], 3)
     genre = ','.join(genre)
 
@@ -435,7 +440,7 @@ def YNs_recommend(request):
         def dfs(cur, depth, total):
             total += rating[cur]
 
-            # 감독까지 다 내려왔어?
+            # 다 내려왔어?
             if depth == 2:
                 for i in movie_list[cur]:
                     recom_list.append([total, -i[1], i[0]]) # 감독까지 다 내려왔을때의 점수합과, 그 경로의 영화의 id
@@ -478,8 +483,8 @@ def YNs_recommend(request):
 
 
         # print(result)
-        print(best_genre)
-        print(best_country)
+        # print(best_genre)
+        # print(best_country)
 
         best_genre_arr = []
         # best_genre_query = []
@@ -490,8 +495,8 @@ def YNs_recommend(request):
         for i in best_country:
             best_country_arr.append(i['name'])
 
-        print(best_genre_arr)
-        print(best_country_arr)
+        # print(best_genre_arr)
+        # print(best_country_arr)
 
         recommend_movie = CrawledMovie.objects.filter((Q(genre_1__in=best_genre_arr)|Q(genre_2__in=best_genre_arr)|Q(genre_3__in=best_genre_arr)|Q(genre_4__in=best_genre_arr))&(Q(country_1__in=best_country_arr)|Q(country_2__in=best_country_arr)|Q(country_3__in=best_country_arr))).order_by('-popularity')[:20]
         
