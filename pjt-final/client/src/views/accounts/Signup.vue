@@ -91,11 +91,11 @@ export default {
               this.$emit('login')
               this.$store.dispatch('setUserName', this.credentials.username)  // 로그인한 유저 아이디 저장 
               this.$store.dispatch('setToken')  // 토큰 state에 저장
+              this.$router.push({ name: 'Home' })//// 위의 then에서 위치 옮김
             })
-              .then(() => {////
-                this.getMovies()/////
-                this.$router.push({ name: 'Home' })//// 위의 then에서 위치 옮김
-              })
+              // .then(() => {////
+              //   // this.getMovies()/////
+              // })
             .catch(err => {
               console.log(err)
             })
@@ -104,19 +104,19 @@ export default {
           console.log(err)
         })
     },
-    getMovies() {
-       this.$axios({
-        method: 'get',
-        url: `${SERVER_URL}/movie/signup_like/`,
-        data: credentials
-      })
-        .then(res => {
-          console.log(res)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
+    // getMovies() {
+    //    this.$axios({
+    //     method: 'get',
+    //     url: `${SERVER_URL}/movie/signup_like/`,
+    //     data: credentials
+    //   })
+    //     .then(res => {
+    //       console.log(res)
+    //     })
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+    // },
   }
 }
 </script>

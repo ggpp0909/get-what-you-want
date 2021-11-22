@@ -12,7 +12,7 @@ def user_path(instance):
 
 class User(AbstractUser):
     nickname = models.CharField(max_length=10, unique=True)
-    profile_image = models.ImageField(null=True, upload_to=user_directory_path, blank=True)
+    profile_image = models.ImageField(null=True, upload_to=user_directory_path)
     first_name = None
     last_name = None
     followings = models.ManyToManyField('self', symmetrical=False, related_name='followers')

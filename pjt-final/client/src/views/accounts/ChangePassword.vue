@@ -38,6 +38,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import swal from 'sweetalert'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
@@ -46,13 +47,18 @@ export default {
   data: function () {
     return {
       confirm: false,
-      password: null,
-      passwordConfirmation: null,
+      password: '',
+      passwordConfirmation: '',
     }
   },
   methods: {
     // 유저 인증
     isUser() {
+      if (this.password === '') {
+          swal ("비밀번호를 입력해주세요.", {
+          dangerMode: true,
+        })
+      }
       const credentials = {
         username: this.userName,
         password: this.password
@@ -73,13 +79,22 @@ export default {
     },
     // 비밀번호 변경 
     changePassword: function () {
+      if (this.password === '') {
+          swal ("비밀번호를 입력해주세요.", {
+          dangerMode: true,
+        })
+      } else if (this.password != this.passwordConfirmation) {
+          swal ("비밀번호가 일치하지 않습니다.", {
+          dangerMode: true,
+        })
+      }
       const credential2 = {
         password: this.password,
         passwordConfirmation: this.passwordConfirmation
       }
       this.$axios({
         method: 'put',
-        url: `${SERVER_URL}/accounts/change_password/`, 
+        url: `${SERVER_URL}/accounts/change_password/`,
         data: credential2,
         headers: this.config
       })

@@ -37,6 +37,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import swal from 'sweetalert'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
@@ -45,7 +46,7 @@ export default {
   data() {
     return {
       confirm: false,
-      password: null,
+      password: '',
       deleteReasons: ['그냥', '내가 원하는 정보 없어서', '사용하기 불편함', '계정을 새로 만들고 싶어요'],
       detailReason: null,
     }
@@ -53,6 +54,11 @@ export default {
   methods: {
     // 유저 인증
     isUser() {
+      if (this.password === '') {
+          swal ("비밀번호를 입력하세요.", {
+          dangerMode: true,
+        })
+      }
       const credentials = {
         username: this.userName,
         password: this.password
