@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <div @click="goToMovieDetail" class="movieitem">
-      <img :src="posterPath" :alt="`${popularItem.title} 포스터`" max-height="100%">
-      <p>{{ popularItem.title }}</p>
-    </div>
+  <div @click="goToMovieDetail" class="movieitem d-flex flex-column align-items-center">
+    <img :src="posterPath" :alt="`${popularItem.title} 포스터`" height=43%>
+    <p>{{ popularItem.title }}</p>
   </div>
 </template>
 
@@ -12,7 +10,7 @@ export default {
   name: 'PopularMovieItem',
   data() {
     return {
-      posterPath: `https://image.tmdb.org/t/p/w500${this.popularItem.poster_path}`
+      posterPath: `https://image.tmdb.org/t/p/w500${this.popularItem.backdrop_path}`
     }
   },
   props: {
@@ -28,9 +26,8 @@ export default {
 
 <style>
 .movieitem {
-  height: 300px;
-  width: 150px;
-  border-top-style: solid;
-  box-sizing: border-box;
+  height: 400px;
+  width: 100%;
+  border-right-style: solid;
 }
 </style>

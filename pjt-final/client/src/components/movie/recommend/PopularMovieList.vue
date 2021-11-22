@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div>
+    <div class="d-flex">
+      <h3 class="turn">POPULAR MOVIE</h3>
       <popular-movie-item
         v-for="popularItem in popularMovie"
         :key="popularItem.id"
@@ -48,5 +49,10 @@ export default {
 </script>
 
 <style>
+.turn {
+  writing-mode: vertical-rl;
+    border-left-style: solid;
+
+}
 
 </style>

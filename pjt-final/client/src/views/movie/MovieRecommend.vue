@@ -1,14 +1,23 @@
 <template>
-  <div class="d-flex">
-    Recommend
-    <div class="movieLine">
-    <h1>popular movie</h1>
+  <div class="">
+
+    <!-- <div class="movieLine mx-3">
+    <h1>POPULAR MOVIE</h1>
       <popular-movie-list></popular-movie-list>
-    </div>
-    <div class="movieLine">
+    </div> -->
+<!-- <MARQUEE class="movieTag"><h5>POPULAR MOVIE </h5><h5 class="test2 mx-2"> POPULAR MOVIE</h5><h5> POPULAR MOVIE</h5><h5 class="test2 mx-2"> POPULAR MOVIE</h5></MARQUEE> -->
+<div class="movieTag d-flex"><h5>POPULAR MOVIE </h5><h5 class="test2 mx-2"> POPULAR MOVIE</h5><h5> POPULAR MOVIE</h5><h5 class="test2 mx-2"> POPULAR MOVIE</h5></div>
+  <v-slide-group class="movieLine v-slide-item--active" show-arrows change center-active mandatory>
+    <popular-movie-list></popular-movie-list>
+  </v-slide-group>
+
+    <div class="movieTag">
+      <h1>top Rated movie</h1>
+      <v-slide-group>
       <top-rated-movie-list></top-rated-movie-list>
+      </v-slide-group>
     </div>
-    
+  
     <div v-if="showRS">
       <recommend-movie-list :pick-recommend-movie="pickForRecommendMovie"></recommend-movie-list>
       <similar-movie-list :pick-similar-movie="pickForSimilarMovie"></similar-movie-list>
@@ -125,7 +134,8 @@ export default {
                 console.log(err)
               })
             })
-    }
+    },
+    
   },
   computed: {
     ...mapState(['userName', 'config'])
@@ -140,8 +150,16 @@ export default {
 <style scoped>
 .movieLine {
   border-style: solid;
+  height: 200px;
+}
+.movieTag {
+  border-style: solid;
+  border-bottom-style: none;
+  box-sizing: border-box;
+  margin-bottom: -8px;
+}
+.test2 {
+  color: orange;
 }
 
-div {
-}
 </style>
