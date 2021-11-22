@@ -9,6 +9,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import swal from 'sweetalert'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
@@ -16,7 +17,7 @@ export default {
   name: 'MovieReviewCreate',
   data() {
     return {
-      review: null,
+      review: '',
       rank: 0,
       isSpoiler: false,
     }
@@ -27,6 +28,11 @@ export default {
   },
   methods: {
     createReview() {
+      if (this.review === '') {
+          swal ("내용을 입력하세요.", {
+          dangerMode: true,
+        })
+      }
       const reviewItem = {
         content: this.review,
         rank: this.rank,

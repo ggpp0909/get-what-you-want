@@ -132,7 +132,7 @@ def delete_follower(request, me_username, you_username):
 
 @api_view(['DELETE'])
 def withdrawal(request):
-    Feedback.objects.create(user=request.user.username, feedback=request.data['feedback'])
+    Feedback.objects.create(user=request.user.username, feedback=request.data['feedback'], reason=request.data['reason'])
     request.user.delete()
 
     return Response({ 'detail': '회원탈퇴가 완료되었습니다.'}, status=status.HTTP_200_OK)

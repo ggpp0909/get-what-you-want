@@ -1,11 +1,11 @@
 <template>
   <div>
     created
-    <v-text-field v-model="post.title"
+    <v-text-field v-model.trim="post.title"
       placeholder="제목을 입력해주세요."
       color="error"
     ></v-text-field>
-    <v-textarea v-model="post.content"
+    <v-textarea v-model.trim="post.content"
       color="success"
     ></v-textarea>
     <button @click="isUpdate ? updatePost() : createPost()">done</button>
@@ -14,6 +14,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import swal from 'sweetalert'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
@@ -54,6 +55,15 @@ export default {
   methods: {
     // 게시글 생성 
     createPost() {
+      if (this.post.title === '') {
+          swal ("제목을 입력해주세요.", {
+          dangerMode: true,
+        })
+      } else if (this.post.content === '') {
+          swal ("내용을 입력해주세요.", {
+          dangerMode: true,
+        })
+      }
       this.$axios({
         method: 'post',
         url: `${SERVER_URL}/community/post/`,

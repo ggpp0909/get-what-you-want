@@ -7,6 +7,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import swal from 'sweetalert'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
@@ -14,7 +15,7 @@ export default {
   name: 'CommentCreate',
   data() {
     return {
-      content: null,
+      content: '',
     }
   },
   props: {
@@ -22,6 +23,11 @@ export default {
   },
   methods: {
     createComment() {
+      if (this.content === '') {
+          swal ("댓글을 입력해주세요.", {
+          dangerMode: true,
+        })
+      }
       const commentItem = {
         content: this.content
       }
@@ -35,6 +41,7 @@ export default {
           .then(() => {
             this.reloadComment()
             this.content = null
+            // swal('하이')
           })
           .catch(err => {
             console.log(err)
