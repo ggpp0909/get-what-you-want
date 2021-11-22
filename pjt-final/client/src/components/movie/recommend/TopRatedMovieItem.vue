@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div @click="goToMovieDetail">
-      <img :src="posterPath" :alt="`${topRatedItem.title} 포스터`" height="100">
+    <div @click="goToMovieDetail" class="movieitem">
+      <img :src="posterPath" :alt="`${topRatedItem.title} 포스터`" height="90%">
       <p>{{ topRatedItem.title }}</p>
     </div>
   </div>

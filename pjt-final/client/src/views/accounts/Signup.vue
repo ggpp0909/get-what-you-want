@@ -104,19 +104,19 @@ export default {
           console.log(err)
         })
     },
-    getMovies() {
-       this.$axios({
-        method: 'get',
-        url: `${SERVER_URL}/movie/signup_like/`,
-        data: credentials
-      })
-        .then(res => {
-          console.log(res)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
+    // getMovies() {
+    //    this.$axios({
+    //     method: 'get',
+    //     url: `${SERVER_URL}/movie/signup_like/`,
+    //     data: credentials
+    //   })
+    //     .then(res => {
+    //       console.log(res)
+    //     })
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+    // },
   }
 }
 </script>

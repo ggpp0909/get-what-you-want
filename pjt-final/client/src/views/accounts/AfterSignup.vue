@@ -11,12 +11,12 @@ export default {
   name: 'AfterSignup',
   data: function () {
     return {
-      credentials:{
-        'movie_id': null,
-        'title': null,
-        'poster_path': null,
-        'genre_ids': null
-      }
+      // credentials:{
+      //   'movie_id': null,
+      //   'title': null,
+      //   'poster_path': null,
+      //   'genre_ids': null
+      // }
     }
   },
   methods: {
@@ -24,7 +24,7 @@ export default {
        this.$axios({
         method: 'get',
         url: `${SERVER_URL}/movie/signup_like/`,
-        data: credentials
+        // data: credentials
       })
         .then(res => {
           console.log(res)

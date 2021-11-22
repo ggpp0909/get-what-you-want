@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar color="white" absolute shrink-on-scroll scroll-target="#scrolling-techniques-2" fade-img-on-scroll prominent
       elevation="1"
-      class="application">
+      class="mainFont">
 
       <!-- <template v-slot:img="{ props }">
             <img :src="require(`@/assets/test.png`)" alt="유저프로필" v-bind="props" >
@@ -87,9 +87,9 @@
       class="overflow-y-auto padding"
       max-height="100vh"
     >
-      <v-container style="height: 1000px;">
+      <v-main style="height: 1000px;" class="mainFont">
         <router-view :key="$route.fullPath" @changeProfileImg="changeProfileImg"/>
-      </v-container> 
+      </v-main> 
     </v-sheet>
   </v-app>
 </template>
@@ -130,9 +130,12 @@ export default {
 
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&family=Playfair+Display+SC:wght@900&display=swap');
 .application {
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Playfair Display SC', serif;  
+}
+.mainFont {
+  font-family: 'JetBrains Mono', monospace;
 }
 .padding{
   padding-top:150px
