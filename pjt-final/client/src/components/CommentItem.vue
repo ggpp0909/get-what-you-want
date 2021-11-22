@@ -71,16 +71,17 @@ export default {
           console.log(err)
         })
     },
-    showInput() { // 수정 버튼 눌렸을 때, input창 나타내기 
+    // 수정 버튼 눌렸을 때, input창 나타내기 
+    showInput() { 
       this.isUpdate = !this.isUpdate
       this.field.content = this.comment.content
     },
+    // 프로필 이미지
     getUserProfileImg() {
-      console.log(this.comment.profile_image)
       if (this.comment.user.profile_image === null) {
         return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU00i-_pNcxxQ69OH2c8MyVuHS0Q4GdMDR7w&usqp=CAU'
       } else {
-        return  `http://127.0.0.1:8000${this.comment.profile_image}`
+        return `http://127.0.0.1:8000${this.comment.user.profile_image}`
       }
     }
   },

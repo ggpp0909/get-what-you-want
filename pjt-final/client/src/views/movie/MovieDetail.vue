@@ -88,8 +88,6 @@ export default {
           this.genres = genres
           // 예고편 있나요
           this.isVideo = res.data.video.length > 0 ? true : false
-          console.log('------무비디테일----')
-          console.log(res.data.video)
         })
         .catch(err => {
           console.log(err)

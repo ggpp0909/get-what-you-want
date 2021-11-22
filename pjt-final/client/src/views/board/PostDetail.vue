@@ -99,10 +99,10 @@ export default {
         headers: this.config
       })
         .then(() => {
-          if (this.likeState) {
-            this.likeCount -= 1
-          } else {
-            this.likeCount += 1
+          if (this.likeState) {  
+            this.likeCount -= 1 // 좋아요한 상태라면
+          } else {              
+            this.likeCount += 1 // 좋아요한 상태 아님 
           }
           this.likeState = !this.likeState
         })
@@ -110,11 +110,9 @@ export default {
           console.log(err)
         })
     }
-
   },
   created() {
     this.getPost() // 영화 디테일 불러오기  
-    
   }
 }
 </script>

@@ -46,9 +46,8 @@ export default {
           localStorage.setItem('jwt', res.data.token) // jwt 토큰 localStorage에 저장 
           this.$store.dispatch('setUserName', this.credentials.username)  // 로그인한 유저 아이디 저장 
           this.$store.dispatch('setToken')  // 토큰 state에 저장 
-          this.$router.push({ name: 'Home' })
         })
-        .then(() => {
+        .then(() => { // 유저정보 받아오기 
           this.$axios({
             method: 'get',
             url: `${SERVER_URL}/accounts/${this.credentials.username}/`, 
@@ -56,6 +55,7 @@ export default {
           .then(res => {
             this.$store.dispatch('setUserProfileImg', res.data.profile_image) // 로그인한 유저 프로필 이미지 저장
             this.$store.dispatch('setIsAdmin', res.data.is_superuser) // 로그인한 유저 관리자 여부 저장
+            this.$router.push({ name: 'Home' })
           })
         })
         .catch(err => {

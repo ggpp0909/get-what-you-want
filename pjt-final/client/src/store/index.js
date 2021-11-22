@@ -53,11 +53,11 @@ export default new Vuex.Store({
       commit('SET_TOKEN', localStorage.getItem('jwt'))
     },
     // 프로필 이미지 저장
-    setUserProfileImg({commit}, profileImg) {
+    setUserProfileImg({ commit }, profileImg) {
       commit('SET_USER_PROFILE_IMG', profileImg)
     },
     // 관리자 여부 저장
-    setIsAdmin({commit}, isAdmin) {
+    setIsAdmin({ commit }, isAdmin) {
       commit('SET_IS_ADMIN', isAdmin)
     }
   },

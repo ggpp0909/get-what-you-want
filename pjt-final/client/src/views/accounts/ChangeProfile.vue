@@ -65,12 +65,12 @@ export default {
           dangerMode: true,
         })
       }
-
+      // 수정 데이터 넣기 
       let info = new FormData
       info.append('files', this.files);
       info.append('nickname', this.nickname);
       info.append('email', this.email);
-
+      // 서버에 수정 요청 
       this.$axios({
         method: 'put',
         url: `${SERVER_URL}/accounts/change_profile/`,
@@ -82,14 +82,13 @@ export default {
       })
         .then(() => {
           this.getProfile()
-          this.$emit('changeProfileImg', this.newProfileImage)
           this.profileImage = 'https://mblogthumb-phinf.pstatic.net/MjAxODA0MTBfMjI2/MDAxNTIzMzY2MjI5Nzk0.xDtjpIX7dGFtPIY5sakKXpIF6295RrBbaF88VDSGyEEg.WRuXJKeZJNbiaNzyceStJLk7Imcn5fk3MpWZbn5g1wcg.JPEG.0ooz05/%EB%B9%84%EA%B3%B5%EA%B0%9C_%EC%95%84%EB%B0%94%ED%83%80.jpg?type=w800'
         })
         .catch(err => {
           console.log(err)
         })
     },
-   // 프로필 이미지 변경 
+   // 프로필 이미지 미리보기 
     changeProfileImg(file) {
       this.newProfileImage = URL.createObjectURL(file)
      }
