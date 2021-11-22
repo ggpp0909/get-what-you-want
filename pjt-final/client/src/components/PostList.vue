@@ -1,19 +1,38 @@
 <template>
   <div>
-    <h1>PostList</h1>
-    <div v-if="isPost">
-      <div
-        v-for="post in posts"
-        :key="post.id"
-      >
-        <h1 @click="postDetail(post.id)">{{ post.title }}</h1>
-      </div>
-    </div>
-    <div v-else>
-      <h1>{{ this.searchBeforeKeyword }}에 해당하는 게시글이 없습니다.</h1>
-    </div>
-    <input type="text" v-model.trim="searchKeyword" placeholder="찾으려는 게시글의 제목을 입력해주세요" @keyup.enter="searchSearch">
-    <button @click="searchSearch">검색</button>
+    <h1>BOARD</h1>
+    <b-table-simple hover small caption-top responsive>
+      <colgroup><col><col><col><col></colgroup>
+      <b-thead head-variant="dark">
+        <b-tr>
+          <b-th colspan="1">number</b-th>
+          <b-th colspan="5">Title</b-th>
+          <b-th colspan="4">User</b-th>
+          <b-th colspan="2">Date</b-th>
+        </b-tr>
+      </b-thead>
+      <!-- 게시글 목록 -->
+      <b-tbody v-if="isPost">
+        <b-tr v-for="post in posts"
+            :key="post.id"
+            @click="postDetail(post.id)"
+        >
+          <b-td colspan="1" >{{ post.id }}</b-td>
+          <b-td colspan="3">{{ post.title }}</b-td>
+          <b-td colspan="4" 
+            v-for="user in post" 
+            :key="user.id"
+          >
+            <img :src="`http://127.0.0.1:8000${user.profile_image}`" alt="" height="30">
+            {{ user.nickname }}
+          </b-td>
+          <b-td colspan="2">{{ post.created_at }}</b-td>
+        </b-tr>
+      </b-tbody>
+      <b-tbody v-else>
+        <b-td colspan="12" rowspan="3" class="text-center">{{ this.searchBeforeKeyword }}에 해당하는 게시글이 없습니다.</b-td>
+      </b-tbody>
+    </b-table-simple>
   </div>
 </template>
 
@@ -43,6 +62,7 @@ export default {
       })
         .then(res => {
           this.posts = res.data
+          console.log(res)
         })
         .catch(err => {
           console.log(err)
@@ -73,5 +93,8 @@ export default {
 </script>
 
 <style>
-
+.searchBar {
+  margin-right: 0px;
+  padding-left: 100px;
+}
 </style>

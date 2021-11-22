@@ -1,7 +1,18 @@
 <template>
   <v-container>
     <post-list></post-list>
-  <button @click="postCreate">Create</button>
+   <v-row>
+      <v-col class="pa-2">
+        <button @click="postCreate">Create</button>
+      </v-col>
+      <v-col>
+        <!-- 검색 -->
+        <v-text-field v-model.trim="searchMovie" @keyup.enter="searchSearch" 
+            placeholder="검색어를 입력하세요" outlined dense label="Search Movie" >
+          <v-icon slot="append" @click="searchSearch">mdi-magnify</v-icon>
+        </v-text-field>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

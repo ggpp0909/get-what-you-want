@@ -8,6 +8,7 @@ export default new Vuex.Store({
   plugins: [createPersistedState()],
   state: {
     userName: null,
+    profileImg: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU00i-_pNcxxQ69OH2c8MyVuHS0Q4GdMDR7w&usqp=CAU',
     token: null,
     config: null,
   },
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     },
     DELETE_USERNAME(state) {
       state.userName = null
+      state.profileImg = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU00i-_pNcxxQ69OH2c8MyVuHS0Q4GdMDR7w&usqp=CAU'
       state.token = null
       state.config = null
     },
@@ -25,7 +27,13 @@ export default new Vuex.Store({
       state.config = {
         Authorization: `JWT ${token}` 
       }
+    },
+    SET_USER_PROFILE_IMG(state, profileImg) {
+      if (profileImg != null) {
+        state.profileImg = `http://127.0.0.1:8000${profileImg}`
+      }
     }
+
   },
   actions: {
     // 유저 네임 저장 
@@ -39,6 +47,10 @@ export default new Vuex.Store({
     setToken({ commit }) {
       commit('SET_TOKEN', localStorage.getItem('jwt'))
     },
+    // 프로필 이미지 저장
+    setUserProfileImg({commit}, profileImg) {
+      commit('SET_USER_PROFILE_IMG', profileImg)
+    }
   },
   modules: {
   }

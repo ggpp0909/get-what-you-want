@@ -1,12 +1,14 @@
 <template>
   <div>
     <comment-create :reloadComment="reloadComment"></comment-create>
-    <comment-item
-      v-for="comment in commentList"
-      :key="comment.id"
-      :comment="comment"  
-      :reloadComment="reloadComment"
-    ></comment-item>
+ 
+      <comment-item
+        v-for="comment in commentList"
+        :key="comment.id"
+        :comment="comment"  
+        :reloadComment="reloadComment"
+      ></comment-item>
+    
   </div>
 </template>
 
@@ -33,6 +35,7 @@ export default {
     }
   },
   methods: {
+    // 댓글 다시 로드 
     reloadComment() {
       this.$axios({
         method: 'get',
@@ -50,6 +53,7 @@ export default {
   watch: {
     comments() {
       this.commentList = this.comments
+      console.log(this.commentList)
     }
   }
 }
