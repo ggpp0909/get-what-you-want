@@ -32,6 +32,19 @@
       </v-slide-group>
     </div>
     
+    <div class="movieTag">
+      <h1>time movie</h1>
+      <v-slide-group>
+      <time-movie-list></time-movie-list>
+      </v-slide-group>
+    </div>
+
+    <div class="movieTag">
+      <h1>Review movie</h1>
+      <v-slide-group>
+      <review-movie-list></review-movie-list>
+      </v-slide-group>
+    </div>
   </div>
 </template>
 
@@ -41,6 +54,8 @@ import TopRatedMovieList from '@/components/movie/recommend/TopRatedMovieList'
 import RecommendMovieList from '@/components/movie/recommend/RecommendMovieList'
 import SimilarMovieList from '@/components/movie/recommend/SimilarMovieList'
 import WeatherMovieList from '@/components/movie/recommend/WeatherMovieList'
+import TimeMovieList from '@/components/movie/recommend/TimeMovieList'
+import ReviewMovieList from '@/components/movie/recommend/ReviewMovieList'
 import { mapState } from 'vuex'
 
 import _ from 'lodash'
@@ -55,6 +70,8 @@ export default {
     RecommendMovieList,
     SimilarMovieList,
     WeatherMovieList,
+    TimeMovieList,
+    ReviewMovieList,
   },
   data() {
     return {
