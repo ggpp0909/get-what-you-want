@@ -26,12 +26,12 @@ class Like(models.Model):
         return self.like_movie_title
 
 class CrawledMovie(models.Model):
-    movie_id = models.IntegerField(primary_key=True)
+    movie_id = models.CharField(max_length = 10, primary_key=True)
     title = models.CharField(max_length=100, null=True)
     original_title = models.CharField(max_length=50, null=True)
     genre_1 = models.CharField(max_length=10, null=True)
     genre_2 = models.CharField(max_length=10, null=True)
-    gnere_3 = models.CharField(max_length=10, null=True)
+    genre_3 = models.CharField(max_length=10, null=True)
     genre_4 = models.CharField(max_length=10, null=True)
     budget = models.IntegerField(null=True)
     overview = models.TextField(null=True)
