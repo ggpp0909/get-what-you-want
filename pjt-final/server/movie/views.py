@@ -287,12 +287,12 @@ SF878, TV 영화10770, 가족10751, 공포27, 다큐멘터리99, 드라마18,
 로맨스10749, 모험12, 미스터리9648, 범죄80, 서부37, 스릴러53, 
 애니메이션16, 액션28, 역사36, 음악10402, 판타지14, 전쟁10752, 코미디35
 '''
-sentimental = ['18', '16', '10402', '14', '10749']
+sentimental = ['18', '10402', '14', '10749']
 gloomy = ['27', '80', '53', '10752', '9648']
 fierce = ['878', '27', '80', '53', '10752']
 scary = ['27', '80', '53']
 innocent = ['16', '10402', '35', '10752']
-positive = ['878', '18', '10749', '16', '28', '10402', '14', '10751', '35']
+positive = ['878', '18', '10749', '28', '10402', '14', '10751', '35']
 
 weather_code = {
     'Thunderstorm': fierce,
@@ -328,11 +328,11 @@ def weather_recommend(request):
     return Response(results)
 
 time = {
-    'dawn': sentimental + scary + gloomy,
+    'dawn': sentimental + innocent + scary + gloomy,
     'morning': positive + innocent,
     'afternoon': positive + fierce,
     'dinner': sentimental + innocent,
-    'night': scary + gloomy + sentimental,
+    'night': scary + gloomy + sentimental + innocent,
 }
 
 @api_view(['GET'])
