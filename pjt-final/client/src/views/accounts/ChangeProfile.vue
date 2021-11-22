@@ -51,6 +51,7 @@ export default {
             this.profileImage = this.profileImg
           } else {
             this.profileImage = `http://127.0.0.1:8000${res.data.profile_image}`
+            this.$store.dispatch('setUserProfileImg', this.profileImage)
           }
         })
         .catch(err => {
@@ -80,8 +81,7 @@ export default {
         }
       })
         .then(() => {
-          this.$store.dispatch('setUserProfileImg', this.newProfileImage)
-          this.$router.go()
+          this.getProfile()
         })
         .catch(err => {
           console.log(err)

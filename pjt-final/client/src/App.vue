@@ -121,7 +121,6 @@ export default {
     },
     // 유저 프로필 변경
     changeProfileImg(img) {
-      console.log(img)
       this.userProfileImg = `http://127.0.0.1:8000${img}`
     },
     askForCoords() {
@@ -182,7 +181,6 @@ export default {
   },
   create() {
     this.loadCoords()
-    console.log(this.profileImg)
   },
 }
 </script>
