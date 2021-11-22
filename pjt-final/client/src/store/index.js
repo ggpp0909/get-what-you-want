@@ -11,6 +11,7 @@ export default new Vuex.Store({
     profileImg: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU00i-_pNcxxQ69OH2c8MyVuHS0Q4GdMDR7w&usqp=CAU',
     token: null,
     config: null,
+    isAdmin: null,
   },
   mutations: {
     SET_USERNAME(state, userName) {
@@ -21,6 +22,7 @@ export default new Vuex.Store({
       state.profileImg = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU00i-_pNcxxQ69OH2c8MyVuHS0Q4GdMDR7w&usqp=CAU'
       state.token = null
       state.config = null
+      state.isAdmin = null
     },
     SET_TOKEN(state, token) {
       state.token = token
@@ -32,6 +34,9 @@ export default new Vuex.Store({
       if (profileImg != null) {
         state.profileImg = `http://127.0.0.1:8000${profileImg}`
       }
+    },
+    SET_IS_ADMIN(state, isAdmin) {
+      state.isAdmin = isAdmin
     }
 
   },
@@ -50,6 +55,10 @@ export default new Vuex.Store({
     // 프로필 이미지 저장
     setUserProfileImg({commit}, profileImg) {
       commit('SET_USER_PROFILE_IMG', profileImg)
+    },
+    // 관리자 여부 저장
+    setIsAdmin({commit}, isAdmin) {
+      commit('SET_IS_ADMIN', isAdmin)
     }
   },
   modules: {

@@ -22,9 +22,10 @@
             sm="6"
           >
             <v-select
-              :deleteReasons="this.deleteReasons"
+              :items="items"
               label="탈퇴 사유"
-              outlined
+              solo
+              v-model="reason"
             ></v-select>
           </v-col>
         </v-row>
@@ -47,8 +48,9 @@ export default {
     return {
       confirm: false,
       password: '',
-      deleteReasons: ['그냥', '내가 원하는 정보 없어서', '사용하기 불편함', '계정을 새로 만들고 싶어요'],
+      items: ['서비스 불만', '개인정보 유출 우려', '사이트 이용 빈도 낮음', '지구 온난화 방지를 위한 PC사용 자제', '회원간의 트러블', '재 가입을 위해서'],
       detailReason: null,
+      reason: null
     }
   },
   methods: {
@@ -77,14 +79,14 @@ export default {
     },
     // 회원탈퇴
     deleteUser: function () {
-      // const deleteInfo = {
-      //   reason: null,
-      //   detailReason: this.detailReason
-      // }
+      const deleteInfo = {
+        reason: this.reason,
+        detailReason: this.detailReason
+      }
       this.$axios({
         method: 'delete',
         url: `${SERVER_URL}/accounts/withdrawal/`, 
-        // data: deleteInfo,
+        data: deleteInfo,
         headers: this.config
       })
         .then(() => {

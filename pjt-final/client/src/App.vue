@@ -64,6 +64,15 @@
                   <router-link to="#" @click.native="logout"
                     class="text-decoration-none black--text"
                   ><v-btn depressed rounded text>LOGOUT</v-btn></router-link>
+                  <div v-if="isAdmin">
+                    <v-divider class="my-3"></v-divider>
+                    <a href="http://127.0.0.1:8000/admin/" class="text-decoration-none black--text">
+                      <v-btn depressed rounded text>ADMIN</v-btn>
+                    </a>
+                  </div>
+                  
+                    
+                  
                 </div>
                 <!-- 비로그인 -->
                 <div class="mx-auto text-center" v-else>
@@ -103,7 +112,7 @@ export default {
     return {
       searchMovie: '', // 영화 키워드 
       baseProfileImg: 'https://mblogthumb-phinf.pstatic.net/MjAxODA0MTBfMjI2/MDAxNTIzMzY2MjI5Nzk0.xDtjpIX7dGFtPIY5sakKXpIF6295RrBbaF88VDSGyEEg.WRuXJKeZJNbiaNzyceStJLk7Imcn5fk3MpWZbn5g1wcg.JPEG.0ooz05/%EB%B9%84%EA%B3%B5%EA%B0%9C_%EC%95%84%EB%B0%94%ED%83%80.jpg?type=w800',
-      userProfileImg: this.profileImg
+      userProfileImg: this.profileImg,
    }
   },
   methods: {
@@ -123,7 +132,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['userName', 'profileImg'])
+    ...mapState(['userName', 'profileImg', 'isAdmin'])
   },
 }
 </script>
