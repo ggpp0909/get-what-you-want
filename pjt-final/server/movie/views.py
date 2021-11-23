@@ -395,7 +395,8 @@ def YNs_recommend(request):
         rating_list = [[3] for i in range(100000)]  # 누가 어떤 영화에 점수를 매기면 위의 트리를 타고 내려오면서 rating_list에 추가
 
         # 장르레벨 세팅
-        genre_ids = ['878', '1077', '10751', '27', '99', '18', '10749', '12', '9648', '80', '37', '53', '16', '28', '36', '10402', '14', '10752', '35']
+        # genre_ids = ['878', '10770', '10751', '27', '99', '18', '10749', '12', '9648', '80', '37', '53', '16', '28', '36', '10402', '14', '10752', '35']
+        genre_ids = ['SF', 'TV 영화', '가족', '공포', '다큐멘터리', '드라마', '로맨스', '모험', '미스터리', '범죄', '서부', '스릴러', '애니메이션', '액션', '역사', '음악', '판타지', '전쟁', '코미디']
         node = 1
         # 일단 장르레벨 노드들 고유한 번호를 하나하나 부여해
         # 루트에서부터 처음 장르로 타고 내려갈때 이름가지고 인덱스로 찾아갈수 있게  
@@ -407,7 +408,7 @@ def YNs_recommend(request):
         country = []
         for i in range(len(arr)):
             for j in arr[i]['production_countries']:
-                country.append(j['iso_3166_1'])
+                country.append(j['name'])
         country = list(set(country))
         # print(country)
 
@@ -428,7 +429,7 @@ def YNs_recommend(request):
         for i in range(len(arr)):
             for j in arr[i]['genres']: # arr의 i번째의 장르들 순회
                 for k in arr[i]['production_countries']: # 장르타고 왔어 이제 국가들 순회
-                    cur =v[v[0][str(j['id'])]][k['iso_3166_1']]
+                    cur =v[v[0][str(j['name'])]][k['name']]
                     movie_list[cur].append([arr[i]['id'], arr[i]['popularity']]) # 내가 리뷰한 영화의 정보를 기저노드에 저장시켜.
                     # 기저노드에 [movie_id, 인기도(정렬목적)]
                     # print(cur, i['id'], i['popularity'], i[])
@@ -440,11 +441,14 @@ def YNs_recommend(request):
             # 다 내려왔어?
             if depth == 2:
                 for i in movie_list[cur]:
-                    recom_list.append([total, -i[1], i[0]]) # 감독까지 다 내려왔을때의 점수합과, 그 경로의 영화의 id
+                    recom_list.append([total, -i[1], i[0], arr[:]]) # 감독까지 다 내려왔을때의 점수합과, 그 경로의 영화의 id
+                
                 return
 
             for i in v[cur]:
+                arr.append(i)
                 dfs(v[cur][i], depth + 1, total)
+                arr.pop()
 
         #movie_info : ["장르", "국가", "감독", "평점", "영화 이름"]
         for i in range(len(arr)):
@@ -455,12 +459,12 @@ def YNs_recommend(request):
                     # rating_list[cur].append(movie_info[3])
                     # rating[cur] = sum(rating_list[cur]) / len(rating_list[cur])
 
-                    cur = v[cur][str(j['id'])] # 한단계 내려가
+                    cur = v[cur][str(j['name'])] # 한단계 내려가
                     # 장르
                     rating_list[cur].append(rank_arr[i])
                     rating[cur] = sum(rating_list[cur]) / len(rating_list[cur])
 
-                    cur = v[cur][k['iso_3166_1']]
+                    cur = v[cur][k['name']]
                     # 국가
                     rating_list[cur].append(rank_arr[i])
                     rating[cur] = sum(rating_list[cur]) / len(rating_list[cur])
@@ -468,35 +472,41 @@ def YNs_recommend(request):
 
         # 다업데이트 했어
         recom_list = []
+        arr = []
         dfs(0, 0, 0)
         recom_list.sort(reverse=True)
-        best = recom_list[0][2]
         # print(recom_list)
+        # seen_id = recom_list[0][2]
+        # best_genre = recom_list[0][3][0]
+        # best_country = recom_list[0][3][1]
         # print(best)
-        best_url = get_request_url(f'/movie/{best}', language='ko-KR')
-        result = requests.get(best_url).json()
-        best_genre = result['genres']
-        best_country = result['production_countries']
+        # best_url = get_request_url(f'/movie/{best_id}', language='ko-KR')
+        # result = requests.get(best_url).json()
+        # print(seen_id, best_genre, best_country)
+        seen_arr = []
+        genre_arr = []
+        country_arr = []
+        for i in range(len(recom_list)):
+            temp = recom_list[i][3][0]
+            if temp not in genre_arr:
+                genre_arr.append(temp)
+            temp = recom_list[i][3][1]
+            if temp not in country_arr:
+                country_arr.append(temp)
+            temp = recom_list[i][2]
+            if temp not in country_arr:
+                seen_arr.append(temp)
+            if i == 4:
+                break
 
+        # recommend_movie = CrawledMovie.objects.filter((Q(genre_1__in=best_genre_arr)|Q(genre_2__in=best_genre_arr)|Q(genre_3__in=best_genre_arr)|Q(genre_4__in=best_genre_arr))&(Q(country_1__in=best_country_arr)|Q(country_2__in=best_country_arr)|Q(country_3__in=best_country_arr))).order_by('-popularity')[:20]
 
-        # print(result)
-        # print(best_genre)
-        # print(best_country)
+        # bestserializer = CrawledMovieSerializer(recommend_movie, many=True)
 
-        best_genre_arr = []
-        # best_genre_query = []
-        for i in best_genre:
-            best_genre_arr.append(i['name'])
+        # return Response({'아무거나': 1232})
+        recommend_movie = CrawledMovie.objects.filter((Q(genre_1__in=genre_arr)|Q(genre_2__in=genre_arr)|Q(genre_3__in=genre_arr)|Q(genre_4__in=genre_arr))&(Q(country_1__in=country_arr)|Q(country_2__in=country_arr)|Q(country_3__in=country_arr))).exclude(movie_id__in=seen_arr).order_by('-popularity')[:20]
 
-        best_country_arr = []
-        for i in best_country:
-            best_country_arr.append(i['name'])
-
-        # print(best_genre_arr)
-        # print(best_country_arr)
-
-        recommend_movie = CrawledMovie.objects.filter((Q(genre_1__in=best_genre_arr)|Q(genre_2__in=best_genre_arr)|Q(genre_3__in=best_genre_arr)|Q(genre_4__in=best_genre_arr))&(Q(country_1__in=best_country_arr)|Q(country_2__in=best_country_arr)|Q(country_3__in=best_country_arr))).order_by('-popularity')[:20]
-        
         bestserializer = CrawledMovieSerializer(recommend_movie, many=True)
 
         return Response(bestserializer.data)
+    
