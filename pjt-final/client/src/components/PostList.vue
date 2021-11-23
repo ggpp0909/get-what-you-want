@@ -14,10 +14,10 @@
       <colgroup><col><col><col><col></colgroup>
       <b-thead head-variant="dark">
         <b-tr>
-          <b-th colspan="1">ID</b-th>
-          <b-th colspan="3">TITLE</b-th>
-          <b-th colspan="2">USER</b-th>
-          <b-th colspan="1">DATE</b-th>
+          <b-th  class="text-center">ID</b-th>
+          <b-th colspan="4" class="text-center">TITLE</b-th>
+          <b-th colspan="2" class="text-center">USER</b-th>
+          <b-th  class="text-center">DATE</b-th>
         </b-tr>
       </b-thead>
       <!-- 게시글 목록 -->
@@ -26,16 +26,17 @@
             :key="post.id"
             @click="postDetail(post.id)"
         >
-          <b-td >{{ index+1 }}</b-td>
-          <b-th >{{ post.title }}</b-th>
+          <b-td class="text-center">{{ index+1 }}</b-td>
+          <b-td class="text-center" colspan="4">{{ post.title }}</b-td>
           <b-td  
             v-for="user in post" 
             :key="user.id"
+            class="text-center"
           >
             <img :src="getUserProfileImg(user.profile_image)" alt="" height="30">
             {{ user.nickname }}
           </b-td>
-          <b-td>{{changeDate(post.created_at)}}</b-td>
+          <b-td class="text-center">{{changeDate(post.created_at)}}</b-td>
         </b-tr>
       </b-tbody>
       <!-- 게시글 없을때 -->
