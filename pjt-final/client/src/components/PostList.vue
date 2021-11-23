@@ -1,13 +1,23 @@
 <template>
   <div>
-    <b-table-simple hover small caption-top responsive>
+    <v-row >
+      <v-col md="2"><h1>BOARD</h1></v-col>
+      <v-col md="4" offset-md="6" class="searchInput">
+        <v-text-field v-model.trim="searchKeyword" @keyup.enter="searchPost" 
+            placeholder="검색어를 입력하세요" dense flat shaped label="Search Movie">
+          <v-icon slot="append" @click="searchPost">mdi-magnify</v-icon>
+        </v-text-field>
+      </v-col>
+    </v-row>
+    <b-table-simple hover small caption-top responsive id="my-table"
+      :current-page="currentPage">
       <colgroup><col><col><col><col></colgroup>
       <b-thead head-variant="dark">
         <b-tr>
-          <b-th colspan="1">number</b-th>
-          <b-th colspan="5">Title</b-th>
-          <b-th colspan="4">User</b-th>
-          <b-th colspan="2">Date</b-th>
+          <b-th colspan="1">ID</b-th>
+          <b-th colspan="3">TITLE</b-th>
+          <b-th colspan="2">USER</b-th>
+          <b-th colspan="1">DATE</b-th>
         </b-tr>
       </b-thead>
       <!-- 게시글 목록 -->
@@ -22,16 +32,28 @@
             v-for="user in post" 
             :key="user.id"
           >
-            <!-- <img :src="`http://127.0.0.1:8000${user.profile_image}`" alt="" height="30"> -->
+            <img :src="getUserProfileImg(user.profile_image)" alt="" height="30">
             {{ user.nickname }}
           </b-td>
           <b-td>{{changeDate(post.created_at)}}</b-td>
         </b-tr>
       </b-tbody>
+      <!-- 게시글 없을때 -->
       <b-tbody v-else>
         <b-td colspan="12" rowspan="3" class="text-center">{{ this.searchBeforeKeyword }}에 해당하는 게시글이 없습니다.</b-td>
       </b-tbody>
     </b-table-simple>
+    <!-- pagination -->
+    <div class="q-pa-lg flex flex-center">
+      <q-btn @click="doSomething" label="Do something" />
+    <q-pagination
+      v-model="currentPage"
+      :max="totalPage"
+      @input="goToPage"
+      color="black"
+      :max-pages="4"
+    />
+    </div>
   </div>
 </template>
 
@@ -45,10 +67,12 @@ export default {
   data() {
     return {
       posts: null,
+      searchKeyword: null,
+      searchBeforeKeyword: null,
+      isPost: true,
+      currentPage: 1,
+      totalPage: 1, 
     }
-  },
-  props: {
-    isPost: Boolean
   },
   methods: {
     // 클릭한 게시글로 이동 
@@ -60,9 +84,12 @@ export default {
       this.$axios({
         method: 'get',
         url: `${SERVER_URL}/community/`,
+        params: {page: this.currentPage}
       })
         .then(res => {
-          this.posts = res.data
+          this.posts = _.slice(res.data, 0, res.data.length-1)
+          this.totalPage = _.last(res.data).possible_page
+          console.log(this.totalPage)
           console.log(res)
         })
         .catch(err => {
@@ -71,6 +98,35 @@ export default {
     },
     changeDate(date) {
       return _.join(_.slice(date, 0, 10), '')
+    },
+    // 페이지 이동
+    goToPage() {
+      this.getPosts()
+    },
+    // 게시글 검색
+    searchPost() {
+      this.$axios({
+        method: 'get',
+        url: `${SERVER_URL}/community/${this.searchKeyword}/search/`,
+      })
+        .then(res => {
+          this.posts = res.data
+          console.log(res)
+          this.isPost = this.posts.length > 0 ? true : false
+          this.searchBeforeKeyword = this.searchKeyword
+          this.searchKeyword = null
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 프로필 이미지
+    getUserProfileImg(img) {
+      if (img === null) {
+        return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU00i-_pNcxxQ69OH2c8MyVuHS0Q4GdMDR7w&usqp=CAU'
+      } else {
+        return `http://127.0.0.1:8000${img}`
+      }
     },
   },
   created() {
