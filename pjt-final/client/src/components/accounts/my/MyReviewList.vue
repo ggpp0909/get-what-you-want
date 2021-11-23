@@ -1,7 +1,11 @@
 <template>
   <div>
     my review
-    <my-review-item></my-review-item>
+    <my-review-item
+      v-for="review in this.reviewSet"
+      :key="review.id"
+      :review="review"
+    ></my-review-item>
   </div>
 </template>
 
@@ -12,6 +16,9 @@ export default {
   name: 'MyReviewList',
   components: {
     MyReviewItem
+  },
+  props: {
+    reviewSet: Array
   }
 }
 </script>
