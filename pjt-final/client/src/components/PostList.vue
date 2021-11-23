@@ -44,16 +44,12 @@
       </b-tbody>
     </b-table-simple>
     <!-- pagination -->
-    <div class="q-pa-lg flex flex-center">
-      <q-btn @click="doSomething" label="Do something" />
-    <q-pagination
+    <v-pagination
       v-model="currentPage"
-      :max="totalPage"
+      :length="totalPage"
       @input="goToPage"
-      color="black"
-      :max-pages="4"
-    />
-    </div>
+      :max-pages="3"
+    ></v-pagination>
   </div>
 </template>
 
@@ -89,8 +85,6 @@ export default {
         .then(res => {
           this.posts = _.slice(res.data, 0, res.data.length-1)
           this.totalPage = _.last(res.data).possible_page
-          console.log(this.totalPage)
-          console.log(res)
         })
         .catch(err => {
           console.log(err)
@@ -111,7 +105,6 @@ export default {
       })
         .then(res => {
           this.posts = res.data
-          console.log(res)
           this.isPost = this.posts.length > 0 ? true : false
           this.searchBeforeKeyword = this.searchKeyword
           this.searchKeyword = null
@@ -135,9 +128,25 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
 .searchBar {
   margin-right: 0px;
   padding-left: 100px;
+}
+
+$pagination-item  :70pxs;
+</style>
+
+<style scoped>
+::v-deep .v-pagination__item {
+  border-radius: 0px;
+  margin: 0px;
+  box-shadow: none;
+}
+::v-deep .v-pagination__item--active.primary {
+  background-color: black !important;
+}
+::v-deep .v-pagination__navigation {
+  border-radius: 0px;
 }
 </style>
