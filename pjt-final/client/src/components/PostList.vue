@@ -14,10 +14,10 @@
       <colgroup><col><col><col><col></colgroup>
       <b-thead head-variant="dark">
         <b-tr>
-          <b-th colspan="1">ID</b-th>
-          <b-th colspan="3">TITLE</b-th>
-          <b-th colspan="2">USER</b-th>
-          <b-th colspan="1">DATE</b-th>
+          <b-th  class="text-center">ID</b-th>
+          <b-th colspan="4" class="text-center">TITLE</b-th>
+          <b-th colspan="2" class="text-center">USER</b-th>
+          <b-th  class="text-center">DATE</b-th>
         </b-tr>
       </b-thead>
       <!-- 게시글 목록 -->
@@ -26,16 +26,17 @@
             :key="post.id"
             @click="postDetail(post.id)"
         >
-          <b-td >{{ index+1 }}</b-td>
-          <b-th >{{ post.title }}</b-th>
+          <b-td class="text-center">{{ index+1 }}</b-td>
+          <b-td class="text-center" colspan="4">{{ post.title }}</b-td>
           <b-td  
             v-for="user in post" 
             :key="user.id"
+            class="text-center"
           >
             <img :src="getUserProfileImg(user.profile_image)" alt="" height="30">
             {{ user.nickname }}
           </b-td>
-          <b-td>{{changeDate(post.created_at)}}</b-td>
+          <b-td class="text-center">{{changeDate(post.created_at)}}</b-td>
         </b-tr>
       </b-tbody>
       <!-- 게시글 없을때 -->
@@ -44,16 +45,12 @@
       </b-tbody>
     </b-table-simple>
     <!-- pagination -->
-    <div class="q-pa-lg flex flex-center">
-      <q-btn @click="doSomething" label="Do something" />
-    <q-pagination
+    <v-pagination
       v-model="currentPage"
-      :max="totalPage"
+      :length="totalPage"
       @input="goToPage"
-      color="black"
-      :max-pages="4"
-    />
-    </div>
+      :max-pages="3"
+    ></v-pagination>
   </div>
 </template>
 
@@ -89,8 +86,6 @@ export default {
         .then(res => {
           this.posts = _.slice(res.data, 0, res.data.length-1)
           this.totalPage = _.last(res.data).possible_page
-          console.log(this.totalPage)
-          console.log(res)
         })
         .catch(err => {
           console.log(err)
@@ -111,7 +106,6 @@ export default {
       })
         .then(res => {
           this.posts = res.data
-          console.log(res)
           this.isPost = this.posts.length > 0 ? true : false
           this.searchBeforeKeyword = this.searchKeyword
           this.searchKeyword = null
@@ -135,9 +129,25 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
 .searchBar {
   margin-right: 0px;
   padding-left: 100px;
+}
+
+$pagination-item  :70pxs;
+</style>
+
+<style scoped>
+::v-deep .v-pagination__item {
+  border-radius: 0px;
+  margin: 0px;
+  box-shadow: none;
+}
+::v-deep .v-pagination__item--active.primary {
+  background-color: black !important;
+}
+::v-deep .v-pagination__navigation {
+  border-radius: 0px;
 }
 </style>
