@@ -35,7 +35,9 @@ export default {
       })
         .then(res => {
           console.log(res)
-          this.reviewMovies = res.data
+          this.reviewMovies = res.data.filter(movie => {  // 포스터 없는 영화 거르기 
+            return movie.poster_path
+          })
         })
         .catch(err => {
           console.log(err)

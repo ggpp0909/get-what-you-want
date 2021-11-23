@@ -40,7 +40,23 @@ export default {
         url: `${SERVER_URL}/movie/${movieId}/recommend/`, 
       })
         .then(res => {
-          this.recommendMovies = res.data
+          this.recommendMovies = res.data.filter(movie => {  // 포스터 없는 영화 거르기 
+            return movie.poster_path
+          })
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    getRecommendMovie2(movieId) {
+      this.$axios({
+        method: 'get',
+        url: `${SERVER_URL}/movie/${movieId}/recommend/`, 
+      })
+        .then(res => {
+          this.recommendMovies = res.data.filter(movie => {  // 포스터 없는 영화 거르기 
+            return movie.backdrop_path
+          })
         })
         .catch(err => {
           console.log(err)
@@ -49,7 +65,7 @@ export default {
   },
   created() {
     if (this.$route.name === 'MovieRecommend') { // 영화 추천 페이지에서 접근 했을때 
-      this.getRecommendMovie(this.pickRecommendMovie.movie_id)
+      this.getRecommendMovie2(this.pickRecommendMovie.movie_id)
       this.accessDetail = false
     } else {  // 영화 디테일 페이지에서 접근 했을때 
       this.getRecommendMovie(this.$route.params.movieId)

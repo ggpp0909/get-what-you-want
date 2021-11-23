@@ -22,6 +22,11 @@ export default {
     goToMovieDetail() {
       this.$router.push({ name: 'MovieDetail', params: { movieId: this.recommendItem.id } })
     }
+  },
+  created() {
+    if (this.$route.name === 'MovieRecommend') { // 영화 추천 페이지에서 접근 했을때 
+      this.posterPath = `https://image.tmdb.org/t/p/w500${this.recommendItem.backdrop_path}`
+    }
   }
 }
 </script>

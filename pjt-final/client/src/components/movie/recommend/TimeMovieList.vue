@@ -33,7 +33,9 @@ export default {
       })
         .then(res => {
           console.log(res)
-          this.timeMovies = res.data[1]
+          this.timeMovies = res.data[1].filter(movie => {  // 포스터 없는 영화 거르기 
+            return movie.backdrop_path
+          })
         })
         .catch(err => {
           console.log(err)

@@ -34,7 +34,9 @@ export default {
         url: `${SERVER_URL}/movie/popular/`, 
       })
         .then(res => {
-          this.popularMovie = res.data
+          this.popularMovie = res.data.filter(movie => {  // 포스터 없는 영화 거르기 
+            return movie.poster_path
+          })
         })
         .catch(err => {
           console.log(err)

@@ -12,7 +12,7 @@ export default {
   name: 'TopRatedMovieItem',
   data() {
     return {
-      posterPath: `https://image.tmdb.org/t/p/w500${this.topRatedItem.poster_path}`
+      posterPath: `https://image.tmdb.org/t/p/w500${this.topRatedItem.backdrop_path}`
     }
   },
   props: {
