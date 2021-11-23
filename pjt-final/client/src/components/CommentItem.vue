@@ -2,8 +2,8 @@
   <div>
     <div :class="{'show': isUpdate }">
       {{ comment.content }}
-      <img :src="getUserProfileImg()" height="50">
-      <p>작성자: {{ comment.user.nickname }}</p>
+      <img @click="goToUserProfile" :src="getUserProfileImg()" height="50">
+      <p @click="goToUserProfile">작성자: {{ comment.user.nickname }}</p>
       <p>작성일: {{ comment.created_at }}</p>
         <div v-if="isSameUser">
           <button @click="showInput">update</button> |
@@ -83,7 +83,10 @@ export default {
       } else {
         return `http://127.0.0.1:8000${this.comment.user.profile_image}`
       }
-    }
+    },
+    goToUserProfile() {
+      this.$router.push({ name: 'Profile', params: { userName: this.comment.user.username } })
+    },
   },
   created() {
     // 지금 로그인한 유저가 글쓴 유저인지 

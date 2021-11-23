@@ -32,7 +32,9 @@ export default {
         url: `${SERVER_URL}/movie/top_rated/`, 
       })
         .then(res => {
-          this.topRatedMovies = res.data
+          this.topRatedMovies = res.data.filter(movie => {
+            return movie.backdrop_path
+          })
         })
         .catch(err => {
           console.log(err)

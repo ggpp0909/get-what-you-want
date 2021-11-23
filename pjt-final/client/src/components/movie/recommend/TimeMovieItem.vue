@@ -12,7 +12,7 @@ export default {
   name: 'TimeMovieItem',
   data() {
     return {
-      posterPath: `https://image.tmdb.org/t/p/w500${this.timeItem.poster_path}`
+      posterPath: `https://image.tmdb.org/t/p/w500${this.timeItem.backdrop_path}`
     }
   },
   props: {

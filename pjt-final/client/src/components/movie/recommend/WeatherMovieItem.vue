@@ -12,7 +12,7 @@ export default {
   name: 'WeatherMovieItem',
   data() {
     return {
-      posterPath: `https://image.tmdb.org/t/p/w500${this.weatherItem.poster_path}`,
+      posterPath: `https://image.tmdb.org/t/p/w500${this.weatherItem.backdrop_path}`,
       weatherUseItem: null,
     }
   },

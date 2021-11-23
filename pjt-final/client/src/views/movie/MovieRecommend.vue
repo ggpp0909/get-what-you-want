@@ -94,9 +94,11 @@ export default {
               const pickTwo = _.sampleSize(res.data.like_movie, 2)
               this.pickForRecommendMovie = pickTwo[0]
               this.pickForSimilarMovie = pickTwo[1]
+              this.showRS = true
             } else if (res.data.like_movie.length === 1) {
               this.pickForRecommendMovie = res.data.like_movie[0]
               this.pickForSimilarMovie = res.data.like_movie[0]
+              this.showRS = true
             } else {
               this.showRS = false
             }

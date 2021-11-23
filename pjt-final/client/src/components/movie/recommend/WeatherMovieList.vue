@@ -83,7 +83,9 @@ export default {
             })
           return temp2
           })
-        this.weatherMovies = temp1[1]
+        this.weatherMovies = temp1[1].filter(movie => {  // 포스터 없는 영화 거르기 
+            return movie.backdrop_path
+          })
         this.weather = temp1[0].weather
     },
   },
