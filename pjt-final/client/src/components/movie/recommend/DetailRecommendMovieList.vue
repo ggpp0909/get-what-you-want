@@ -1,34 +1,28 @@
 <template>
-  <div class="swiper mySwiper">
-    <div class="swiper-wrapper">
-      <div
+  <div>
+    <!-- 영화 디테일 페이지에서 접근 -->
+    <h1 v-if="accessDetail">recommend movie</h1>
+    <!-- 영화 추천 페이지에서 접근 -->
+    <h1 v-else>회원님이 좋아요를 누른 영화 "{{ pickRecommendMovie.like_movie_title }}" 기반으로 추천드려요 ! </h1>
+    <div class="d-flex">
+      <recommend-movie-item
         v-for="recommendItem in recommendMovies"
         :key="recommendItem.id"
         :recommend-item="recommendItem"
-        class="swiper-slide"
-      >
-      <template>
-        <div @click="goToMovieDetail(recommendItem.id)" class="d-flex flex-column align-items-center">
-          <img :src="`https://image.tmdb.org/t/p/w500${recommendItem.backdrop_path}`" :alt="`${recommendItem.title} 포스터`" width="100%">
-          <div>{{ recommendItem.title }}</div>
-        </div>
-      </template>
-      </div>
+      ></recommend-movie-item>
     </div>
-  <div class="swiper-button-prev"></div>
-  <div class="swiper-button-next"></div> 
   </div>
 </template>
 
 <script>
-// import RecommendMovieItem from '@/components/movie/recommend/RecommendMovieItem'
+import RecommendMovieItem from '@/components/movie/recommend/RecommendMovieItem'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
   name: 'MovieDetailRecommend',
   components: {
-    // RecommendMovieItem
+    RecommendMovieItem
   },
   props: {
     pickRecommendMovie: Object,
@@ -47,7 +41,7 @@ export default {
       })
         .then(res => {
           this.recommendMovies = res.data.filter(movie => {  // 포스터 없는 영화 거르기 
-            return movie.backdrop_path
+            return movie.poster_path
           })
         })
         .catch(err => {
@@ -60,7 +54,6 @@ export default {
         url: `${SERVER_URL}/movie/${movieId}/recommend/`, 
       })
         .then(res => {
-          console.log(res)
           this.recommendMovies = res.data.filter(movie => {  // 포스터 없는 영화 거르기 
             return movie.backdrop_path
           })
@@ -69,9 +62,6 @@ export default {
           console.log(err)
         })
     },
-    goToMovieDetail(id) {
-      this.$router.push({ name: 'MovieDetail', params: { movieId: id } })
-    }
   },
   created() {
     if (this.$route.name === 'MovieRecommend') { // 영화 추천 페이지에서 접근 했을때 
@@ -90,12 +80,6 @@ export default {
 }
 </script>
 
-<style scoped>
-.turn {
-  writing-mode: vertical-rl;
-    border-left-style: solid;
-}
-.swiper-slide {
-  border-left-style: solid;
-}
+<style>
+
 </style>

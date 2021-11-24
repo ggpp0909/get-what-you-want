@@ -17,38 +17,86 @@
       </div>
     </div>
         
-  <!-- TOP RATED -->
-  <div class="movieTag">
-    <h1>top Rated movie</h1>
-    <v-slide-group>
-    <top-rated-movie-list></top-rated-movie-list>
-    </v-slide-group>
-  </div>
-  
+    <!-- TOP RATED -->
+    <div class="d-flex movieTag mt-3">
+      <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+        <h5>TOP RATED MOVIE</h5><h5 class="test2 mx-2">TOP RATED MOVIE</h5>
+      </div>
+    </div>
+      <top-rated-movie-list class="movieLine"></top-rated-movie-list>
+    <div class="d-flex movieTag">
+      <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+        <h5>TOP RATED MOVIE</h5><h5 class="test2 mx-2">TOP RATED MOVIE</h5>
+      </div>
+    </div>
+   
     <div v-if="showRS">
-      <recommend-movie-list :pick-recommend-movie="pickForRecommendMovie"></recommend-movie-list>
-      <similar-movie-list :pick-similar-movie="pickForSimilarMovie"></similar-movie-list>
+      <!-- Recommended movie -->
+      <h3>회원님이 좋아요를 누른 영화 "{{ pickForRecommendMovie.like_movie_title }}" 기반으로 추천드려요!</h3>
+      <div class="d-flex movieTag mt-3">
+        <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+          <h5>RECOMMENDED BY LIKES</h5><h5 class="test2 mx-2">RECOMMENDED BY YOUR LIKES</h5>
+        </div>
+      </div>
+      <recommend-movie-list class="movieLine" :pick-recommend-movie="pickForRecommendMovie"></recommend-movie-list>
+      <div class="d-flex movieTag">
+        <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+          <h5>RECOMMENDED BY YOUR LIKES</h5><h5 class="test2 mx-2">RECOMMENDED BY YOUR LIKES</h5>
+        </div>
+      </div>
+      <!-- similar movie -->
+      <h3>회원님이 좋아요를 누른 영화 "{{ pickForSimilarMovie.like_movie_title }}"와 비슷한 영화들은 어때요 ?</h3>
+      <div class="d-flex movieTag mt-3">
+        <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+          <h5>SIMILAR TO YOUR LIKES</h5><h5 class="test2 mx-2">SIMILAR TO YOUR LIKES</h5>
+        </div>
+      </div>
+      <similar-movie-list class="movieLine" :pick-similar-movie="pickForSimilarMovie"></similar-movie-list>
+      <div class="d-flex movieTag">
+        <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+          <h5>SIMILAR TO YOUR LIKES</h5><h5 class="test2 mx-2">SIMILAR TO YOUR LIKES</h5>
+        </div>
+      </div>
     </div>
 
-    <div class="movieTag">
-      <h1>weather movie</h1>
-      <v-slide-group>
-      <weather-movie-list></weather-movie-list>
-      </v-slide-group>
+    <!-- weather -->
+    <h3 >{{weather}}</h3>
+    <div class="d-flex movieTag mt-3">
+      <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+        <h5>RECOMMENDED BY TODAY'S WEATHER</h5><h5 class="test2 mx-2">RECOMMENDED BY TODAY'S WEATHER</h5>
+      </div>
+    </div>
+    <weather-movie-list class="movieLine" @weather-name="getWeather"></weather-movie-list>
+    <div class="d-flex movieTag">
+      <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+        <h5>RECOMMENDED BY TODAY'S WEATHER</h5><h5 class="test2 mx-2">RECOMMENDED BY TODAY'S WEATHER</h5>
+      </div>
+    </div>
+
+    <!-- time -->
+    <div class="d-flex movieTag mt-3">
+      <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+        <h5>SUITABLE FOR THIS TIME</h5><h5 class="test2 mx-2">SUITABLE FOR THIS TIME</h5>
+      </div>
+    </div>
+    <time-movie-list class="movieLine"></time-movie-list>
+    <div class="d-flex movieTag">
+      <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+        <h5>SUITABLE FOR THIS TIME</h5><h5 class="test2 mx-2">SUITABLE FOR THIS TIME</h5>
+      </div>
     </div>
     
-    <div class="movieTag">
-      <h1>time movie</h1>
-      <v-slide-group>
-      <time-movie-list></time-movie-list>
-      </v-slide-group>
+    <!-- review -->
+    <div class="d-flex movieTag mt-3">
+      <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+        <h5>RECOMMENDED BY YOUR REVIEW</h5><h5 class="test2 mx-2">RECOMMENDED BY YOUR REVIEW</h5>
+      </div>
     </div>
-
-    <div class="movieTag">
-      <h1>Review movie</h1>
-      <v-slide-group>
-      <review-movie-list></review-movie-list>
-      </v-slide-group>
+    <review-movie-list class="movieLine"></review-movie-list>
+    <div class="d-flex movieTag">
+      <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+        <h5>RECOMMENDED BY YOUR REVIEW</h5><h5 class="test2 mx-2">RECOMMENDED BY YOUR REVIEW</h5>
+      </div>
     </div>
   </div>
 </template>
@@ -83,11 +131,29 @@ export default {
       pickForRecommendMovie: null,
       pickForSimilarMovie: null,
       showRS: false,
-      range: 5,
+      range: 2,
+      weather: null
     }
   },
   methods:{
     // 좋아요한 영화 받아오기 
+    getWeather(data) {
+      if (data === 'Clouds') {
+        this.weather = '오늘처럼 구른 낀 날엔 이런 영화가 최고죠.'
+      } else if (data === 'Drizzle') {
+        this.weather = '보슬비가 내리는 지금 이 영화가 땡기지 않나요 ?'
+      } else if (data === 'Rain') {
+        this.weather = '비오는 날 이불속에서 보기좋은 영화들이에요 !'
+      } else if (data === 'Snow') {
+        this.weather = '와 눈이다! 이 영화는 어떠세요?'
+      } else if (data === 'Atmosphere') {
+        this.weather = '대기가 좋지않아요 ! 집 밖에 나가지 말고 영화나 보세요 !'
+      } else if (data === 'Clear') {
+        this.weather = '좋은 날씨에 더 신나게 볼 수 있는 영화들 !'
+      } else if (data === 'Thunderstorm') {
+        this.weather = '천둥소리가 너무 무서워요 ! 이 영화들로 더 무서워지세요 !'
+      }
+    },
     getProfile() {
       this.$axios({
         method: 'get',

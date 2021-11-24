@@ -15,8 +15,8 @@
     <p>투표한 사람 수 {{ movieData.vote_count }}</p>
     <movie-videos :video-list="movieData.video" v-if="isVideo"></movie-videos>
     <div v-if="!isVideo">예고편을 준비중입니다</div>
-    <recommend-movie-list></recommend-movie-list>
-    <similar-movie-list></similar-movie-list>
+    <detail-recommend-movie-list></detail-recommend-movie-list>
+    <detail-similar-movie-list></detail-similar-movie-list>
     <h3>-----------</h3>
     <h3>영화 좋아요 {{ likeCount }}</h3>
     <button @click="changeLike">
@@ -31,8 +31,8 @@
 
 <script>
 import MovieVideos from '@/components/movie/MovieVideos'
-import RecommendMovieList from '@/components/movie/recommend/RecommendMovieList'
-import SimilarMovieList from '@/components/movie/recommend/SimilarMovieList'
+import DetailRecommendMovieList from '@/components/movie/recommend/DetailRecommendMovieList'
+import DetailSimilarMovieList from '@/components/movie/recommend/DetailSimilarMovieList'
 import MovieReviewList from '@/components/movie/MovieReviewList'
 
 import { mapState } from 'vuex'
@@ -44,8 +44,8 @@ export default {
   name: 'MovieDetail',
   components: {
     MovieVideos,
-    RecommendMovieList,
-    SimilarMovieList,
+    DetailRecommendMovieList,
+    DetailSimilarMovieList,
     MovieReviewList,
   },
   data() {

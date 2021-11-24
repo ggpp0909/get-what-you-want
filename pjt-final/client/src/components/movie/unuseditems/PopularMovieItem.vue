@@ -1,5 +1,5 @@
 <template>
-  <div @click="goToMovieDetail" c>
+  <div @click="goToMovieDetail">
     <img :src="posterPath" :alt="`${popularItem.title} 포스터`" height=43%>
     <p>{{ popularItem.title }}</p>
   </div>
