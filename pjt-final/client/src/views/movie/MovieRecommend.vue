@@ -1,24 +1,29 @@
 <template>
-  <div class="">
-
-    <!-- <div class="movieLine mx-3">
-    <h1>POPULAR MOVIE</h1>
-      <popular-movie-list></popular-movie-list>
-    </div> -->
-<!-- <MARQUEE class="movieTag"><h5>POPULAR MOVIE </h5><h5 class="test2 mx-2"> POPULAR MOVIE</h5><h5> POPULAR MOVIE</h5><h5 class="test2 mx-2"> POPULAR MOVIE</h5></MARQUEE> -->
-<div class="movieTag d-flex"><h5>POPULAR MOVIE </h5><h5 class="test2 mx-2"> POPULAR MOVIE</h5><h5> POPULAR MOVIE</h5><h5 class="test2 mx-2"> POPULAR MOVIE</h5></div>
-
-  <v-slide-group class="movieLine v-slide-item--active" show-arrows active-class="success">
+  <div>
+  <!-- <v-slide-group class="movieLine v-slide-item--active" show-arrows active-class="success">
     <popular-movie-list></popular-movie-list>
-  </v-slide-group>
-  
+  </v-slide-group> -->
 
-    <div class="movieTag">
-      <h1>top Rated movie</h1>
-      <v-slide-group>
-      <top-rated-movie-list></top-rated-movie-list>
-      </v-slide-group>
+    <!-- POPULAR  -->
+    <div class="d-flex movieTag">
+      <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+        <h5>POPULAR MOVIE</h5><h5 class="test2 mx-2">POPULAR MOVIE</h5>
+      </div>
     </div>
+    <popular-movie-list class="movieLine"></popular-movie-list>
+    <div class="d-flex movieTag">
+      <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+        <h5>POPULAR MOVIE</h5><h5 class="test2 mx-2">POPULAR MOVIE</h5>
+      </div>
+    </div>
+        
+  <!-- TOP RATED -->
+  <div class="movieTag">
+    <h1>top Rated movie</h1>
+    <v-slide-group>
+    <top-rated-movie-list></top-rated-movie-list>
+    </v-slide-group>
+  </div>
   
     <div v-if="showRS">
       <recommend-movie-list :pick-recommend-movie="pickForRecommendMovie"></recommend-movie-list>
@@ -78,6 +83,7 @@ export default {
       pickForRecommendMovie: null,
       pickForSimilarMovie: null,
       showRS: false,
+      range: 5,
     }
   },
   methods:{
@@ -108,28 +114,38 @@ export default {
           console.log(err)
         })
     },
-    
   },
   computed: {
     ...mapState(['userName', 'config'])
   },
   created() {
     this.getProfile()
+    
   }
 }
 </script>
-
+    
 <style scoped>
 .movieLine {
-  border-style: solid;
-  height: 200px;
+  border-left-style: solid;
+  border-right-style: solid;
+  height: 250px;
 }
 .movieTag {
   border-style: solid;
-  border-bottom-style: none;
   box-sizing: border-box;
-  margin-bottom: -8px;
+  background-color: black;
 }
+.movieTag2 {
+  border-style: solid;
+  border-top-style: none;
+  box-sizing: border-box;
+  margin-bottom: 0px;
+}
+  h5 {
+    margin-bottom: 0px;
+    color: white;
+  }
 .test2 {
   color: orange;
 }

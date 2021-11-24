@@ -1,5 +1,5 @@
 <template>
-  <div @click="goToMovieDetail" class="movieitem d-flex flex-column align-items-center">
+  <div @click="goToMovieDetail" c>
     <img :src="posterPath" :alt="`${popularItem.title} 포스터`" height=43%>
     <p>{{ popularItem.title }}</p>
   </div>

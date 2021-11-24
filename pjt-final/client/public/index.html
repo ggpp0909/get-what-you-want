@@ -8,6 +8,7 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
   </head>
   <body>
     <noscript>
@@ -16,4 +17,45 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
+    <script src="plugin/swiper/js/swiper.min.js"></script>
+    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+    <script type="module">
+      import Swiper from 'https://unpkg.com/swiper@7.3.0/swiper-bundle.esm.browser.min.js'
+      
+      var swiper = new Swiper(".mySwiper", {
+        lazy: true,
+        direction: 'horizontal',
+        loop: true,
+        slidesPerView: 4,
+        observer: true,
+        observeParents: true,
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        speed:300,
+        freeMode: true,
+        keyboard: {
+          enabled: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        autoplay: {
+          delay: 2000,
+          disableOnInteraction: false,
+        },
+        // breakpoints: {
+        //     1280: {
+        //         slidesPerView: 5,
+        //         slidesPerGroup: 5,
+        //     },
+        //     720: {
+        //         slidesPerView: 3,
+        //         slidesPerGroup: 3,
+        //     },
+        // }
+      });
+    </script>
 </html>
