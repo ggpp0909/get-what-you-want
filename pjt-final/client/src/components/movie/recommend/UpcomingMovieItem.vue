@@ -1,5 +1,5 @@
 <template>
-  <div @click="goToMovieDetail" class="swiper-slide">
+  <div @click="goToMovieDetail">
     <img :src="posterPath" :alt="`${ upcomingItem.title } 포스터`" height="100">
     <p>{{ upcomingItem.title }}</p>
   </div>
