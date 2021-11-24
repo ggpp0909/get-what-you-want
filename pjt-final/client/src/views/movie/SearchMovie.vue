@@ -1,16 +1,19 @@
 <template>
-  <div>
-    <h1>{{ this.$route.params.keyword }} 검색 결과</h1>
-    <div v-if="searchResult">
-      <search-movie-item
-        v-for="movie in searchResult"
-        :key="movie.id"
-        :movie="movie"
-      ></search-movie-item>
-    </div>
-    <div v-else>
-      <h1>검색 결과가 없습니다.</h1>
-    </div>
+  <div class="notosans">
+    <h1 class="d-flex flex-column justify-center align-items-center">"{{ this.$route.params.keyword }}" 검색 결과</h1>
+    <v-container>
+      <div v-if="searchResult">
+        <search-movie-item
+          v-for="movie in searchResult"
+          :key="movie.id"
+          :movie="movie"
+        ></search-movie-item>
+      </div>
+      <div v-else>
+        <h1>검색 결과가 없습니다.</h1>
+      </div>
+    </v-container>
+    
     
   </div>
 </template>
@@ -52,6 +55,9 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
+.notosans {
+  font-family: 'Noto Sans KR', sans-serif;
+}
 </style>
