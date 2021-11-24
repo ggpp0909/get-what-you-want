@@ -509,6 +509,6 @@ def YNs_recommend(request):
         recommend_movie = CrawledMovie.objects.filter((Q(genre_1__in=genre_arr)|Q(genre_2__in=genre_arr)|Q(genre_3__in=genre_arr)|Q(genre_4__in=genre_arr))&(Q(country_1__in=country_arr)|Q(country_2__in=country_arr)|Q(country_3__in=country_arr))).exclude(movie_id__in=seen_arr).order_by('-popularity')[:20]
 
         bestserializer = CrawledMovieSerializer(recommend_movie, many=True)
-
+        print(bestserializer)
         return Response(bestserializer.data)
     

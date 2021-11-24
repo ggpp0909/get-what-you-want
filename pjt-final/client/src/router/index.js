@@ -82,6 +82,12 @@ const routes = [
     component: DeleteUser
   },
 
+  // 성인 영화
+  {
+    path: '/movie/forbidden',
+    name: 'IsAdult',
+    component: IsAdult
+  },
   // 영화 조회 
   {
     path: '/movie/:movieId',
@@ -93,12 +99,6 @@ const routes = [
     path: '/recommend',
     name: 'MovieRecommend',
     component: MovieRecommend
-  },
-  // 성인 영화
-  {
-    path: '/movie/forbidden',
-    name: 'IsAdult',
-    component: IsAdult
   },
   // 영화 검색
   {

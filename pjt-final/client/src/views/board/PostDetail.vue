@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>{{ post.title }}</h1>
-    {{ post.content }}
+    <div v-html="this.post"></div>
     <p>마지막 수정일 :{{ post.updated_at }}</p>
     <p>작성일 : {{ post.created_at }}</p>
 
@@ -56,9 +56,10 @@ export default {
       this.$axios({
         method: 'get',
         url: `${SERVER_URL}/community/${this.$route.params.postNum}/detail/`, 
+        headers: this.config
       })
         .then(res => {
-          this.post = res.data
+          this.post = res.data.content.split('\n').join('<br />')
           // 지금 로그인한 유저가 글쓴 유저인지 
           if (this.userName === res.data.user.username) {
             this.isSameUser = true

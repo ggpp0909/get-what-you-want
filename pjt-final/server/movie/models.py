@@ -44,5 +44,6 @@ class CrawledMovie(models.Model):
     vote_average = models.FloatField(null=True)
     vote_count =models.IntegerField(null=True)
     poster_path = models.TextField(null=True)
+    backdrop_path = models.TextField(null=True)
 
 

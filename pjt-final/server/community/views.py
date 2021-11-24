@@ -38,9 +38,18 @@ def post_create(request):
 @permission_classes([AllowAny])
 def post_get_detail(request, post_pk):
     post = get_object_or_404(Post, pk=post_pk)
+    # 현재 좋아요를 요청하는 회원(request.user)이
+    # 해당 게시글의 좋아요를 누른 회원 목록에 이미 있다면,
+    if post.like_users.filter(pk=request.user.pk).exists():
+        is_liked = True
+    else:
+        is_liked = False
+
     serializer = PostDetailSerializer(post)
-    
-    return Response(serializer.data)
+    data = serializer.data
+    data.update({'is_liked': is_liked})
+ 
+    return Response(data)
 
 # PUT일때 게시글 수정, DELETE일때 게시글 삭제
 @api_view(['PUT', 'DELETE'])

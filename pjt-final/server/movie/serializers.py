@@ -37,5 +37,5 @@ class CrawledMovieSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CrawledMovie
-        fields = ('movie_id', 'title', 'poster_path')
+        fields = ('movie_id', 'title', 'poster_path', 'backdrop_path')
        
