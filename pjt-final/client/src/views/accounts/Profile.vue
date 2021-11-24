@@ -1,57 +1,100 @@
 <template>
-  <div>
-    <h1>{{ userProfile.nickname }}</h1>
-    <img :src="profileImg" :alt="`${ userProfile.nickname }님의 프로필 사진`">
-    <div v-if="this.userName != this.$route.params.userName">
-      <button v-if="followState" @click="changeFollowState">unfollow</button>
-      <button v-else @click="changeFollowState">follow</button>
-    </div>
-    <button @click="clickFollow">〠</button> |
-    <button @click="clickMy">✎</button> |
-    <button @click="clickLike">♥︎</button>
+  <v-container>
+    <v-row>
+      <v-col cols="4" class="d-flex flex-column align-items-center justify-content-center"> 
+        <h1>{{ userProfile.nickname }}</h1>
+        <img :src="profileImg" :alt="`${ userProfile.nickname }님의 프로필 사진`" class="profileImg">
+        <div v-if="this.userName != this.$route.params.userName">
 
-    <div>
+          <button v-if="followState" @click="changeFollowState">unfollow</button>
+          <button v-else @click="changeFollowState">follow</button>
+
+        </div>
+        <v-tabs vertical>
+          <v-tab class="tab" @click="[chooseContent('follow'),chooseFollow(true)]"><v-icon left>mdi-account</v-icon>Follow</v-tab>
+          <v-tab class="tab" @click="[chooseContent('like'),chooseLike(true)]"><v-icon left>mdi-account</v-icon>Like</v-tab>
+          <v-tab class="tab" @click="[chooseContent('history'),chooseHistory('review')]"><v-icon left>mdi-account</v-icon>History</v-tab>
+        </v-tabs>
+      </v-col>
+
+      <v-col cols="8">
+      <v-card>
       <!-- 팔로우 팔로워 -->
-      <div :class="{'hide': showFollow }">
-        <h1>Following : {{ followingCount }}</h1>
-        <h1>Follower: {{ followerCount }}</h1> 
-        <button @click="clickFollowing">Following</button> | 
-        <button @click="clickFollower">Follower</button>
+        <div v-if="showFollow">
+          <v-tabs fixed-tabs >
+            <v-tab @click="chooseFollow(true)">
+                <v-badge color="orange" :content="followingCount">FOLLOWING</v-badge>
+            </v-tab>
+            <v-tab @click="chooseFollow(false)">
+              <v-badge color="orange" :content="followerCount">FOLLOWER</v-badge>
+            </v-tab>
+          </v-tabs>
+          <v-card class="overflow-y-auto" height="500px" elevation="0">
+            <div v-if="showFollowing">
+              <following-list 
+                :followings="userProfile.followings"
+                @unfollow="decreaseFollowingCount"
+                @follow="increaseFollowingCount"
+              ></following-list>
+            </div>
+            <div v-if="showFollower">
+              <follower-list 
+                :followers="userProfile.followers"
+                @delete-follower="decreaseFollowerCount"
+              ></follower-list>
+            </div>
+          </v-card>
+        </div>
 
-        <following-list 
-          :class="{'hide': showFollowing }" 
-          :followings="userProfile.followings"
-          @unfollow="decreaseFollowingCount"
-          @follow="increaseFollowingCount"
-        ></following-list>
-        <follower-list 
-          :class="{'hide': showFollower }" 
-          :followers="userProfile.followers"
-          @delete-follower="decreaseFollowerCount"
-        ></follower-list>
-      </div>
-
-      <!-- 유저가 작성한 글 -->
-      <div :class="{'hide': showMy }">
-        <button @click="clickMyR">My Review</button> <span>{{ userProfile.review_count }}</span> | 
-        <button @click="clickMyP">My Post</button> <span>{{ userProfile.post_count }}</span> |
-        <button @click="clickMyC">My Comment</button> <span>{{ userProfile.comment_count }}</span>
-
-        <my-review-list :class="{'hide': showMyR }" :review-set="userProfile.review_set"></my-review-list>
-        <my-post-list :class="{'hide': showMyP }" :post-set="userProfile.post_set"></my-post-list>
-        <my-comment-list :class="{'hide': showMyC }" :comment-set="userProfile.comment_set"></my-comment-list>
-      </div>
-
-      <!-- 유저가 좋아요한 것들 -->
-      <div :class="{'hide': showLike }">
-        <button @click="clickLikeM">Like Movie</button> <span>{{ likeMovieCount }}</span> |
-        <button @click="clickLikeP">Like Post</button> <span>{{ userProfile.like_post_count }}</span> 
-
-        <like-movie-list :class="{'hide': showLikeM }" :like-movies="userProfile.like_movie"></like-movie-list>
-        <like-post-list :class="{'hide': showLikeP }" :like-posts="userProfile.like_posts"></like-post-list> 
-      </div>
-    </div>
-  </div>
+       <!-- 유저가 좋아요한 것들 -->
+        <div v-if="showLike">
+          <v-tabs fixed-tabs >
+            <v-tab @click="chooseLike(true)">
+                <v-badge color="orange" :content="likeMovieCount">MOVIE</v-badge>
+            </v-tab>
+            <v-tab @click="chooseLike(false)">
+              <v-badge color="orange" :content="likePostCount">POST</v-badge>
+            </v-tab>
+          </v-tabs> 
+          <v-card class="overflow-y-auto" height="500px" elevation="0">
+            <div v-if="showLikeM">
+              <like-movie-list :like-movies="userProfile.like_movie"></like-movie-list>
+            </div>
+            <div v-if="showLikeP">
+              <like-post-list :like-posts="userProfile.like_posts"></like-post-list> 
+            </div>
+          </v-card>
+        </div>
+        
+        <!-- 유저가 작성한 글 -->
+        <div v-if="showMy">
+          <v-tabs fixed-tabs >
+            <v-tab @click="chooseHistory('review')">
+                <v-badge color="orange" :content="myReviewCount">REVIEW</v-badge>
+            </v-tab>
+            <v-tab @click="chooseHistory('post')">
+              <v-badge color="orange" :content="myPostCount">POST</v-badge>
+            </v-tab>
+            <v-tab @click="chooseHistory('comment')">
+              <v-badge color="orange" :content="myCommentCount">COMMENT</v-badge>
+            </v-tab>
+          </v-tabs>
+          <v-card class="overflow-y-auto" height="500px" elevation="0">
+            <div v-if="showMyR">
+              <my-review-list :review-set="userProfile.review_set"></my-review-list>
+            </div>
+            <div v-if="showMyP">
+              <my-post-list :post-set="userProfile.post_set"></my-post-list>
+            </div>
+            <div v-if="showMyC">
+              <my-comment-list :comment-set="userProfile.comment_set"></my-comment-list>
+            </div>
+          </v-card>
+        </div>
+      </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -81,72 +124,82 @@ export default {
   data() {
     return {
       userProfile: '',
+      followState: true,
       followerCount: 0,
       followingCount: 0,
-      followState: false,
       likeMovieCount: 0,
+      likePostCount: 0,
+      myReviewCount: 0,
+      myPostCount: 0,
+      myCommentCount: 0,
+      
       // 숨기기 값들 
-      showFollow: false,
-      showMy: true,
-      showLike: true,
-      showFollowing: false,
-      showFollower: true,
-      showMyR: false,
-      showMyP: true,
-      showMyC: true,
-      showLikeM: false,
-      showLikeP: true,
+      showFollow: true,
+      showMy: false,
+      showLike: false,
+      showFollowing: true,
+      showFollower: false,
+      showMyR: true,
+      showMyP: false,
+      showMyC: false,
+      showLikeM: true,
+      showLikeP: false,
     }
   },
   methods: {
     // ------ 버튼 클릭 --------
-    clickFollow() {
-      this.showFollow = false
-      this.showMy = true
-      this.showLike = true
+    // 큰 탭 선택 
+    chooseContent(tab) {
+      if (tab === 'follow') {
+        this.showFollow = true
+        this.showLike = false
+        this.showMy = false
+      } else if (tab === 'like') {
+        this.showFollow = false
+        this.showLike = true
+        this.showMy = false
+      } else {
+        this.showFollow = false
+        this.showLike = false
+        this.showMy = true
+      }
     },
-    clickMy() {
-      this.showFollow = true
-      this.showMy = false
-      this.showLike = true
+    // 팔로우 선택 
+    chooseFollow(tab) {
+      if (tab) {
+        this.showFollowing = true
+        this.showFollower = false
+      } else {
+        this.showFollowing = false
+        this.showFollower = true
+      }
     },
-    clickLike() {
-      this.showFollow = true
-      this.showMy = true
-      this.showLike = false
+    // 좋아요 선택 
+    chooseLike(tab) {
+      if (tab) {
+        this.showLikeM = true
+        this.showLikeP = false
+      } else {
+        this.showLikeM = false
+        this.showLikeP = true
+      }
     },
-    clickFollowing() {
-      this.showFollowing = false
-      this.showFollower = true
+    // 기록 선택 
+    chooseHistory(tab) {
+      if (tab === 'review') {
+        this.showMyR = true
+        this.showMyP = false
+        this.showMyC = false
+      } else if (tab === 'post') {
+        this.showMyR = false
+        this.showMyP = true
+        this.showMyC = false
+      } else {
+        this.showMyR = false
+        this.showMyP = false
+        this.showMyC = true
+      }
     },
-    clickFollower() {
-      this.showFollowing = true
-      this.showFollower = false
-    },
-    clickMyR() {
-      this.showMyR = false
-      this.showMyP = true
-      this.showMyC = true
-    },
-    clickMyP() {
-      this.showMyR = true
-      this.showMyP = false
-      this.showMyC = true
-    },
-    clickMyC() {
-      this.showMyR = true
-      this.showMyP = true
-      this.showMyC = false
-    },
-    clickLikeM() {
-      this.showLikeM = false
-      this.showLikeP = true
-    },
-    clickLikeP() {
-      this.showLikeM = true
-      this.showLikeP = false
-    },
-
     // 프로필 받아오기 
     getProfile() {
       this.$axios({
@@ -158,6 +211,10 @@ export default {
           this.followerCount = res.data.followers_count
           this.followingCount = res.data.followings_count
           this.likeMovieCount = res.data.like_movie.length
+          this.likePostCount = res.data.like_post_count
+          this.myReviewCount = res.data.review_count
+          this.myPostCount = res.data.post_count
+          this.myCommentCount = res.data.comment_count
           console.log(res.data)
         })
         .then(() => {
@@ -213,8 +270,19 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .hide {
   display: none;
+}
+.tab {
+  height:50px;
+}
+.v-card {
+  max-height: 100%;
+}
+.profileImg {
+  height: 300px;
+  width: 300px;
+  border-radius: 100%;
 }
 </style>
