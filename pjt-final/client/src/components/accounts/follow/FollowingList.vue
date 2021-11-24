@@ -1,13 +1,14 @@
 <template>
-  <div>Following
+  <v-container>
+    <h5 v-if="followCount()" class="text-center">팔로잉하는 회원이 없습니다.</h5>
     <following-item
-      v-for="following in this.followings"
+      v-for="following in followings"
       :key="following.id"
       :following-user="following"
       @unfollow="unfollow"
       @follow="follow"
     ></following-item>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -27,6 +28,9 @@ export default {
     },
     follow() {
       this.$emit('follow')
+    },
+    followCount() {
+      return this.followings.length < 1 ? true : false
     }
   }
 }

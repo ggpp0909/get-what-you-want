@@ -1,13 +1,13 @@
 <template>
-  <div>
-    Follower
+  <v-container>
+    <h5 v-if="followCount()" class="text-center">팔로우하는 회원이 없습니다.</h5>
     <follower-item 
       v-for="follower in followerUsers"
       :key="follower.id"
       :follower="follower"
       @reload-follower="reloadFollower"
     ></follower-item>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -31,6 +31,9 @@ export default {
     reloadFollower(newFollowers) {
       this.followerUsers = newFollowers
       this.$emit('delete-follower')
+    },
+    followCount() {
+      return this.followers.length < 1 ? true : false
     }
   }, 
   watch: {

@@ -1,13 +1,13 @@
 <template>
-  <div>
+  <div class="d-flex justify-space-between align-items-center m-3">
     <div @click="goToUserProfile">
-      <img :src="getUserProfileImg()" :alt="`${ followingUser.nickname }님의 프로필 사진`" height="100px">
+      <img :src="getUserProfileImg()" :alt="`${ followingUser.nickname }님의 프로필 사진`" class="profileImg">
       {{ followingUser.nickname }}
     </div>
     <!-- 프로필에 해당하는 유저라면 팔로우 버튼 보이게하기  -->
-    <div v-if="this.userName === this.$route.params.userName" >
-      <button :class="{ 'hide' : !followState }" @click="followingChangeState">unfollow</button>
-      <button :class="{ 'hide' : followState }" @click="followingChangeState">follow</button>
+    <div v-if="this.userName === this.$route.params.userName" class="me-10">
+      <button v-if="followState" @click="followingChangeState">unfollow</button>
+      <button v-else @click="followingChangeState">follow</button>
     </div>
     
   </div>
@@ -68,8 +68,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .hide {
   display: none;
+}
+.profileImg {
+  height: 50px;
+  width: 50px;
+  border-style: solid;
+  border-radius: 100%;
 }
 </style>

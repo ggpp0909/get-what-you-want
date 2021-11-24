@@ -4,16 +4,20 @@
       <v-col cols="4" class="d-flex flex-column align-items-center justify-content-center"> 
         <h1>{{ userProfile.nickname }}</h1>
         <img :src="profileImg" :alt="`${ userProfile.nickname }님의 프로필 사진`" class="profileImg">
-        <div v-if="this.userName != this.$route.params.userName">
-
-          <button v-if="followState" @click="changeFollowState">unfollow</button>
-          <button v-else @click="changeFollowState">follow</button>
-
+        <!-- 팔로우 / 언팔 버튼 -->
+        <div v-if="this.userName != this.$route.params.userName" class="mt-8 mb-4">
+          <v-btn v-if="followState" @click="changeFollowState" color="info" outlined>
+            <v-icon left>mdi-account-check</v-icon>UNFOLLOW
+          </v-btn>
+          <v-btn v-else @click="changeFollowState" color="info"
+            ><v-icon left>mdi-account-plus</v-icon>FOLLOW
+          </v-btn>
         </div>
-        <v-tabs vertical>
-          <v-tab class="tab" @click="[chooseContent('follow'),chooseFollow(true)]"><v-icon left>mdi-account</v-icon>Follow</v-tab>
-          <v-tab class="tab" @click="[chooseContent('like'),chooseLike(true)]"><v-icon left>mdi-account</v-icon>Like</v-tab>
-          <v-tab class="tab" @click="[chooseContent('history'),chooseHistory('review')]"><v-icon left>mdi-account</v-icon>History</v-tab>
+        <!-- 정보 조회 탭 -->
+        <v-tabs vertical class="mt-4">
+          <v-tab class="tab" @click="[chooseContent('follow'),chooseFollow(true)]"><v-icon left>mdi-account-group</v-icon>FOLLOW</v-tab>
+          <v-tab class="tab" @click="[chooseContent('like'),chooseLike(true)]"><v-icon left>mdi-heart-multiple</v-icon>LIKE</v-tab>
+          <v-tab class="tab" @click="[chooseContent('history'),chooseHistory('review')]"><v-icon left>mdi-pen</v-icon>HISTORY</v-tab>
         </v-tabs>
       </v-col>
 
@@ -29,7 +33,7 @@
               <v-badge color="orange" :content="followerCount">FOLLOWER</v-badge>
             </v-tab>
           </v-tabs>
-          <v-card class="overflow-y-auto" height="500px" elevation="0">
+          <v-card class="overflow-y-auto" height="600px" elevation="0">
             <div v-if="showFollowing">
               <following-list 
                 :followings="userProfile.followings"
@@ -56,7 +60,7 @@
               <v-badge color="orange" :content="likePostCount">POST</v-badge>
             </v-tab>
           </v-tabs> 
-          <v-card class="overflow-y-auto" height="500px" elevation="0">
+          <v-card class="overflow-y-auto" height="600px" elevation="0">
             <div v-if="showLikeM">
               <like-movie-list :like-movies="userProfile.like_movie"></like-movie-list>
             </div>
@@ -79,7 +83,7 @@
               <v-badge color="orange" :content="myCommentCount">COMMENT</v-badge>
             </v-tab>
           </v-tabs>
-          <v-card class="overflow-y-auto" height="500px" elevation="0">
+          <v-card class="overflow-y-auto" height="600px" elevation="0">
             <div v-if="showMyR">
               <my-review-list :review-set="userProfile.review_set"></my-review-list>
             </div>

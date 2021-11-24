@@ -1,11 +1,13 @@
 <template>
-  <div>
+  <div class="d-flex justify-space-between align-items-center m-3">
     <div @click="goToUserProfile">
-      <img :src="getUserProfileImg()" :alt="`${ follower.nickname }님의 프로필 사진`" height="100px">
+      <img :src="getUserProfileImg()" :alt="`${ follower.nickname }님의 프로필 사진`" class="profileImg">
       {{ follower.nickname }}
     </div>
     <!-- 프로필에 해당하는 유저라면 팔로워 삭제 버튼 보이게 하기  -->
-    <button v-if="this.userName === this.$route.params.userName" @click="deleteFollower(follower.username)">삭제</button>
+    <button v-if="this.userName === this.$route.params.userName" @click="deleteFollower(follower.username)"
+      class="me-10"
+    >delete</button>
   </div>
 </template>
 
@@ -53,6 +55,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.profileImg {
+  height: 50px;
+  width: 50px;
+  border-style: solid;
+  border-radius: 100%;
+}
 </style>
