@@ -1,34 +1,28 @@
 <template>
-  <div class="swiper mySwiper">
-    <div class="swiper-wrapper">
-      <div
+  <div>
+    <!-- 영화 디테일 페이지에서 접근 -->
+    <h1 v-if="accessDetail">similar movie</h1>
+    <!-- 영화 추천 페이지에서 접근 -->
+    <h1 v-else>회원님이 좋아요를 누른 영화 "{{ pickSimilarMovie.like_movie_title }}"와 비슷한 영화들은 어때요?  </h1>
+    <div class="d-flex">
+      <similar-movie-item
         v-for="similarItem in similarMovies"
         :key="similarItem.id"
         :similar-item="similarItem"
-        class="swiper-slide"
-      >
-      <template>
-        <div @click="goToMovieDetail(similarItem.id)" class="d-flex flex-column align-items-center">
-          <img :src="`https://image.tmdb.org/t/p/w500${similarItem.backdrop_path}`" :alt="`${similarItem.title} 포스터`" width="100%">
-          <p>{{ similarItem.title }}</p>
-        </div>
-      </template>
-      </div>
+      ></similar-movie-item>
     </div>
-  <div class="swiper-button-prev"></div>
-  <div class="swiper-button-next"></div> 
   </div>
 </template>
 
 <script>
-// import SimilarMovieItem from '@/components/movie/recommend/SimilarMovieItem'
+import SimilarMovieItem from '@/components/movie/recommend/SimilarMovieItem'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
   name: 'SimilarMovieList',
   components: {
-    // SimilarMovieItem
+    SimilarMovieItem
   },
   props: {
     pickSimilarMovie: Object,
@@ -88,11 +82,5 @@ export default {
 </script>
 
 <style>
-.turn {
-  writing-mode: vertical-rl;
-    border-left-style: solid;
-}
-.swiper-slide {
-  border-left-style: solid;
-}
+
 </style>

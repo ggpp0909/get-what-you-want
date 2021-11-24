@@ -1,17 +1,27 @@
 <template>
-  <div>
-    <div class="d-flex">
-      <review-movie-item
+  <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      <div
         v-for="reviewItem in reviewMovies"
         :key="reviewItem.movie_id"
         :review-item="reviewItem"
-      ></review-movie-item>
+        class="swiper-slide"
+      >
+      <template> <!-- 여기 이미지 나중에 데이터 다시 받고 백드롭패스로 바꿔야됨 -->
+        <div @click="goToMovieDetail(reviewItem.id)" class="d-flex flex-column align-items-center">
+          <img :src="`https://image.tmdb.org/t/p/w500${reviewItem.poster_path}`" :alt="`${reviewItem.title} 포스터`" width="100%">
+          <div>{{ reviewItem.title }}</div>
+        </div>
+      </template>
+      </div>
     </div>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
   </div>
 </template>
 
 <script>
-import ReviewMovieItem from '@/components/movie/recommend/ReviewMovieItem'
+// import ReviewMovieItem from '@/components/movie/recommend/ReviewMovieItem'
 import { mapState } from 'vuex'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
@@ -19,7 +29,7 @@ const SERVER_URL = process.env.VUE_APP_SERVER_URL
 export default {
   name: 'ReviewMovieList',
   components: {
-    ReviewMovieItem
+    // ReviewMovieItem
   },
   data() {
     return {
@@ -43,6 +53,9 @@ export default {
           console.log(err)
         })
     },
+    goToMovieDetail(id) {
+        this.$router.push({ name: 'MovieDetail', params: { movieId: id } })
+      }
   },
   created() {
       this.getReviewMovies()
@@ -53,6 +66,12 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.turn {
+  writing-mode: vertical-rl;
+    border-left-style: solid;
+}
+.swiper-slide {
+  border-left-style: solid;
+}
 </style>
