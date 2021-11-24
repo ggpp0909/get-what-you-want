@@ -136,7 +136,7 @@ export default {
   watch: {
     userProfileImg() {
       this.userProfileImg = this.profileImg
-    }
+    },
   }
 }
 </script>

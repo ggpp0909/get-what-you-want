@@ -1,56 +1,58 @@
 <template>
   <div>
-    <v-row >
-      <v-col md="2"><h1>BOARD</h1></v-col>
-      <v-col md="4" offset-md="6" class="searchInput">
+    <v-row class="d-flex d-column align-items-end">
+      <v-col md="2"><h1 class="mb-5">BOARD</h1></v-col>
+      <v-col md="4" offset-md="6" class="searchInput mb-1">
         <v-text-field v-model.trim="searchKeyword" @keyup.enter="searchPost" 
-            placeholder="검색어를 입력하세요" dense flat shaped label="Search Movie">
+            placeholder="검색어를 입력하세요" dense flat shaped label="SEARCH POST" color="orange">
           <v-icon slot="append" @click="searchPost">mdi-magnify</v-icon>
         </v-text-field>
       </v-col>
     </v-row>
-    <b-table-simple hover small caption-top responsive id="my-table"
-      :current-page="currentPage">
-      <colgroup><col><col><col><col></colgroup>
-      <b-thead head-variant="dark">
-        <b-tr>
-          <b-th  class="text-center">ID</b-th>
-          <b-th colspan="4" class="text-center">TITLE</b-th>
-          <b-th colspan="2" class="text-center">USER</b-th>
-          <b-th  class="text-center">DATE</b-th>
-        </b-tr>
-      </b-thead>
+    <v-simple-table :current-page="currentPage">
+      <thead>
+        <tr>
+          <th class="text-center">ID</th>
+          <th class="text-center">TITLE</th>
+          <th class="text-center">USER</th>
+          <th class="text-center">DATE</th>
+        </tr>
+      </thead>
       <!-- 게시글 목록 -->
-      <b-tbody v-if="isPost">
-        <b-tr v-for="(post, index) in posts"
-            :key="post.id"
-            @click="postDetail(post.id)"
-        >
-          <b-td class="text-center">{{ index+1 }}</b-td>
-          <b-td class="text-center" colspan="4">{{ post.title }}</b-td>
-          <b-td  
-            v-for="user in post" 
-            :key="user.id"
-            class="text-center"
-          >
-            <img :src="getUserProfileImg(user.profile_image)" alt="" height="30">
-            {{ user.nickname }}
-          </b-td>
-          <b-td class="text-center">{{changeDate(post.created_at)}}</b-td>
-        </b-tr>
-      </b-tbody>
+      <tbody v-if="isPost">
+        <tr v-for="(post, index) in posts"
+          :key="post.id"
+          @click="postDetail(post.id)">
+          <td class="text-center">{{ index + 1 }}</td>
+          <td class="text-center" >{{ post.title }}</td>
+          <td class="text-center">
+            <img :src="getUserProfileImg(post.profile_img)" class="profileImg" >
+            {{ post.nickname }}
+          </td>
+          <td class="text-center" >{{ post.created_at }}</td>
+        </tr>
+      </tbody>
       <!-- 게시글 없을때 -->
-      <b-tbody v-else>
-        <b-td colspan="12" rowspan="3" class="text-center">{{ this.searchBeforeKeyword }}에 해당하는 게시글이 없습니다.</b-td>
-      </b-tbody>
-    </b-table-simple>
+      <tbody v-else>
+        <td colspan="12" rowspan="3" class="text-center py-5">"{{ searchBeforeKeyword }}" 에 해당하는 게시글이 없습니다.</td>
+      </tbody>
+    </v-simple-table>
+
+    <!-- 하단 버튼 -->
+    <v-row class="my-5">
     <!-- pagination -->
-    <v-pagination
-      v-model="currentPage"
-      :length="totalPage"
-      @input="goToPage"
-      :max-pages="3"
-    ></v-pagination>
+      <v-col offset-md="4" md="4">
+        <v-pagination
+          v-model="currentPage"
+          :length="totalPage"
+          @input="goToPage"
+          :max-pages="3"
+        ></v-pagination>
+      </v-col>
+      <v-col offset-md="2" md="1">
+        <b-button @click="postCreate" squared variant="outline-dark" class="py-2 px-5">Create</b-button>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -84,13 +86,27 @@ export default {
         params: {page: this.currentPage}
       })
         .then(res => {
-          this.posts = _.slice(res.data, 0, res.data.length-1)
+          console.log(res)
+          const temp = _.slice(res.data, 0, res.data.length-1)
           this.totalPage = _.last(res.data).possible_page
+          this.posts = temp.map(post => {
+            const newInfo = {
+              title: post.title,
+              id: post.id,
+              created_at: _.join(_.slice(post.created_at, 0, 10), ''),
+              username: post.user.username,
+              profile_img: post.user.profile_image,
+              nickname: post.user.nickname,
+            }
+            return newInfo
+          })
+          console.log(this.posts)
         })
         .catch(err => {
           console.log(err)
         })
     },
+    // 날짜 슬라이싱 
     changeDate(date) {
       return _.join(_.slice(date, 0, 10), '')
     },
@@ -122,6 +138,15 @@ export default {
         return `http://127.0.0.1:8000${img}`
       }
     },
+    // 게시글 작성 
+    postCreate() {
+      const token = localStorage.getItem('jwt')
+      if (token) { // 로그인 상태 -> 게시글 생성 
+        this.$router.push({ name: 'PostCreate', params: { postId: 0 }})
+      } else {    // 비로그인 상태 -> 로그인 
+        this.$router.push({ name: 'Login' })
+      }
+    },
   },
   created() {
     this.getPosts()
@@ -130,12 +155,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.searchBar {
-  margin-right: 0px;
-  padding-left: 100px;
+.searchInput {
+  margin-bottom: -30px;
 }
-
-$pagination-item  :70pxs;
+.profileImg {
+  height: 30px;
+  border-radius: 50px;
+}
 </style>
 
 <style scoped>
@@ -149,5 +175,10 @@ $pagination-item  :70pxs;
 }
 ::v-deep .v-pagination__navigation {
   border-radius: 0px;
+}
+::v-deep th {
+  background-color: black;
+  color: white !important;
+  font-size: 15px !important;
 }
 </style>
