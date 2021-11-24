@@ -15,11 +15,11 @@
     </div>
     <div v-else>
       <div>
-      <label for="password">새 비밀번호: </label>
+      <label for="password2">새 비밀번호: </label>
       <input 
         type="password" 
-        id="password"
-        v-model="password"
+        id="password2"
+        v-model="password2"
       >
       </div>
       <div>
@@ -48,18 +48,22 @@ export default {
     return {
       confirm: false,
       password: '',
+      password2: '',
       passwordConfirmation: '',
+      flag: false
     }
   },
   methods: {
     // 유저 인증
     isUser() {
-      if (this.password === '') {
+      if (this.flag === false) {
+        if (this.password === '') {
           swal ("비밀번호를 입력해주세요.", {
           dangerMode: true,
         })
-      }
-      const credentials = {
+        console.log(this.flag)
+      } else {
+        const credentials = {
         username: this.userName,
         password: this.password
       }
@@ -67,29 +71,40 @@ export default {
         method: 'post',
         url: `${SERVER_URL}/accounts/api-token-auth/`,
         data: credentials,
+        headers: this.config
       })
         .then(() => {
           this.confirm = true
           this.password = null
           this.changePassword()
+          this.flag= true
         })
         .catch(err => {
           console.log(err)
-        })
-    },
-    // 비밀번호 변경 
-    changePassword: function () {
-      if (this.password === '') {
-          swal ("비밀번호를 입력해주세요.", {
-          dangerMode: true,
-        })
-      } else if (this.password != this.passwordConfirmation) {
           swal ("비밀번호가 일치하지 않습니다.", {
           dangerMode: true,
         })
+        console.log(this.flag)
+        })
       }
-      const credential2 = {
-        password: this.password,
+      }
+    },
+    // 비밀번호 변경 
+    changePassword: function () {
+      if (this.flag === true) {
+        if (this.password2 === '') {
+          swal ("비밀번호를 입력해주세요.", {
+          dangerMode: true,
+        })
+        console.log(this.flag)
+      } else if (this.password2 != this.passwordConfirmation) {
+          swal ("비밀번호가 일치하지 않습니다.", {
+          dangerMode: true,
+        })
+        console.log(this.flag)
+      } else {
+        const credential2 = {
+        password: this.password2,
         passwordConfirmation: this.passwordConfirmation
       }
       this.$axios({
@@ -102,12 +117,13 @@ export default {
           localStorage.removeItem('jwt')  // 기존 토큰 삭제 
           const credential3 = {
             username: this.userName,
-            password: this.password,
+            password: this.password2,
           }
           this.$axios({ // 새 토큰 발급 
             method: 'post',
             url: `${SERVER_URL}/accounts/api-token-auth/`,
             data: credential3,
+            headers: this.config
           })
             .then(res => {
               localStorage.setItem('jwt', res.data.token)
@@ -122,6 +138,10 @@ export default {
         .catch(err => {
           console.log(err)
         })
+      }
+      }
+      
+      
     }
   },
   computed: {

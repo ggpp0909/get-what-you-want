@@ -1,15 +1,21 @@
 <template>
   <div>
-    <h1>Login</h1>
-    <div>
+    <h1>LOGIN</h1>
+    <!-- <div>
       <label for="username">사용자 이름: </label>
       <input 
         type="text" 
         id="username"
         v-model="credentials.username"
       >
-    </div>
-    <div>
+    </div> -->
+    <v-text-field
+      v-model="credentials.username"
+      label="ID"
+    ></v-text-field>
+
+   
+    <!-- <div>
       <label for="password">비밀번호: </label>
       <input 
         type="password" 
@@ -17,8 +23,26 @@
         v-model="credentials.password"
         @keyup.enter="login"
       >
-    </div>
-    <button @click="login">로그인</button>
+    </div> -->
+    <v-text-field
+      v-model="credentials.password"
+      :append-icon="credentials.show1 ? 'mdi-eye' : 'mdi-eye-off'"
+      :rules="[credentials.rules.required, credentials.rules.min]"
+      :type="credentials.show1 ? 'text' : 'password'"
+      name="input-10-1"
+      label="Password"
+      @click:append="credentials.show1 = !credentials.show1"
+      @keyup.enter="login"
+    ></v-text-field>
+
+    <v-btn
+      elevation="1"
+      outlined
+      rounded
+      @click="login"
+    >로그인</v-btn>
+
+    
   </div>
 </template>
 
@@ -31,7 +55,12 @@ export default {
     return {
       credentials: {
         username: null,
-        password: null,
+        show1: false,
+        password: '',
+        rules: {
+          required: value => !!value || '비밀번호를 입력하세요.',
+          min: v => v.length >= 8 || '비밀번호는 8글자 이상입니다.',
+        },
       }
     }
   },
