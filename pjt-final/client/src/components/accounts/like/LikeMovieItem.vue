@@ -1,10 +1,8 @@
 <template>
-  <div>
-    <div @click="goToMovie">
-      <img :src="posterPath" :alt="`${movie.like_movie_title} 포스터`" height="100">
-      <h3>{{ movie.like_movie_title }}</h3>
-    </div>
-  </div>
+  <v-card @click="goToMovie()">
+    <img :src="posterPath" :alt="`${movie.like_movie_title} 포스터`" width="100%" height="260px">
+    <p class="text-center pt-2">{{ movie.like_movie_title }}</p>
+  </v-card>
 </template>
 
 <script>
@@ -26,6 +24,9 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.v-card {
+  height: 320px;
+  width: 90%;
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex justify-space-between align-items-center m-3">
-    <div @click="goToUserProfile">
+    <div @click="goToUserProfile()">
       <img :src="getUserProfileImg()" :alt="`${ follower.nickname }님의 프로필 사진`" class="profileImg">
       {{ follower.nickname }}
     </div>

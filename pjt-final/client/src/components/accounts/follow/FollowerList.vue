@@ -25,6 +25,7 @@ export default {
   },
   props: {
     followers: Array,
+    followersCount: Number
   },
   methods: {
     // 팔로워 삭제했을때 리스트 업뎃 및 숫자 감소
@@ -33,7 +34,7 @@ export default {
       this.$emit('delete-follower')
     },
     followCount() {
-      return this.followers.length < 1 ? true : false
+      return this.followersCount < 1 ? true : false
     }
   }, 
   watch: {

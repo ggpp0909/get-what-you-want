@@ -21,6 +21,7 @@ export default {
   },
   props: {
     followings: Array,
+    followingsCount: Number
   },
   methods: {
     unfollow() {
@@ -30,7 +31,7 @@ export default {
       this.$emit('follow')
     },
     followCount() {
-      return this.followings.length < 1 ? true : false
+      return this.followingsCount < 1 ? true : false
     }
   }
 }

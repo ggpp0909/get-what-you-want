@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="4" class="d-flex flex-column align-items-center justify-content-center"> 
         <h1>{{ userProfile.nickname }}</h1>
-        <img :src="profileImg" :alt="`${ userProfile.nickname }님의 프로필 사진`" class="profileImg">
+        <img :src="getUserProfileImg()" :alt="`${ userProfile.nickname }님의 프로필 사진`" class="profileImg">
         <!-- 팔로우 / 언팔 버튼 -->
         <div v-if="this.userName != this.$route.params.userName" class="mt-8 mb-4">
           <v-btn v-if="followState" @click="changeFollowState" color="info" outlined>
@@ -15,9 +15,9 @@
         </div>
         <!-- 정보 조회 탭 -->
         <v-tabs vertical class="mt-4">
-          <v-tab class="tab" @click="[chooseContent('follow'),chooseFollow(true)]"><v-icon left>mdi-account-group</v-icon>FOLLOW</v-tab>
-          <v-tab class="tab" @click="[chooseContent('like'),chooseLike(true)]"><v-icon left>mdi-heart-multiple</v-icon>LIKE</v-tab>
-          <v-tab class="tab" @click="[chooseContent('history'),chooseHistory('review')]"><v-icon left>mdi-pen</v-icon>HISTORY</v-tab>
+          <v-tab class="tab" @click="chooseContent('follow')"><v-icon left>mdi-account-group</v-icon>FOLLOW</v-tab>
+          <v-tab class="tab" @click="chooseContent('like')"><v-icon left>mdi-heart-multiple</v-icon>LIKE</v-tab>
+          <v-tab class="tab" @click="chooseContent('history')"><v-icon left>mdi-pen</v-icon>HISTORY</v-tab>
         </v-tabs>
       </v-col>
 
@@ -37,6 +37,7 @@
             <div v-if="showFollowing">
               <following-list 
                 :followings="userProfile.followings"
+                :followingsCount="userProfile.followings_count"
                 @unfollow="decreaseFollowingCount"
                 @follow="increaseFollowingCount"
               ></following-list>
@@ -44,6 +45,7 @@
             <div v-if="showFollower">
               <follower-list 
                 :followers="userProfile.followers"
+                :followersCount="userProfile.followers_count"
                 @delete-follower="decreaseFollowerCount"
               ></follower-list>
             </div>
@@ -62,10 +64,14 @@
           </v-tabs> 
           <v-card class="overflow-y-auto" height="600px" elevation="0">
             <div v-if="showLikeM">
-              <like-movie-list :like-movies="userProfile.like_movie"></like-movie-list>
+              <like-movie-list 
+                :like-movies="userProfile.like_movie"></like-movie-list>
             </div>
             <div v-if="showLikeP">
-              <like-post-list :like-posts="userProfile.like_posts"></like-post-list> 
+              <like-post-list 
+                :like-posts="userProfile.like_posts"
+                :like-post-count="userProfile.like_post_count"
+              ></like-post-list> 
             </div>
           </v-card>
         </div>
@@ -128,6 +134,7 @@ export default {
   data() {
     return {
       userProfile: '',
+      userProfileImg: '',
       followState: true,
       followerCount: 0,
       followingCount: 0,
@@ -228,7 +235,14 @@ export default {
           console.log(err)
         })
     },
-
+    // 프로필 이미지
+    getUserProfileImg() {
+      if (this.userProfile.profile_image === null) {
+        return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU00i-_pNcxxQ69OH2c8MyVuHS0Q4GdMDR7w&usqp=CAU'
+      } else {
+        return `http://127.0.0.1:8000${this.userProfile.profile_image}`
+      }
+    },
     // follower 수 감소
     decreaseFollowerCount() {
       this.followerCount -= 1
