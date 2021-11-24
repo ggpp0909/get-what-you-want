@@ -259,7 +259,8 @@ def review_update_delete(request, movie_id, review_pk):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def signup_like(request):
-    genres = request.data['genres']
+    print(request.data)
+    genres = request.data
     
     context = {}
     for genre in genres:
@@ -278,6 +279,7 @@ def signup_like(request):
                 }
             )
         context[genre] = temp
+        print(context)
 
     return Response(context)
 
