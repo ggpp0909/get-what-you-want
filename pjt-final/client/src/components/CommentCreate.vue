@@ -1,7 +1,12 @@
 <template>
-  <div>
-     <v-text-field v-model.trim="content" color="error" @keyup.enter="createComment"></v-text-field>
-     <button @click="createComment">+</button>
+  <div class="d-flex align-items-end">
+    <v-text-field v-model.trim="content" @keyup.enter="createComment()"
+      placeholder="댓글을 작성해주세요."
+      outlined
+      clearable
+    >
+    </v-text-field>
+    <v-btn @click="createComment()" outlined class="createButton">등록</v-btn>
   </div>
 </template>
 
@@ -57,6 +62,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.createButton {
+  border-style: none;
+}
+::v-deep .v-text-field__details {
+  display: none;
+}
 </style>

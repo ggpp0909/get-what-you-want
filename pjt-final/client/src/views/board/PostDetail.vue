@@ -1,30 +1,39 @@
 <template>
-  <div>
-    <h1>{{ post.title }}</h1>
-    <div v-html="this.post"></div>
-    <p>마지막 수정일 :{{ post.updated_at }}</p>
-    <p>작성일 : {{ post.created_at }}</p>
-
-    <div v-if="isSameUser">
-      <button @click="updatePost">update</button> |
-      <button @click="deletePost">delete</button>
+  <v-container>
+    <div class="d-flex justify-space-between align-items-start">
+      <!-- 헤더 -->
+      <h1>{{ post.title }}</h1>
+      <div class="d-flex flex-column align-items-end">
+        <p>작성일: {{ changeDate(post.created_at) }}</p>
+        <p>마지막 수정일: {{ changeDate(post.updated_at) }}</p>
+      </div>
     </div>
-    <div @click="changeLike" class="d-flex">
-      <h3 v-if="likeState">꽉찬 하트</h3>
-      <h3 v-else>빈하트</h3>
-      <span>{{ likeCount }}개</span>
+    <v-divider></v-divider>
+    <!-- 내용 -->
+    <div v-html="content"></div>
+    <!-- 좋아요 / 수정 삭제 -->
+    <div class="d-flex justify-space-between align-items-end mt-10">
+      <div @click="changeLike" class="d-flex align-items-end">
+        <div v-if="likeState"><v-icon color="red" large>mdi-heart</v-icon>좋아요</div>
+        <div v-else><v-icon color="red">mdi-heart-outline</v-icon>좋아요 취소</div>
+        <div class="mx-3">{{ likeCount }}</div>
+      </div>
+      <div v-if="isSameUser">
+        <v-btn @click="updatePost" class="mx-2" outlined color="indigo">UPDATE</v-btn>
+        <v-btn @click="deletePost" outlined color="error">DELETE</v-btn>
+      </div>
     </div>
-    
-    
-    
-    <h3>-----댓글-----</h3>
-    <comment-list :comments="post.comment_set"></comment-list>
-  </div>
+    <v-divider></v-divider>
+    <h5>댓글</h5>
+    <comment-list :comments="post.comment_set" class="my-5"></comment-list>
+  </v-container>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import CommentList from '@/components/CommentList'
+
+import _ from 'lodash'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
@@ -36,6 +45,7 @@ export default {
   data() {
     return {
       post: '',
+      content: '',
       isSameUser: false,
       likeState: null,
       likeCount: null,
@@ -59,7 +69,8 @@ export default {
         headers: this.config
       })
         .then(res => {
-          this.post = res.data.content.split('\n').join('<br />')
+          this.post = res.data
+          this.content = res.data.content.split('\n').join('<br />')
           // 지금 로그인한 유저가 글쓴 유저인지 
           if (this.userName === res.data.user.username) {
             this.isSameUser = true
@@ -110,7 +121,11 @@ export default {
         .catch(err => {
           console.log(err)
         })
-    }
+    },
+    // 날짜 슬라이싱 
+    changeDate(date) {
+      return _.join(_.slice(date, 0, 10), '')
+    },
   },
   created() {
     this.getPost() // 영화 디테일 불러오기  
