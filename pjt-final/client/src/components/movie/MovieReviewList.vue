@@ -1,26 +1,18 @@
 <template>
-  <v-container id="scroll-target" style="max-height: 800px"
-    class="overflow-y-auto">
-    <movie-review-create :reload-review="getMovieReview"></movie-review-create>
-    <v-virtual-scroll v-if="reviewList" :bench="benched" :items="items"
-      height="300" item-height="50"
-    >
-      <template>
-        <v-list-item :key="item">
-          <v-list-item-action>
-            <movie-review-item 
-              v-for="review in reviewList"
-              :key="review.id"
-              :old-review="review"
-              :reload-review="getMovieReview"
-            ></movie-review-item>
-        </v-list-item-action>
-        </v-list-item>
-      </template>
-    </v-virtual-scroll>
-    <v-row v-else>
+  <v-container>
+    <movie-review-create :reload-review="getMovieReview" class="my-3"></movie-review-create>
+      <h3>관람객 평점</h3>
+    <div v-if="reviewList" class="overflow-y-auto reviewBlock">
+      <movie-review-item 
+        v-for="review in reviewList"
+        :key="review.id"
+        :old-review="review"
+        :reload-review="getMovieReview"
+      ></movie-review-item>
+    </div>
+    <div v-else>
       작성된 리뷰가 없습니다. 첫번째로 리뷰를 남겨보세요 ! 
-    </v-row>
+    </div>
   </v-container>
 </template>
 
@@ -39,8 +31,6 @@ export default {
   data() {
     return {
       reviewList: [],
-      benched: 0,
-      currentPage: 0,
     }
   },
   methods: {
@@ -52,47 +42,22 @@ export default {
         params: {page: this.currentPage}
       })
         .then(res => {
-          console.log(res.data)
-          this.reviewList = res.data
-          // this.reviewList = res.data.length > 1 ? res.data : false
+          console.log(res)
+          this.reviewList = res.data.length > 1 ? res.data : false
         })
         .catch(err => {
           console.log(err)
         })
     }, 
-    onscroll(e) {
-      this.offsetTop = e.target.scrollTop
-
-      this.$axios({
-        method: 'get',
-        url: `${SERVER_URL}/movie/${this.$route.params.movieId}/review_list/`, 
-        params: {page: this.currentPage}
-      })
-        .then(res => {
-          console.log(res.data)
-          this.reviewList = res.data
-          // this.reviewList = res.data.length > 1 ? res.data : false
-        })
-        .catch(err => {
-          console.log(err)
-        })
-      this.currentPage += 1
-    }
   },
   created() {
     this.getMovieReview()
-  },
-  computed: {
-    items () {
-      return Array.from({ length: this.length }, (k, v) => v + 1)
-    },
-    length () {
-      return 70
-    },
-  },
+  }
 }
 </script>
 
 <style>
-
+.reviewBlock {
+  height: 700px;
+}
 </style>
