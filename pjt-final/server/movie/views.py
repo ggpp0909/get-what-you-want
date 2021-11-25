@@ -232,7 +232,7 @@ def review_create(request, movie_id):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-# PUT일때 리뷰 수정, DELETE일때 리뷰 삭제
+# PUT일때 리뷰 수정, DELETE일때 리뷰 삭제A
 @api_view(['PUT', 'DELETE'])
 def review_update_delete(request, movie_id, review_pk):
     review = get_object_or_404(Review, movie_id=movie_id, pk=review_pk)
@@ -492,7 +492,7 @@ def YNs_recommend(request):
             if temp not in country_arr:
                 country_arr.append(temp)
             temp = recom_list[i][2]
-            if temp not in country_arr:
+            if temp not in seen_arr:
                 seen_arr.append(temp)
             if i == 4:
                 break
