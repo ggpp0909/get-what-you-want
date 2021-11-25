@@ -1,47 +1,34 @@
 <template>
   <div>
-    <h1>LOGIN</h1>
-    <!-- <div>
-      <label for="username">사용자 이름: </label>
-      <input 
-        type="text" 
-        id="username"
+    <v-container>
+      <h1 class="d-flex justify-center mt-5">LOGIN</h1>
+        
+      <v-text-field
         v-model="credentials.username"
-      >
-    </div> -->
-    <v-text-field
-      v-model="credentials.username"
-      label="ID"
-    ></v-text-field>
+        label="ID"
+      ></v-text-field>
 
-   
-    <!-- <div>
-      <label for="password">비밀번호: </label>
-      <input 
-        type="password" 
-        id="password"
+      <v-text-field
         v-model="credentials.password"
+        :append-icon="credentials.show1 ? 'mdi-eye' : 'mdi-eye-off'"
+        :rules="[credentials.rules.required, credentials.rules.min]"
+        :type="credentials.show1 ? 'text' : 'password'"
+        name="input-10-1"
+        label="Password"
+        @click:append="credentials.show1 = !credentials.show1"
         @keyup.enter="login"
-      >
-    </div> -->
-    <v-text-field
-      v-model="credentials.password"
-      :append-icon="credentials.show1 ? 'mdi-eye' : 'mdi-eye-off'"
-      :rules="[credentials.rules.required, credentials.rules.min]"
-      :type="credentials.show1 ? 'text' : 'password'"
-      name="input-10-1"
-      label="Password"
-      @click:append="credentials.show1 = !credentials.show1"
-      @keyup.enter="login"
-    ></v-text-field>
+      ></v-text-field>
 
-    <v-btn
-      elevation="1"
-      outlined
-      rounded
-      @click="login"
-    >로그인</v-btn>
-
+      <v-btn
+        class="mt-3"
+        elevation="1"
+        outlined
+        rounded
+        large
+        @click="login"
+        style="float:right"
+      >로그인</v-btn>
+    </v-container>
     
   </div>
 </template>
