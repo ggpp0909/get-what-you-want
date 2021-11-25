@@ -28,10 +28,10 @@
         </div>
       </v-col>
       <v-col cols="8">
-        <v-expansion-panels focusable multiple elevation="0">
+        <v-expansion-panels focusable multiple v-model="panel">
           <!-- 영화정보 -->
           <v-expansion-panel>
-            <v-expansion-panel-header >
+            <v-expansion-panel-header>
               "{{ movieData.title }}" INFO
             </v-expansion-panel-header>
             <v-expansion-panel-content>
@@ -122,6 +122,7 @@ export default {
       likeCount: '',
       isVideo: false,
       rating: 0,
+      panel: [0]
     }
   },
   methods: {
@@ -195,7 +196,4 @@ export default {
 </script>
 
 <style>
-.v-expansion-panel-header {
-  border-bottom-style: solid;
-}
 </style>
