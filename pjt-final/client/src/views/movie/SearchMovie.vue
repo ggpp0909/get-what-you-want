@@ -1,14 +1,15 @@
 <template>
   <div class="notosans">
-    <h1 class="d-flex flex-column justify-center align-items-center">"{{ this.$route.params.keyword }}" 검색 결과</h1>
+    <h1 class="d-flex flex-column justify-center align-items-center my-3">"{{ this.$route.params.keyword }}" 검색 결과</h1>
     <v-container>
-      <div v-if="searchResult">
-        <search-movie-item
-          v-for="movie in searchResult"
-          :key="movie.id"
-          :movie="movie"
+      <v-row v-if="searchResult">
+        <v-col v-for="movie in searchResult" :key="movie.id"
+          cols="3"
+        >
+        <search-movie-item :movie="movie"
         ></search-movie-item>
-      </div>
+        </v-col>
+      </v-row>
       <div v-else>
         <h1>검색 결과가 없습니다.</h1>
       </div>
