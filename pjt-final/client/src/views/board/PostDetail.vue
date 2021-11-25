@@ -14,8 +14,8 @@
     <!-- 좋아요 / 수정 삭제 -->
     <div class="d-flex justify-space-between align-items-end mt-10">
       <div @click="changeLike" class="d-flex align-items-end">
-        <div v-if="likeState"><v-icon color="red" large>mdi-heart</v-icon>좋아요</div>
-        <div v-else><v-icon color="red">mdi-heart-outline</v-icon>좋아요 취소</div>
+        <div v-if="likeState"><v-icon color="red" large>mdi-heart</v-icon>좋아요 취소</div>
+        <div v-else><v-icon color="red">mdi-heart-outline</v-icon>좋아요</div>
         <div class="mx-3">{{ likeCount }}</div>
       </div>
       <div v-if="isSameUser">

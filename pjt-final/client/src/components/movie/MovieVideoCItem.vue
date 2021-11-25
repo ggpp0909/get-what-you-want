@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <li class="list-group-item" @click="selectVideo">
-      <span>{{ video.name }}</span>
-    </li>
-  </div>
+  <li class="list-group-item" @click="selectVideo">
+    <span>{{ video.name }}</span>
+  </li>
 </template>
 
 <script>

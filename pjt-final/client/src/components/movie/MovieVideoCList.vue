@@ -1,13 +1,19 @@
 <template>
-  <div>
-    <h3>후보 영화</h3>
-    <movie-video-c-item
-      v-for="cVideo in propcVideoList"
-      :key=cVideo.video_id
-      :video="cVideo"
-       @select-video="onSelectVideo"
-    ></movie-video-c-item>
-  </div>
+  <v-expansion-panels>
+    <v-expansion-panel>
+      <v-expansion-panel-header>
+        Another Trailer
+      </v-expansion-panel-header>
+      <v-expansion-panel-content class="my-3">
+        <movie-video-c-item
+          v-for="cVideo in propcVideoList"
+          :key=cVideo.video_id
+          :video="cVideo"
+          @select-video="onSelectVideo"
+        ></movie-video-c-item>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+  </v-expansion-panels>
 </template>
 
 <script>
