@@ -30,7 +30,7 @@
           </v-col>
         </v-row>
       </v-container>
-      <v-textarea color="error" placeholder="탈퇴 사유를 구체적으로 입력해" v-model="detailReason"></v-textarea>
+      <v-textarea color="error" placeholder="탈퇴 사유를 구체적으로 입력해주세요" v-model="detailReason"></v-textarea>
       <button @click="deleteUser">회원탈퇴</button>
     </div>
   </div>
@@ -48,7 +48,7 @@ export default {
     return {
       confirm: false,
       password: '',
-      items: ['서비스 불만', '개인정보 유출 우려', '사이트 이용 빈도 낮음', '지구 온난화 방지를 위한 PC사용 자제', '회원간의 트러블', '재 가입을 위해서'],
+      items: ['서비스 불만', '개인정보 유출 우려', '사이트 이용 빈도 낮음', '지구 온난화 방지를 위한 PC사용 자제', '재 가입을 위해서', '기타'],
       detailReason: null,
       reason: null
     }

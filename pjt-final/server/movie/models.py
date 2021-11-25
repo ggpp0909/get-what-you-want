@@ -46,4 +46,8 @@ class CrawledMovie(models.Model):
     poster_path = models.TextField(null=True)
     backdrop_path = models.TextField(null=True)
 
+    def __str__(self):
+        return self.title
+
+
 
