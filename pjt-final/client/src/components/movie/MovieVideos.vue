@@ -1,8 +1,7 @@
 <template>
   <div>
-    <h3>예고</h3>
-    <iframe :src="getVideoURI()" frameborder="0" width="800" height="500"></iframe>
-    <h3>{{ representVideo.name }}</h3>
+    <iframe :src="getVideoURI()" frameborder="0" width="100%" height="400px" class="mt-5"></iframe>
+    <h3 class="text-center my-5">{{ representVideo.name }}</h3>
     <!-- <div>예고편을 준비중입니다</div> -->
     <movie-video-c-list
       v-if="notRVideos"

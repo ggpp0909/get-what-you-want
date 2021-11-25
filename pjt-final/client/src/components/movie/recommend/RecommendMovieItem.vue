@@ -1,10 +1,8 @@
 <template>
-  <div>
-    <div @click="goToMovieDetail">
-      <img :src="posterPath" :alt="`${recommendItem.title} 포스터`" height="100">
-      <p>{{ recommendItem.title }}</p>
-    </div>
-  </div>
+  <v-card @click="goToMovieDetail" class="m-1 d-flex flex-column justify-start align-items-center">
+    <img :src="posterPath" :alt="`${recommendItem.title} 포스터`" class="cardPost">
+    <p>{{ recommendItem.title }}</p>
+  </v-card>
 </template>
 
 <script>
@@ -31,6 +29,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.v-card {
+  height: 250px;
+}
+.cardPost {
+  height: 80%;
+}
 </style>

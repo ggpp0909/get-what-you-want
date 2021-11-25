@@ -160,7 +160,10 @@ export default {
 }
 .profileImg {
   height: 30px;
-  border-radius: 50px;
+  width: 30px;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 100%;
 }
 </style>
 
