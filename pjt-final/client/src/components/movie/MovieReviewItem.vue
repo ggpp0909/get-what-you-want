@@ -98,7 +98,7 @@ export default {
       if (this.oldReview.user.profile_image === null) {
         return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU00i-_pNcxxQ69OH2c8MyVuHS0Q4GdMDR7w&usqp=CAU'
       } else {
-        return `http://127.0.0.1:8000${this.comment.user.profile_image}`
+        return `http://127.0.0.1:8000${this.oldReview.user.profile_image}`
       }
     },
     // 날짜 수정

@@ -1,9 +1,14 @@
 <template>
-  <div>
-    <input type="number" v-model="rank" value="별점">
+  <div class="d-flex flex-column">
+    <div>
+      <v-rating v-model="rank"
+        color="warning" background-color="grey"
+        hover large
+      ></v-rating> {{ rank }}
+    </div>
     <v-checkbox value="True" v-model="isSpoiler" label="스포일러를 포함한 내용인가요?"></v-checkbox>
-    <v-text-field v-model.trim="review" color="error" @keyup.enter="createReview"></v-text-field>
-    <button @click="createReview">+</button>
+    <v-text-field v-model.trim="review" @keyup.enter="createReview()"></v-text-field>
+    <v-btn @click="createReview()">등록</v-btn>
   </div>
 </template>
 
