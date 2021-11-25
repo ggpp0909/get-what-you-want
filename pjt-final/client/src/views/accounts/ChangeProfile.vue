@@ -1,128 +1,126 @@
 <template>
   <div>
-    <v-container>
-      <h1 class="d-flex justify-center mt-5">회원정보수정</h1>
-      <div>
-        <div class="d-flex align-items-center">
-          <div class="me-3">닉네임: </div>
-          <v-text-field v-model="nickname"
-            regular
-            placeholder="NICKNAME"
-          ></v-text-field>
-        </div>
-        <div class="d-flex align-items-center">
-          <div class="me-3">이메일: </div>
-          <v-text-field v-model="email"
-            regular
-            placeholder="EMAIL"
-          ></v-text-field>
-        </div>
-        <v-file-input v-model="files" name="files" label="upload profile image" @change="changeProfileImg"></v-file-input>
-        <div class="d-flex align-items-center justify-content-around">
-          <div class="d-flex flex-column align-items-center justify-center">
-            <img :src="profileImage" alt="기존 프로필이미지" class="profile-img my-5">
-            <h3>현재 프로필이미지</h3>
-          </div>
-          <div class="d-flex flex-column align-items-center justify-center">
-            <img :src="newProfileImage" alt="새 프로필이미지" class="profile-img my-5">
-            <h3>새 프로필이미지</h3>
-          </div>
-          
-        </div>
-        <br>
-        <v-btn
-          elevation="1"
-          large
-          outlined
-          rounded
-          @click="changeUserInfo"
-          style="float:right"
-        >UPDATE</v-btn>
-        <br>
-
-        <v-btn
-          elevation="2"
-          plain
-          rounded
-          small
-          @click="goToDelete"
-          style="float:right"
-        >회원 탈퇴</v-btn>
+    <v-container class="p-5">
+      <h1 class="text-center">회원정보 수정</h1>
+      <div class="d-flex align-items-center">
+        <div class="me-3">닉네임: </div>
+        <v-text-field v-model="nickname"
+          regular
+          placeholder="NICKNAME"
+        ></v-text-field>
       </div>
-  <v-row justify="center">
-    <v-dialog
-      v-model="dialog"
-      persistent
-      max-width="600px"
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="primary"
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
-          비밀번호 변경
-        </v-btn>
-      </template>
-      <v-card>
-        <v-card-title>
-          <span>비밀번호 변경</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  label="Password*"
-                  type="password"
-                  required
-                  v-model="password"
-                  :rules="[rules.min, rules.required]"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  label="New Password*"
-                  type="password"
-                  required
-                  :rules="[rules.min, rules.required]"
-                  v-model="newPassword"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  label="New Password Confirmation*"
-                  type="password"
-                  required
-                  :rules="[rules.match]"
-                  v-model="newPasswordConfirmation"
-                ></v-text-field>
-              </v-col>
-            </v-row>
-          </v-container>
-          <small>*indicates required field</small>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="[dialog = false, setBack()]"
-          >
-            Close
-          </v-btn>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="[dialog = false, changePassword()]"
-          >
-            Submit
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-row>
+      <!-- 이메일 -->
+      <div class="d-flex align-items-center">
+        <div class="me-3">이메일: </div>
+        <v-text-field v-model="email"
+          regular
+          placeholder="EMAIL"
+        ></v-text-field>
+      </div>
+      <!-- 파일업로드 -->
+      <v-file-input v-model="files" name="files" label="upload profile image" @change="changeProfileImg"></v-file-input>
+      <!-- 프로필 변경 -->
+      <div class="d-flex align-items-center justify-center">
+        <div class="d-flex flex-column align-items-center justify-center">
+          <img :src="profileImage" alt="기존 프로필이미지" class="profile-img my-5">
+          <h4>현재 프로필이미지</h4>
+        </div>
+        <v-icon x-large color="warning" class="mx-10">mdi-arrow-right-thick</v-icon>
+        <div class="d-flex flex-column align-items-center justify-center">
+          <img :src="newProfileImage" alt="새 프로필이미지" class="profile-img my-5">
+          <h4>새 프로필이미지</h4>
+        </div>
+        <div class="mx-10">
+          <!-- 비밀번호 변경 -->
+          <div justify="center" class="my-5">
+            <v-dialog
+              v-model="dialog"
+              persistent
+              max-width="600px"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn outlined
+                  large
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  비밀번호 변경
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title>
+                  비밀번호 변경
+                </v-card-title>
+                <v-card-text>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12">
+                        <v-text-field
+                          label="Password*"
+                          type="password"
+                          required
+                          v-model="password"
+                          :rules="[rules.min, rules.required]"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12">
+                        <v-text-field
+                          label="New Password*"
+                          type="password"
+                          required
+                          :rules="[rules.min, rules.required]"
+                          v-model="newPassword"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12">
+                        <v-text-field
+                          label="New Password Confirmation*"
+                          type="password"
+                          required
+                          :rules="[rules.match]"
+                          v-model="newPasswordConfirmation"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <small>*indicates required field</small>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="blue darken-1"
+                    text
+                    @click="[dialog = false, setBack()]"
+                  >
+                    Close
+                  </v-btn>
+                  <v-btn
+                    color="blue darken-1"
+                    text
+                    @click="[dialog = false, changePassword()]"
+                  >
+                    Submit
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </div>
+          <!-- 업뎃 완료 버튼 -->
+          <v-btn elevation="1" large
+            color="primary" @click="changeUserInfo"
+            class="mx-auto"
+          >UPDATE</v-btn>
+        </div>
+      </div>
+    <!-- 회원탈퇴 -->
+    <v-btn
+      elevation="2"
+      plain
+      rounded
+      small
+      @click="goToDelete"
+      style="float:left"
+    >회원 탈퇴</v-btn>
  </v-container>
 
 </div>

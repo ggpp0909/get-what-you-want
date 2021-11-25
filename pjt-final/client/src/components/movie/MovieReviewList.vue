@@ -43,7 +43,7 @@ export default {
       })
         .then(res => {
           console.log(res)
-          this.reviewList = res.data.length > 1 ? res.data : false
+          this.reviewList = res.data.length > 0 ? res.data : false
         })
         .catch(err => {
           console.log(err)

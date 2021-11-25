@@ -7,7 +7,7 @@
     >
     <template>
       <div @click="goToMovieDetail(similarItem.id)" class="d-flex flex-column align-items-center">
-        <img :src="`https://image.tmdb.org/t/p/w500${similarItem.backdrop_path}`" :alt="`${similarItem.title} 포스터`" width="98%">
+        <img :src="`https://image.tmdb.org/t/p/w500${similarItem.backdrop_path}`" :alt="`${similarItem.title} 포스터`" width="100%">
         <p>{{ similarItem.title }}</p>
       </div>
     </template>
@@ -36,7 +36,7 @@ export default {
     return {
       similarMovies: [],
       swiperOption: {
-        slidesPerView: 4,
+        slidesPerView: 5,
         loop: true,
         loopFillGroupWithBlank: true,
         navigation: {
@@ -74,9 +74,3 @@ export default {
   },
 }
 </script>
-<style scoped>
-.swiper-slide {
-  border-style: solid;
-  border-width: 3px;
-}
-</style>

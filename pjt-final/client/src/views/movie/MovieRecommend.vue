@@ -201,7 +201,7 @@ export default {
 .movieLine {
   border-left-style: solid;
   border-right-style: solid;
-  height: 220px;
+  height: 200px;
 }
 .movieTag {
   border-style: solid;

@@ -1,13 +1,10 @@
 <template>
-  <div>
-    <h1>now movie</h1>
-    <div class="d-flex">
-      <now-movie-item
-        v-for="nowItem in nowMovies"
-        :key="nowItem.id"
-        :now-item="nowItem"
-      ></now-movie-item>
-    </div>
+  <div class="d-flex">
+    <now-movie-item
+      v-for="nowItem in nowMovies"
+      :key="nowItem.id"
+      :now-item="nowItem"
+    ></now-movie-item>
   </div>
 </template>
 

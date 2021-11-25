@@ -2,8 +2,8 @@
   <v-container>
     <v-row>
       <v-col cols="4" class="d-flex flex-column align-items-center justify-content-center"> 
-        <h1>{{ userProfile.nickname }}</h1>
         <img :src="getUserProfileImg()" :alt="`${ userProfile.nickname }님의 프로필 사진`" class="profileImg">
+        <h1>{{ userProfile.nickname }}</h1>
         <!-- 팔로우 / 언팔 버튼 -->
         <div v-if="this.userName != this.$route.params.userName" class="mt-8 mb-4">
           <v-btn v-if="followState" @click="changeFollowState" color="info" outlined>

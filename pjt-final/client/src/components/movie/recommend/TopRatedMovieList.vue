@@ -33,7 +33,7 @@ export default {
     return {
       topRatedMovies: [],
       swiperOption: {
-        slidesPerView: 4,
+        slidesPerView: 5,
         loop: true,
         loopFillGroupWithBlank: true,
         navigation: {

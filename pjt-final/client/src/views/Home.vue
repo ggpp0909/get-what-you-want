@@ -1,44 +1,56 @@
 <template>
-  <div>
-    home
-    <upcoming-movie-list></upcoming-movie-list>
-    <now-movie-list></now-movie-list>
-
-    <swiper class="swiper" :options="swiperOption"> <swiper-slide>Slide 1</swiper-slide> <swiper-slide>Slide 2</swiper-slide> <swiper-slide>Slide 3</swiper-slide> <swiper-slide>Slide 4</swiper-slide> <swiper-slide>Slide 5</swiper-slide> <swiper-slide>Slide 6</swiper-slide> <swiper-slide>Slide 7</swiper-slide> <swiper-slide>Slide 8</swiper-slide> <swiper-slide>Slide 9</swiper-slide> <swiper-slide>Slide 10</swiper-slide> <div class="swiper-pagination" slot="pagination"></div> <div class="swiper-button-prev" slot="button-prev"></div> <div class="swiper-button-next" slot="button-next"></div> </swiper>
-
-
-
-  </div>
-
+  <v-row>
+    <v-col cols="4" class="img">
+      <img :src="require('@/assets/bg_event_hb.jpeg')" alt="" width="100%" class="img"> 
+    </v-col>
+    <v-col cols="8">
+      <div class="my-16">
+        <h3 class="notosans">현재 상영중</h3>
+        <now-movie-list></now-movie-list>
+      </div>
+      <div class="my-16">
+        <h3 class="notosans">상영 예정작</h3>
+        <upcoming-movie-list></upcoming-movie-list>
+      </div>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper' 
-import 'swiper/css/swiper.css'
-
-
 import NowMovieList from '@/components/movie/recommend/NowMovieList'
 import UpcomingMovieList from '@/components/movie/recommend/UpcomingMovieList'
 
 export default {
-    name: 'Home',
-    components: {
-      NowMovieList,
-      UpcomingMovieList,
-      Swiper,
-      SwiperSlide
-    },
-    data() { return { swiperOption: { slidesPerView: 1, spaceBetween: 30, loop: true, pagination: { el: '.swiper-pagination', clickable: true }, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' } } } }
-
-
+  name: 'Home',
+  components: {
+    NowMovieList,
+    UpcomingMovieList,
+  },
+  data() { 
+    return { 
+      range: 30,
   }
+}
+}
 </script>
 
 <style lang="scss" scoped> 
-// @import '../assets/css/base.scss'; 
-
-.swiper { height: 300px; width: 100%; .swiper-slide { display: flex; justify-content: center; align-items: center; text-align: center; font-weight: bold; } }
-
-
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
+.notosans {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.film {
+  background-color: black;
+  height: 33px;
+  
+}
+.whiteBox {
+  width: 13px;
+  height: 13px;
+  background-color: white;
+}
+.img {
+  z-index: 90 !important;
+}
 </style>
 

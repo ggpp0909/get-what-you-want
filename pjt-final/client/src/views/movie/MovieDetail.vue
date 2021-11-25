@@ -37,14 +37,14 @@
             <v-expansion-panel-content>
               <!-- 개요 -->
               <div class="d-flex align-items-end my-5">
-                <div class="me-1">개요 |장르</div>
+                <div class="me-1">개요 |장르:</div>
                 <div
                   v-for="genre in genres"
                   :key="genre"
                   class="mx-1"
                 >{{ genre }}</div> |
-                <div class="me-1">런타임 {{ movieData.runtime }}분</div> |
-                <div class="me-1">개봉일 {{ movieData.release_date }}</div> |
+                <div class="me-1">런타임: {{ movieData.runtime }}분</div> |
+                <div class="me-1">개봉일: {{ movieData.release_date }}</div> |
                 <div><v-chip color="primary" text-color="white" class="mx-2">{{ movieData.status }}</v-chip></div>
               </div>
               <!-- 줄거리 -->

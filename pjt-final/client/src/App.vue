@@ -4,37 +4,34 @@
       elevation="1"
       class="mainFont">
 
-      <!-- <template v-slot:img="{ props }">
-            <img :src="require(`@/assets/test.png`)" alt="유저프로필" v-bind="props" >
-          </template> -->
+      <template v-slot:img="{ props }">
+        <img :src="require(`@/assets/8de6ea134a2719f9.png`)" v-bind="props" style="padding-left:500px;" class="py-3">
+      </template>
       <v-row>
         <!-- home -->
-        <v-col cols="2">
+        <v-col cols="9">
           <router-link :to="{ name: 'Home' }" 
-            class="text-decoration-none black--text" 
+            class="text-decoration-none black--text mx-3" 
           >HOME</router-link>
-        </v-col>
-        <v-col cols="7" class="d-flex justify-center">
           <!-- 자유게시판 -->
-          <div>
-            <router-link :to="{ name: 'Board' }" 
+          <router-link :to="{ name: 'Board' }" 
               class="text-decoration-none black--text mx-3"
             >BOARD</router-link>
             <!-- 영화 추천 -->
             <router-link :to="{ name: 'MovieRecommend' }"
               class="text-decoration-none black--text mx-3"
             >RECOMMEND</router-link>
-          </div>
+          <!-- </div> -->
         </v-col>
         <!-- 검색창 -->
         <v-col cols="2" >
           <v-text-field v-model.trim="searchMovie" @keyup.enter="goToSearchPage" 
-            placeholder="검색어를 입력하세요" outlined dense label="Search Movie" >
+            placeholder="검색어를 입력하세요" dense label="Search Movie" class="searchBar">
           <v-icon slot="append" @click="goToSearchPage">mdi-magnify</v-icon>
           </v-text-field>
         </v-col>
 
-        <v-col cols="1">
+        <v-col cols="1" class="pt-0">
           <!-- 프로필 이미지 -->
           <v-menu bottom min-width="150px" rounded offset-y>
             <template v-slot:activator="{ on }">
@@ -157,5 +154,10 @@ export default {
 .padding{
   padding-top:150px
 }
-
+:v-deep .v-text-field__details {
+  display: none;
+}
+.v-app-bar {
+  z-index: 100 !important;
+}
 </style>

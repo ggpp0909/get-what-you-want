@@ -33,7 +33,7 @@ export default {
     return {
       popularMovie: [],
       swiperOption: {
-        slidesPerView: 4,
+        slidesPerView: 5,
         loop: true,
         loopFillGroupWithBlank: true,
         navigation: {
@@ -73,7 +73,11 @@ export default {
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+.swiper-slide {
+  border-right-style: solid;
+
+}
 // .turn {
 //   writing-mode: vertical-rl;
 //     border-left-style: solid;
@@ -99,14 +103,5 @@ export default {
     -o-transform:translateX(-100%);
     -ms-transform:translateX(-100%);
   } */
-/* } */
-// .swiper-slide {
-//     width: 60%;
-//   }
-//   .swiper-slide:nth-child(2n) {
-//       width: 40%;
-//   }
-//   .swiper-slide:nth-child(3n) {
-//       width: 20%;
-//   }
+
 </style>

@@ -7,7 +7,7 @@
     >
       <template>
         <div @click="goToMovieDetail(timeItem.id)" class="d-flex flex-column align-items-center">
-          <img :src="`https://image.tmdb.org/t/p/w500${timeItem.backdrop_path}`" :alt="`${timeItem.title} 포스터`" width="90%">
+          <img :src="`https://image.tmdb.org/t/p/w500${timeItem.backdrop_path}`" :alt="`${timeItem.title} 포스터`" width="100%">
           <div>{{ timeItem.title }}</div>
         </div>
       </template>
@@ -33,7 +33,7 @@ export default {
     return {
       timeMovies: [],
       swiperOption: {
-        slidesPerView: 4,
+        slidesPerView: 5,
         loop: true,
         loopFillGroupWithBlank: true,
         navigation: {
@@ -54,7 +54,6 @@ export default {
         url: `${SERVER_URL}/movie/time_recommend/`, 
       })
         .then(res => {
-          console.log(res)
           this.timeMovies = res.data[1].filter(movie => {  // 포스터 없는 영화 거르기 
             return movie.backdrop_path
           })
