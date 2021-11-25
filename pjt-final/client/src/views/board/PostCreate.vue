@@ -1,14 +1,30 @@
 <template>
   <div>
-    created
-    <v-text-field v-model.trim="post.title"
+    <h2 v-if="isUpdate" class="d-flex justify-center mt-5">게시글 수정</h2>
+    <h2 v-else class="d-flex justify-center mt-5">게시글 작성</h2>
+    <v-container>
+    <p>제목</p>
+      <v-text-field v-model.trim="post.title"
+      solo
       placeholder="제목을 입력해주세요."
       color="error"
     ></v-text-field>
-    <v-textarea v-model.trim="post.content"
-      color="success"
+    <p>내용</p>
+    <v-textarea
+      auto-grow
+      solo
+      v-model.trim="post.content"
+      placeholder="내용을 입력해주세요."
     ></v-textarea>
-    <button @click="isUpdate ? updatePost() : createPost()">done</button>
+      <v-btn
+      elevation="1"
+      large
+      outlined
+      rounded
+      @click="isUpdate ? updatePost() : createPost()"
+      style="float:right"
+    >DONE</v-btn>
+    </v-container>
   </div>
 </template>
 

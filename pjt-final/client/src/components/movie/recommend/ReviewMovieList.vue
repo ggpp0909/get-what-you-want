@@ -9,7 +9,7 @@
       >
       <template> <!-- 여기 이미지 나중에 데이터 다시 받고 백드롭패스로 바꿔야됨 -->
         <div @click="goToMovieDetail(reviewItem.id)" class="d-flex flex-column align-items-center">
-          <img :src="`https://image.tmdb.org/t/p/w500${reviewItem.poster_path}`" :alt="`${reviewItem.title} 포스터`" width="100%">
+          <img :src="`https://image.tmdb.org/t/p/w500${reviewItem.backdrop_path}`" :alt="`${reviewItem.title} 포스터`" width="100%">
           <div>{{ reviewItem.title }}</div>
         </div>
       </template>
@@ -46,7 +46,7 @@ export default {
         .then(res => {
           console.log(res)
           this.reviewMovies = res.data.filter(movie => {  // 포스터 없는 영화 거르기 
-            return movie.poster_path
+            return movie.backdrop_path
           })
         })
         .catch(err => {

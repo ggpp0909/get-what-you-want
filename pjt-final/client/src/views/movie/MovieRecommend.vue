@@ -132,7 +132,8 @@ export default {
       pickForSimilarMovie: null,
       showRS: false,
       range: 2,
-      weather: null
+      weather: null,
+      isRendering: false
     }
   },
   methods:{
@@ -186,8 +187,7 @@ export default {
   },
   created() {
     this.getProfile()
-    
-  }
+  },
 }
 </script>
     
