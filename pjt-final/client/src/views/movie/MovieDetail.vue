@@ -62,7 +62,7 @@
             </v-expansion-panel-header>
             <v-expansion-panel-content>
               <movie-videos :video-list="movieData.video" v-if="isVideo"></movie-videos>
-              <div v-if="!isVideo">예고편을 준비중입니다</div>
+              <div v-if="!isVideo" class="mt-5">예고편을 준비중입니다</div>
             </v-expansion-panel-content>
           </v-expansion-panel>
 

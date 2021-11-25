@@ -1,8 +1,8 @@
 <template>
-  <div class="d-flex" @click="goToMovieDetail">
-    <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" :alt="`${ movie.title } 포스터`" height="100">
+  <v-card class="d-flex" @click="goToMovieDetail">
+    <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" :alt="`${ movie.title } 포스터`" height="100%">
     <h3>{{ movie.title }}</h3>
-  </div>
+  </v-card>
 </template>
 
 <script>
