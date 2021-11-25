@@ -20,7 +20,7 @@
           <div class="d-flex align-items-end">
             <v-rating background-color="grey" color="warning"
               length="5" readonly half-increments
-              size="25" v-model="rating" 
+              large v-model="rating" 
             ></v-rating>
             <div class="px-3 text-h4">{{ rating }}</div>
             <div>{{ movieData.vote_count }}명</div>
@@ -28,10 +28,10 @@
         </div>
       </v-col>
       <v-col cols="8">
-        <v-expansion-panels focusable multiple>
+        <v-expansion-panels focusable multiple elevation="0">
           <!-- 영화정보 -->
           <v-expansion-panel>
-            <v-expansion-panel-header>
+            <v-expansion-panel-header >
               "{{ movieData.title }}" INFO
             </v-expansion-panel-header>
             <v-expansion-panel-content>
@@ -68,10 +68,10 @@
 
           <!--  추천 / 비슷한 영화 -->
           <v-expansion-panel>
-            <v-expansion-panel-header class="my-3">
+            <v-expansion-panel-header >
               Recommendations / Similiar Movie
             </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            <v-expansion-panel-content class="my-3">
               <h1>RECOMMENDATIONS</h1>
               <detail-recommend-movie-list></detail-recommend-movie-list>
               <h1>SIMILAR MOVIE</h1>
@@ -82,7 +82,7 @@
           <!-- 리뷰 -->
           <v-expansion-panel>
             <v-expansion-panel-header>
-              f리뷰
+             REVIEWS
             </v-expansion-panel-header>
             <v-expansion-panel-content>
               <movie-review-list></movie-review-list>
@@ -195,5 +195,7 @@ export default {
 </script>
 
 <style>
-
+.v-expansion-panel-header {
+  border-bottom-style: solid;
+}
 </style>

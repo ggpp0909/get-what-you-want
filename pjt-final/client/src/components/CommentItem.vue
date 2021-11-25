@@ -5,12 +5,12 @@
         <img :src="getUserProfileImg()" class="profileImg">
       </v-col>
       <v-col cols="8">
-      <p @click="goToUserProfile()">{{ comment.user.nickname }}</p>
-      <p class="my-5">{{ comment.content }}</p>
-      <i>작성일: {{ changeDate(comment.created_at) }}</i>
+        <p @click="goToUserProfile()">{{ comment.user.nickname }}</p>
+        <p class="my-5">{{ comment.content }}</p>
+        <i>작성일: {{ changeDate(comment.created_at) }}</i>
       </v-col>
       <v-col v-if="isSameUser" cols="2" class="d-flex align-items-end justify-end">
-        <v-btn @click="showInput" outlined class="udBtn">Update</v-btn>
+        <v-btn @click="showInput" outlined class="udBtn">update</v-btn>
         <v-btn @click="deleteComment" plain outlined class="udBtn">delete</v-btn>
       </v-col>
     </v-row>

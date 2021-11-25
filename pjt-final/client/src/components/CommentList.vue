@@ -1,14 +1,12 @@
 <template>
   <div>
     <comment-create :reloadComment="reloadComment"></comment-create>
- 
       <comment-item
         v-for="comment in commentList"
         :key="comment.id"
         :comment="comment"  
         :reloadComment="reloadComment"
       ></comment-item>
-    
   </div>
 </template>
 

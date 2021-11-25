@@ -1,14 +1,19 @@
 <template>
   <div class="d-flex flex-column">
-    <div>
+    <div class="d-flex align-items-center">
       <v-rating v-model="rank"
         color="warning" background-color="grey"
         hover large
-      ></v-rating> {{ rank }}
+      ></v-rating>
+      <div class="mx-3 text-h5">{{ rank }}</div>
     </div>
     <v-checkbox value="True" v-model="isSpoiler" label="스포일러를 포함한 내용인가요?"></v-checkbox>
-    <v-text-field v-model.trim="review" @keyup.enter="createReview()"></v-text-field>
-    <v-btn @click="createReview()">등록</v-btn>
+    <div class="d-flex align-items-end">
+      <v-text-field v-model.trim="review" @keyup.enter="createReview()"
+        outlined placeholder="감상평을 남겨주세요."
+      ></v-text-field>
+      <v-btn @click="createReview()" outlined class="mx-3">등록</v-btn>
+    </div>
   </div>
 </template>
 
@@ -71,6 +76,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+::v-deep .v-text-field__details {
+  display: none;
+}
 </style>

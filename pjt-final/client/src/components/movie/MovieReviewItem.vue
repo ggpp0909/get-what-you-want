@@ -1,27 +1,60 @@
 <template>
   <div>
-    <div :class="{'hide': isUpdate }">
-      <div v-if="oldReview">
-        <h4>{{ oldReview.content }}</h4>
-        <p>{{ oldReview.is_spoiler }}</p>
-        <p>{{ oldReview.rank }}</p>
-        <p>{{ changeDate(oldReview.created_at) }}</p>
-        <p @click="goToProfile">{{ oldReview.nickname }}</p>
-        <img :src="getUserProfileImg()" alt="프로필이미지" @click="goToProfile" height="100px">
-        <button @click="showInput">수정</button>
-        <button @click="deleteReview">삭제</button>
-      </div>
+    <!-- 조회 -->
+    <div v-if="!isUpdate">
+      <v-row v-if="oldReview">
+        <v-col cols="7">
+          <div class="d-flex align-items-center">
+            <v-rating background-color="grey" color="warning" hover readonly v-model="rank" 
+              ></v-rating>
+            <div>{{ rank }}</div>
+          </div>
+          <div class="px-3">{{ oldReview.content }}</div>
+          <div class="px-3">{{ changeDate(oldReview.created_at) }}</div>
+        </v-col>
+        <v-col cols="3" class="d-flex flex-column justify-end" @click="goToProfile()">
+          <img :src="getUserProfileImg()" alt="프로필이미지" class="profileImg">
+          <div>{{ oldReview.user.nickname }}</div>
+        </v-col>
+        <v-col cols="2" class="d-flex flex-column align-items-end justify-end">
+          <v-btn @click="showInput" outlined class="udBtn">update</v-btn>
+          <v-btn @click="deleteReview" plain outlined class="udBtn">delete</v-btn>
+        </v-col>
+        <v-divider></v-divider>
+      </v-row>
       <div v-else>
         아직 리뷰가 없습니다 ! 영화의 리뷰를 남겨보세요
       </div>
     </div>
-    <div :class="{'hide': !isUpdate }">
+    <!-- 수정 -->
+    <div v-else>
+      <div class="d-flex flex-column">
+    <div class="d-flex align-items-center">
+      <v-rating v-model="rank"
+        color="warning" background-color="grey"
+        hover large
+      ></v-rating>
+      <div class="mx-3 text-h5">{{ rank }}</div>
+    </div>
+    <v-checkbox value="True" v-model="isSpoiler" label="스포일러를 포함한 내용인가요?"></v-checkbox>
+    <div class="d-flex align-items-end">
+      <v-text-field v-model.trim="newReview" @keyup.enter="updateReview()"
+        outlined label="감상평을 수정해주세요."
+      ></v-text-field>
+      <div class="d-flex flex-column mx-3">
+        <v-btn @click="updateReview()" outlined>수정</v-btn>
+        <v-btn @click="isUpdate = !isUpdate" outlined class="my-2">취소</v-btn>
+      </div>
+    </div>
+      </div>
+    </div>
+  <!-- </div>
       <input type="number" v-model="rank" value="별점">
       <v-checkbox value="True" v-model="isSpoiler" label="스포일러를 포함한 내용인가요?"></v-checkbox>
       <v-text-field v-model.trim="newReview" color="error" @keyup.enter="updateReview"></v-text-field>
       <button @click="updateReview">+</button>
       <button @click="isUpdate = !isUpdate">취소</button>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -39,7 +72,7 @@ export default {
   data() {
     return {
       newReview: null,
-      rank: 0,
+      rank: this.oldReview.rank,
       isSpoiler: false,
       isSameUser: false,
       isUpdate: false,
@@ -75,7 +108,6 @@ export default {
         method: 'put',
         url: `${SERVER_URL}/movie/${this.$route.params.movieId}/review/${this.oldReview.id}/`, 
         data: reviewItem,
-        params: 1,
         headers: this.config
       })
         .then(() => {
@@ -119,8 +151,22 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .hide {
+  display: none;
+}
+.profileImg {
+  height: 50px;
+  width: 50px;
+  border-style: solid;
+  border-radius: 100%;
+}
+.udBtn {
+  border-style: none;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+::v-deep .v-text-field__details {
   display: none;
 }
 </style>
