@@ -4,11 +4,8 @@
     <upcoming-movie-list></upcoming-movie-list>
     <now-movie-list></now-movie-list>
 
-  
+    <swiper class="swiper" :options="swiperOption"> <swiper-slide>Slide 1</swiper-slide> <swiper-slide>Slide 2</swiper-slide> <swiper-slide>Slide 3</swiper-slide> <swiper-slide>Slide 4</swiper-slide> <swiper-slide>Slide 5</swiper-slide> <swiper-slide>Slide 6</swiper-slide> <swiper-slide>Slide 7</swiper-slide> <swiper-slide>Slide 8</swiper-slide> <swiper-slide>Slide 9</swiper-slide> <swiper-slide>Slide 10</swiper-slide> <div class="swiper-pagination" slot="pagination"></div> <div class="swiper-button-prev" slot="button-prev"></div> <div class="swiper-button-next" slot="button-next"></div> </swiper>
 
-
-  <!-- If we need scrollbar -->
-  <!-- <div class="swiper-scrollbar"></div> -->
 
 
   </div>
@@ -16,6 +13,10 @@
 </template>
 
 <script>
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper' 
+import 'swiper/css/swiper.css'
+
+
 import NowMovieList from '@/components/movie/recommend/NowMovieList'
 import UpcomingMovieList from '@/components/movie/recommend/UpcomingMovieList'
 
@@ -24,10 +25,20 @@ export default {
     components: {
       NowMovieList,
       UpcomingMovieList,
-    }
+      Swiper,
+      SwiperSlide
+    },
+    data() { return { swiperOption: { slidesPerView: 1, spaceBetween: 30, loop: true, pagination: { el: '.swiper-pagination', clickable: true }, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' } } } }
+
+
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped> 
+// @import '../assets/css/base.scss'; 
+
+.swiper { height: 300px; width: 100%; .swiper-slide { display: flex; justify-content: center; align-items: center; text-align: center; font-weight: bold; } }
+
 
 </style>
+

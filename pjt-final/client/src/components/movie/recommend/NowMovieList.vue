@@ -11,6 +11,7 @@
   </div>
 </template>
 
+
 <script>
 import NowMovieItem from '@/components/movie/recommend/NowMovieItem'
 

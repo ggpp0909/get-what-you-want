@@ -1,34 +1,33 @@
 <template>
-  <div class="swiper mySwiper">
-    <div class="swiper-wrapper">
-      <div
-        v-for="recommendItem in recommendMovies"
-        :key="recommendItem.id"
-        :recommend-item="recommendItem"
-        class="swiper-slide"
-      >
+  <swiper class="swiper" :options="swiperOption">
+    <swiper-slide
+      v-for="recommendItem in recommendMovies"
+      :key="recommendItem.id"
+      :recommend-item="recommendItem"
+    >
       <template>
         <div @click="goToMovieDetail(recommendItem.id)" class="d-flex flex-column align-items-center">
           <img :src="`https://image.tmdb.org/t/p/w500${recommendItem.backdrop_path}`" :alt="`${recommendItem.title} 포스터`" width="100%">
           <div>{{ recommendItem.title }}</div>
         </div>
       </template>
-      </div>
-    </div>
-  <div class="swiper-button-prev"></div>
-  <div class="swiper-button-next"></div> 
-  </div>
+    </swiper-slide>
+    <div class="swiper-button-prev" slot="button-prev"></div>
+    <div class="swiper-button-next" slot="button-prev"></div>
+  </swiper>
 </template>
 
 <script>
-// import RecommendMovieItem from '@/components/movie/recommend/RecommendMovieItem'
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper' 
+import 'swiper/css/swiper.css'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
   name: 'MovieDetailRecommend',
   components: {
-    // RecommendMovieItem
+    Swiper,
+    SwiperSlide
   },
   props: {
     pickRecommendMovie: Object,
@@ -36,25 +35,24 @@ export default {
   data() {
     return {
       recommendMovies: [],
-      accessDetail: true,
+      swiperOption: {
+        slidesPerView: 4,
+        loop: true,
+        loopFillGroupWithBlank: true,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        },
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false
+        },
+      }
     }
   },
   methods: {
     getRecommendMovie(movieId) {
-      this.$axios({
-        method: 'get',
-        url: `${SERVER_URL}/movie/${movieId}/recommend/`, 
-      })
-        .then(res => {
-          this.recommendMovies = res.data.filter(movie => {  // 포스터 없는 영화 거르기 
-            return movie.backdrop_path
-          })
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    getRecommendMovie2(movieId) {
+      console.log(movieId)
       this.$axios({
         method: 'get',
         url: `${SERVER_URL}/movie/${movieId}/recommend/`, 
@@ -74,28 +72,8 @@ export default {
     }
   },
   created() {
-    if (this.$route.name === 'MovieRecommend') { // 영화 추천 페이지에서 접근 했을때 
-      this.getRecommendMovie2(this.pickRecommendMovie.movie_id)
-      this.accessDetail = false
-    } else {  // 영화 디테일 페이지에서 접근 했을때 
-      this.getRecommendMovie(this.$route.params.movieId)
-    }
+    this.getRecommendMovie(this.pickRecommendMovie.movie_id)
   },
-  watch: {
-    pickRecommendMovie() {
-      this.getRecommendMovie(this.pickRecommendMovie.movie_id)
-      this.accessDetail = false
-    }
-  }
 }
 </script>
 
-<style scoped>
-.turn {
-  writing-mode: vertical-rl;
-    border-left-style: solid;
-}
-.swiper-slide {
-  border-left-style: solid;
-}
-</style>

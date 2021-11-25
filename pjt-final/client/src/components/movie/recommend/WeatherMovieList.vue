@@ -1,27 +1,26 @@
 <template>
-  <div class="swiper mySwiper">
-    <div class="swiper-wrapper">
-      <div
-        v-for="weatherItem in weatherMovies"
-        :key="weatherItem.id"
-        :weather-item="weatherItem"
-        class="swiper-slide"
-      >
+  <swiper class="swiper" :options="swiperOption">
+    <swiper-slide
+      v-for="weatherItem in weatherMovies"
+      :key="weatherItem.id"
+      :weather-item="weatherItem"
+    >
       <template>
         <div @click="goToMovieDetail(weatherItem.id)" class="d-flex flex-column align-items-center">
           <img :src="`https://image.tmdb.org/t/p/w500${weatherItem.backdrop_path}`" :alt="`${weatherItem.title} 포스터`" width="100%">
           <p>{{ weatherItem.title }}</p>
         </div>
       </template>
-      </div>
-    </div>
-  <div class="swiper-button-prev"></div>
-  <div class="swiper-button-next"></div> 
-  </div>
+  </swiper-slide>
+    <div class="swiper-button-prev" slot="button-prev"></div>
+    <div class="swiper-button-next" slot="button-prev"></div>
+  </swiper>
 </template>
 
 <script>
-// import WeatherMovieItem from '@/components/movie/recommend/WeatherMovieItem'
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper' 
+import 'swiper/css/swiper.css'
+
 import axios from 'axios'
 
 const WEATHER_API = "c902eb9aee51998b30d90694ef0a29f7"
@@ -32,12 +31,26 @@ const COORDS = "coords"
 export default {
   name: 'WeatherMovieList',
   components: {
-    // WeatherMovieItem
+    Swiper,
+    SwiperSlide
   },
   data() {
     return {
       weather: null,
       weatherMovies: [],
+      swiperOption: {
+        slidesPerView: 4,
+        loop: true,
+        loopFillGroupWithBlank: true,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        },
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false
+        },
+      }
     }
   },
   methods: {
@@ -107,13 +120,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.turn {
-  writing-mode: vertical-rl;
-    border-left-style: solid;
-}
-.swiper-slide {
-  border-left-style: solid;
-}
-</style>

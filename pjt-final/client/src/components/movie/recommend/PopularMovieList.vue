@@ -1,40 +1,50 @@
 <template>
-  <div class="swiper mySwiper">
-    <div class="swiper-wrapper">
-      <div
-        v-for="popularItem in popularMovie"
-        :key="popularItem.id"
-        :popular-item="popularItem"
-        class="swiper-slide"
-      >
-      <template>
-        <div @click="goToMovieDetail(popularItem.id)" class="d-flex flex-column align-items-center">
-          <img :src="`https://image.tmdb.org/t/p/w500${popularItem.backdrop_path}`" :alt="`${popularItem.title} 포스터`" width="100%">
-          <div>{{ popularItem.title }}</div>
-        </div>
-      </template>
+  <swiper class="swiper" :options="swiperOption">
+    <swiper-slide
+      v-for="popularItem in popularMovie"
+      :key="popularItem.id"
+      :popular-item="popularItem"
+    >
+    <template>
+      <div @click="goToMovieDetail(popularItem.id)" class="d-flex flex-column align-items-center">
+        <img :src="`https://image.tmdb.org/t/p/w500${popularItem.backdrop_path}`" :alt="`${popularItem.title} 포스터`" width="100%">
+        <div>{{ popularItem.title }}</div>
       </div>
-    </div>
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
-    
-  </div>
-  
+    </template>
+    </swiper-slide>
+    <div class="swiper-button-prev" slot="button-prev"></div>
+    <div class="swiper-button-next" slot="button-prev"></div>
+  </swiper>
 </template>
 
 <script>
-// import PopularMovieItem from '@/components/movie/recommend/PopularMovieItem'
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper' 
+import 'swiper/css/swiper.css'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
   name: 'PopularMovieList',
   components: {
-    // PopularMovieItem
+    Swiper,
+    SwiperSlide
   },
   data() {
     return {
       popularMovie: [],
+      swiperOption: {
+        slidesPerView: 4,
+        loop: true,
+        loopFillGroupWithBlank: true,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        },
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false
+        },
+      }
     }
   },
   methods: {
@@ -53,27 +63,24 @@ export default {
         })
     },
     goToMovieDetail(id) {
-    this.$router.push({ name: 'MovieDetail', params: { movieId: id } })
+      this.$router.push({ name: 'MovieDetail', params: { movieId: id } })
     }
   },
   created() {
       this.getPopularMovie()
-      // this.swiper.update();
     },
-    
-  
 }
 
 </script>
 
-<style scoped>
-.turn {
-  writing-mode: vertical-rl;
-    border-left-style: solid;
-}
+<style scoped lang="scss">
+// .turn {
+//   writing-mode: vertical-rl;
+//     border-left-style: solid;
+/* }
 .swiper-slide {
   border-left-style: solid;
-}
+} */
 /* .swiper:not(:hover){
   animation:text-scroll 35s linear infinite;
 }
@@ -93,5 +100,13 @@ export default {
     -ms-transform:translateX(-100%);
   } */
 /* } */
-
+// .swiper-slide {
+//     width: 60%;
+//   }
+//   .swiper-slide:nth-child(2n) {
+//       width: 40%;
+//   }
+//   .swiper-slide:nth-child(3n) {
+//       width: 20%;
+//   }
 </style>
