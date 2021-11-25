@@ -58,7 +58,7 @@
           <!--  트레일러 -->
           <v-expansion-panel>
             <v-expansion-panel-header>
-              trailer
+              TRAILER
             </v-expansion-panel-header>
             <v-expansion-panel-content>
               <movie-videos :video-list="movieData.video" v-if="isVideo"></movie-videos>
@@ -68,11 +68,13 @@
 
           <!--  추천 / 비슷한 영화 -->
           <v-expansion-panel>
-            <v-expansion-panel-header>
-              recommend
+            <v-expansion-panel-header class="my-3">
+              Recommendations / Similiar Movie
             </v-expansion-panel-header>
             <v-expansion-panel-content>
+              <h1>RECOMMENDATIONS</h1>
               <detail-recommend-movie-list></detail-recommend-movie-list>
+              <h1>SIMILAR MOVIE</h1>
               <detail-similar-movie-list></detail-similar-movie-list>
             </v-expansion-panel-content>
           </v-expansion-panel>
