@@ -3,22 +3,30 @@
     <!-- 조회 -->
     <div v-if="!isUpdate">
       <v-row v-if="oldReview">
-        <v-col cols="7">
+        <v-col cols="7" style="position:relative;">
           <div class="d-flex align-items-center">
             <v-rating background-color="grey" color="warning" hover readonly v-model="rank" 
               ></v-rating>
             <div>{{ rank }}</div>
           </div>
-          <div class="px-3">{{ oldReview.content }}</div>
+          <!-- 스포 -->
+          <div v-if="isSpoiler" style="position:absolute;" class="px-3 my-3 spoiler d-flex">
+            <p class="me-1">스포일러가 포함된 내용입니다.</p>
+            <a href="#" @click="isSpoiler=false">감상평 보기</a>
+          </div>
+          <div class="px-3 my-3">{{ oldReview.content }}</div>
           <div class="px-3">{{ changeDate(oldReview.created_at) }}</div>
         </v-col>
         <v-col cols="3" class="d-flex flex-column justify-end" @click="goToProfile()">
           <img :src="getUserProfileImg()" alt="프로필이미지" class="profileImg">
           <div>{{ oldReview.user.nickname }}</div>
         </v-col>
-        <v-col cols="2" class="d-flex flex-column align-items-end justify-end">
+        <v-col v-if="isSameUser" cols="2" class="d-flex flex-column align-items-end justify-end">
           <v-btn @click="showInput" outlined class="udBtn">update</v-btn>
           <v-btn @click="deleteReview" plain outlined class="udBtn">delete</v-btn>
+        </v-col>
+        <v-col v-else cols="2">
+
         </v-col>
         <v-divider></v-divider>
       </v-row>
@@ -36,7 +44,7 @@
       ></v-rating>
       <div class="mx-3 text-h5">{{ rank }}</div>
     </div>
-    <v-checkbox value="True" v-model="isSpoiler" label="스포일러를 포함한 내용인가요?"></v-checkbox>
+    <v-checkbox :value="isSpoiler" v-model="isSpoiler" label="스포일러를 포함한 내용인가요?"></v-checkbox>
     <div class="d-flex align-items-end">
       <v-text-field v-model.trim="newReview" @keyup.enter="updateReview()"
         outlined label="감상평을 수정해주세요."
@@ -73,8 +81,8 @@ export default {
     return {
       newReview: null,
       rank: this.oldReview.rank,
-      isSpoiler: false,
-      isSameUser: false,
+      isSpoiler: this.oldReview.is_spoiler,
+      isSameUser: null,
       isUpdate: false,
     }
   },
@@ -141,13 +149,18 @@ export default {
   computed: {
     ...mapState(['config', 'userName'])
   },
-  watch: {
-    oldReview() {
-      if (this.userName === this.oldReview.user.username) {
-        this.isSameUser = true
-      }
+  created() {
+    if (this.userName === this.oldReview.user.username) {
+         this.isSameUser = true
     }
   }
+  // watch: {
+  //   oldReview() {
+  //     if (this.userName === this.oldReview.user.username) {
+  //       this.isSameUser = true
+  //     }
+  //   }
+  // }
 }
 </script>
 
@@ -168,5 +181,8 @@ export default {
 }
 ::v-deep .v-text-field__details {
   display: none;
+}
+.spoiler {
+  background-color: white;
 }
 </style>

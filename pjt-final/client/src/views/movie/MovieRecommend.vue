@@ -4,27 +4,43 @@
     <popular-movie-list></popular-movie-list>
   </v-slide-group> -->
 
+    <!-- review -->
+    <h3>회원님의 평점을 분석한 안성맞춤 추천 영화!</h3>
+    <div class="d-flex justify-center movieTag">
+      <div class="d-flex" v-for="(n, idx) in range2" :key="idx">
+        <h5>RECOMMENDED BY YOUR REVIEW</h5><h5 class="test2 mx-2">RECOMMENDED BY YOUR REVIEW</h5>
+      </div>
+    </div>
+    <review-movie-list class="movieLine"></review-movie-list>
+    <div class="d-flex justify-center movieTag">
+      <div class="d-flex" v-for="(n, idx) in range2" :key="idx">
+        <h5>RECOMMENDED BY YOUR REVIEW</h5><h5 class="test2 mx-2">RECOMMENDED BY YOUR REVIEW</h5>
+      </div>
+    </div>
+
     <!-- POPULAR  -->
-    <div class="d-flex movieTag">
+    <h3>전 세계인들이 시청한 인기 영화 !</h3>
+    <div class="d-flex justify-center movieTag">
       <div class="d-flex" v-for="(n, idx) in range" :key="idx">
         <h5>POPULAR MOVIE</h5><h5 class="test2 mx-2">POPULAR MOVIE</h5>
       </div>
     </div>
     <popular-movie-list class="movieLine"></popular-movie-list>
-    <div class="d-flex movieTag">
+    <div class="d-flex justify-center movieTag">
       <div class="d-flex" v-for="(n, idx) in range" :key="idx">
         <h5>POPULAR MOVIE</h5><h5 class="test2 mx-2">POPULAR MOVIE</h5>
       </div>
     </div>
         
     <!-- TOP RATED -->
-    <div class="d-flex movieTag mt-3">
+    <h3>높은 평점을 받은 영화</h3>
+    <div class="d-flex justify-center movieTag mt-3">
       <div class="d-flex" v-for="(n, idx) in range" :key="idx">
         <h5>TOP RATED MOVIE</h5><h5 class="test2 mx-2">TOP RATED MOVIE</h5>
       </div>
     </div>
       <top-rated-movie-list class="movieLine"></top-rated-movie-list>
-    <div class="d-flex movieTag">
+    <div class="d-flex movieTag justify-center">
       <div class="d-flex" v-for="(n, idx) in range" :key="idx">
         <h5>TOP RATED MOVIE</h5><h5 class="test2 mx-2">TOP RATED MOVIE</h5>
       </div>
@@ -32,70 +48,58 @@
    
     <div v-if="showRS">
       <!-- Recommended movie -->
-      <h3>회원님이 좋아요를 누른 영화 "{{ pickForRecommendMovie.like_movie_title }}" 기반으로 추천드려요!</h3>
-      <div class="d-flex movieTag mt-3">
-        <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+      <h3>회원님이 좋아요를 누른 영화 중, "{{ pickForRecommendMovie.like_movie_title }}" 기반으로 추천드려요!</h3>
+      <div class="d-flex justify-center movieTag mt-3">
+        <div class="d-flex" v-for="(n, idx) in range2" :key="idx">
           <h5>RECOMMENDED BY LIKES</h5><h5 class="test2 mx-2">RECOMMENDED BY YOUR LIKES</h5>
         </div>
       </div>
       <recommend-movie-list class="movieLine" :pick-recommend-movie="pickForRecommendMovie"></recommend-movie-list>
-      <div class="d-flex movieTag">
-        <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+      <div class="d-flex justify-center movieTag">
+        <div class="d-flex" v-for="(n, idx) in range2" :key="idx">
           <h5>RECOMMENDED BY YOUR LIKES</h5><h5 class="test2 mx-2">RECOMMENDED BY YOUR LIKES</h5>
         </div>
       </div>
       <!-- similar movie -->
-      <h3>회원님이 좋아요를 누른 영화 "{{ pickForSimilarMovie.like_movie_title }}"와 비슷한 영화들은 어때요 ?</h3>
-      <div class="d-flex movieTag mt-3">
-        <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+      <h3>회원님이 좋아요를 누른 영화 중, "{{ pickForSimilarMovie.like_movie_title }}"와 비슷한 영화들은 어때요 ?</h3>
+      <div class="d-flex justify-center movieTag mt-3">
+        <div class="d-flex" v-for="(n, idx) in range2" :key="idx">
           <h5>SIMILAR TO YOUR LIKES</h5><h5 class="test2 mx-2">SIMILAR TO YOUR LIKES</h5>
         </div>
       </div>
       <similar-movie-list class="movieLine" :pick-similar-movie="pickForSimilarMovie"></similar-movie-list>
-      <div class="d-flex movieTag">
-        <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+      <div class="d-flex justify-center movieTag">
+        <div class="d-flex" v-for="(n, idx) in range2" :key="idx">
           <h5>SIMILAR TO YOUR LIKES</h5><h5 class="test2 mx-2">SIMILAR TO YOUR LIKES</h5>
         </div>
       </div>
     </div>
 
     <!-- weather -->
-    <h3 >{{weather}}</h3>
-    <div class="d-flex movieTag mt-3">
-      <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+    <h3 >{{ weather }}</h3>
+    <div class="d-flex justify-center movieTag mt-3">
+      <div class="d-flex" v-for="(n, idx) in range2" :key="idx">
         <h5>RECOMMENDED BY TODAY'S WEATHER</h5><h5 class="test2 mx-2">RECOMMENDED BY TODAY'S WEATHER</h5>
       </div>
     </div>
     <weather-movie-list class="movieLine" @weather-name="getWeather"></weather-movie-list>
-    <div class="d-flex movieTag">
-      <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+    <div class="d-flex justify-center movieTag">
+      <div class="d-flex" v-for="(n, idx) in range2" :key="idx">
         <h5>RECOMMENDED BY TODAY'S WEATHER</h5><h5 class="test2 mx-2">RECOMMENDED BY TODAY'S WEATHER</h5>
       </div>
     </div>
 
     <!-- time -->
-    <div class="d-flex movieTag mt-3">
-      <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+    <h3>현재 시간대에 어울리는 영화를 골라봤어요 !</h3>
+    <div class="d-flex justify-center movieTag mt-3">
+      <div class="d-flex" v-for="(n, idx) in range2" :key="idx">
         <h5>SUITABLE FOR THIS TIME</h5><h5 class="test2 mx-2">SUITABLE FOR THIS TIME</h5>
       </div>
     </div>
     <time-movie-list class="movieLine"></time-movie-list>
-    <div class="d-flex movieTag">
-      <div class="d-flex" v-for="(n, idx) in range" :key="idx">
+    <div class="d-flex justify-center movieTag">
+      <div class="d-flex" v-for="(n, idx) in range2" :key="idx">
         <h5>SUITABLE FOR THIS TIME</h5><h5 class="test2 mx-2">SUITABLE FOR THIS TIME</h5>
-      </div>
-    </div>
-    
-    <!-- review -->
-    <div class="d-flex movieTag mt-3">
-      <div class="d-flex" v-for="(n, idx) in range" :key="idx">
-        <h5>RECOMMENDED BY YOUR REVIEW</h5><h5 class="test2 mx-2">RECOMMENDED BY YOUR REVIEW</h5>
-      </div>
-    </div>
-    <review-movie-list class="movieLine"></review-movie-list>
-    <div class="d-flex movieTag">
-      <div class="d-flex" v-for="(n, idx) in range" :key="idx">
-        <h5>RECOMMENDED BY YOUR REVIEW</h5><h5 class="test2 mx-2">RECOMMENDED BY YOUR REVIEW</h5>
       </div>
     </div>
   </div>
@@ -131,7 +135,8 @@ export default {
       pickForRecommendMovie: null,
       pickForSimilarMovie: null,
       showRS: false,
-      range: 2,
+      range: 4,
+      range2: 2,
       weather: null,
       isRendering: false
     }
@@ -191,16 +196,19 @@ export default {
 }
 </script>
     
+
 <style scoped>
 .movieLine {
   border-left-style: solid;
   border-right-style: solid;
-  height: 250px;
+  height: 220px;
 }
 .movieTag {
   border-style: solid;
   box-sizing: border-box;
   background-color: black;
+  overflow: hidden;
+  width: 100%;
 }
 .movieTag2 {
   border-style: solid;
@@ -208,12 +216,14 @@ export default {
   box-sizing: border-box;
   margin-bottom: 0px;
 }
-  h5 {
-    margin-bottom: 0px;
-    color: white;
-  }
+h5 {
+  margin-bottom: 0px;
+  color: white;
+}
 .test2 {
   color: orange;
 }
-
+h3 {
+  margin-top: 30px;
+}
 </style>

@@ -1,34 +1,33 @@
 <template>
-  <div class="swiper mySwiper">
-    <div class="swiper-wrapper">
-      <div
-        v-for="similarItem in similarMovies"
-        :key="similarItem.id"
-        :similar-item="similarItem"
-        class="swiper-slide"
-      >
-      <template>
-        <div @click="goToMovieDetail(similarItem.id)" class="d-flex flex-column align-items-center">
-          <img :src="`https://image.tmdb.org/t/p/w500${similarItem.backdrop_path}`" :alt="`${similarItem.title} 포스터`" width="100%">
-          <p>{{ similarItem.title }}</p>
-        </div>
-      </template>
+  <swiper class="swiper" :options="swiperOption">
+    <swiper-slide
+      v-for="similarItem in similarMovies"
+      :key="similarItem.id"
+      :similar-item="similarItem"
+    >
+    <template>
+      <div @click="goToMovieDetail(similarItem.id)" class="d-flex flex-column align-items-center">
+        <img :src="`https://image.tmdb.org/t/p/w500${similarItem.backdrop_path}`" :alt="`${similarItem.title} 포스터`" width="98%">
+        <p>{{ similarItem.title }}</p>
       </div>
-    </div>
-  <div class="swiper-button-prev"></div>
-  <div class="swiper-button-next"></div> 
-  </div>
+    </template>
+    </swiper-slide>
+    <div class="swiper-button-prev" slot="button-prev"></div>
+    <div class="swiper-button-next" slot="button-prev"></div>
+  </swiper>
 </template>
 
 <script>
-// import SimilarMovieItem from '@/components/movie/recommend/SimilarMovieItem'
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper' 
+import 'swiper/css/swiper.css'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
   name: 'SimilarMovieList',
   components: {
-    // SimilarMovieItem
+    Swiper,
+    SwiperSlide
   },
   props: {
     pickSimilarMovie: Object,
@@ -36,25 +35,23 @@ export default {
   data() {
     return {
       similarMovies: [],
-      accessDetail: true,
+      swiperOption: {
+        slidesPerView: 4,
+        loop: true,
+        loopFillGroupWithBlank: true,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        },
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false
+        },
+      }
     }
   },
   methods: {
     getSimilarMovie(movieId) {
-      this.$axios({
-        method: 'get',
-        url: `${SERVER_URL}/movie/${movieId}/similar/`, 
-      })
-        .then(res => {
-          this.similarMovies = res.data.filter(movie => {  // 포스터 없는 영화 거르기 
-            return movie.poster_path
-          })
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    getSimilarMovie2(movieId) {
       this.$axios({
         method: 'get',
         url: `${SERVER_URL}/movie/${movieId}/similar/`, 
@@ -68,31 +65,18 @@ export default {
           console.log(err)
         })
     },
-
+    goToMovieDetail(id) {
+      this.$router.push({ name: 'MovieDetail', params: { movieId: id } })
+    }
   },
   created() { 
-    if (this.$route.name === 'MovieRecommend') { // 영화 추천 페이지에서 접근 했을때 
-      this.getSimilarMovie(this.pickSimilarMovie.movie_id)
-      this.accessDetail = false
-    } else {  // 영화 디테일 페이지에서 접근 했을때 
-      this.getSimilarMovie(this.$route.params.movieId)
-    }
+    this.getSimilarMovie(this.pickSimilarMovie.movie_id)
   },
-  watch: {
-    pickSimilarMovie() {
-      this.getSimilarMovie(this.pickSimilarMovie.movie_id)
-      this.accessDetail = false
-    }
-  }
 }
 </script>
-
-<style>
-.turn {
-  writing-mode: vertical-rl;
-    border-left-style: solid;
-}
+<style scoped>
 .swiper-slide {
-  border-left-style: solid;
+  border-style: solid;
+  border-width: 3px;
 }
 </style>

@@ -1,38 +1,50 @@
 <template>
-  <div class="swiper mySwiper">
-    <div class="swiper-wrapper">
-      <div
-        v-for="topRatedItem in topRatedMovies"
-        :key="topRatedItem.id"
-        :top-rated-item="topRatedItem"
-        class="swiper-slide"
-      >
-      <template>
-          <div @click="goToMovieDetail(topRatedItem.id)" class="d-flex flex-column align-items-center">
-            <img :src="`https://image.tmdb.org/t/p/w500${topRatedItem.backdrop_path}`" :alt="`${topRatedItem.title} 포스터`" width="100%">
-            <div>{{ topRatedItem.title }}</div>
-          </div>
-      </template>
+  <swiper class="swiper" :options="swiperOption">
+    <swiper-slide
+      v-for="topRatedItem in topRatedMovies"
+      :key="topRatedItem.id"
+      :top-rated-item="topRatedItem"
+    >
+    <template>
+      <div @click="goToMovieDetail(topRatedItem.id)" class="d-flex flex-column align-items-center">
+        <img :src="`https://image.tmdb.org/t/p/w500${topRatedItem.backdrop_path}`" :alt="`${topRatedItem.title} 포스터`" width="100%">
+        <div>{{ topRatedItem.title }}</div>
       </div>
-    </div>
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
-  </div>
+    </template>
+    </swiper-slide>
+    <div class="swiper-button-prev" slot="button-prev"></div>
+    <div class="swiper-button-next" slot="button-prev"></div>
+  </swiper>
 </template>
 
 <script>
-// import TopRatedMovieItem from '@/components/movie/recommend/TopRatedMovieItem'
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper' 
+import 'swiper/css/swiper.css'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
   name: 'TopRatedMovieList',
   components: {
-    // TopRatedMovieItem
+    Swiper,
+    SwiperSlide
   },
   data() {
     return {
       topRatedMovies: [],
+      swiperOption: {
+        slidesPerView: 4,
+        loop: true,
+        loopFillGroupWithBlank: true,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        },
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false
+        },
+      }
     }
   },
   methods: {
@@ -56,16 +68,10 @@ export default {
   },
   created() {
       this.getTopRatedMovies()
+      new Swiper('.mySwiper')
     }
 }
 </script>
 
 <style scoped>
-.turn {
-  writing-mode: vertical-rl;
-    border-left-style: solid;
-}
-.swiper-slide {
-  border-left-style: solid;
-}
 </style>

@@ -144,6 +144,10 @@ export default {
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&family=Playfair+Display+SC:wght@900&display=swap?family=Noto+Sans+KR:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
+.notosans {
+  font-family: 'Noto Sans KR', sans-serif;
+}
 .application {
   font-family: 'Playfair Display SC', serif;  
 }
@@ -153,4 +157,5 @@ export default {
 .padding{
   padding-top:150px
 }
+
 </style>

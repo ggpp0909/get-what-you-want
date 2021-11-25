@@ -1,38 +1,50 @@
 <template>
-  <div class="swiper mySwiper">
-    <div class="swiper-wrapper">
-      <div
-        v-for="timeItem in timeMovies"
-        :key="timeItem.id"
-        :time-item="timeItem"
-        class="swiper-slide"
-      >
+  <swiper class="swiper" :options="swiperOption">
+    <swiper-slide
+      v-for="timeItem in timeMovies"
+      :key="timeItem.id"
+      :time-item="timeItem"
+    >
       <template>
         <div @click="goToMovieDetail(timeItem.id)" class="d-flex flex-column align-items-center">
           <img :src="`https://image.tmdb.org/t/p/w500${timeItem.backdrop_path}`" :alt="`${timeItem.title} 포스터`" width="90%">
           <div>{{ timeItem.title }}</div>
         </div>
       </template>
-      </div>
-    </div>
-  <div class="swiper-button-prev"></div>
-  <div class="swiper-button-next"></div> 
-  </div>
+    </swiper-slide>
+    <div class="swiper-button-prev" slot="button-prev"></div>
+    <div class="swiper-button-next" slot="button-prev"></div>
+  </swiper>
 </template>
 
 <script>
-// import TimeMovieItem from '@/components/movie/recommend/TimeMovieItem'
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper' 
+import 'swiper/css/swiper.css'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
   name: 'TimeMovieList',
   components: {
-    // TimeMovieItem
+    Swiper,
+    SwiperSlide
   },
   data() {
     return {
       timeMovies: [],
+      swiperOption: {
+        slidesPerView: 4,
+        loop: true,
+        loopFillGroupWithBlank: true,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        },
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false
+        },
+      }
     }
   },
   methods: {
@@ -51,22 +63,12 @@ export default {
           console.log(err)
         })
     },
-  goToMovieDetail(id) {
-    this.$router.push({ name: 'MovieDetail', params: { movieId: id } })
-  }
+    goToMovieDetail(id) {
+      this.$router.push({ name: 'MovieDetail', params: { movieId: id } })
+    }
   },
   created() {
       this.getTimeMovies()
   }
 }
 </script>
-
-<style scoped>
-.turn {
-  writing-mode: vertical-rl;
-    border-left-style: solid;
-}
-.swiper-slide {
-  border-left-style: solid;
-}
-</style>

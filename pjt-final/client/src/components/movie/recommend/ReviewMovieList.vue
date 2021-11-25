@@ -1,27 +1,26 @@
 <template>
-  <div class="swiper mySwiper">
-    <div class="swiper-wrapper">
-      <div
-        v-for="reviewItem in reviewMovies"
-        :key="reviewItem.movie_id"
-        :review-item="reviewItem"
-        class="swiper-slide"
-      >
+  <swiper class="swiper" :options="swiperOption">
+    <swiper-slide
+      v-for="reviewItem in reviewMovies"
+      :key="reviewItem.movie_id"
+      :review-item="reviewItem"
+    >
       <template> <!-- 여기 이미지 나중에 데이터 다시 받고 백드롭패스로 바꿔야됨 -->
         <div @click="goToMovieDetail(reviewItem.id)" class="d-flex flex-column align-items-center">
           <img :src="`https://image.tmdb.org/t/p/w500${reviewItem.backdrop_path}`" :alt="`${reviewItem.title} 포스터`" width="100%">
           <div>{{ reviewItem.title }}</div>
         </div>
       </template>
-      </div>
-    </div>
-  <div class="swiper-button-prev"></div>
-  <div class="swiper-button-next"></div>
-  </div>
+    </swiper-slide>
+    <div class="swiper-button-prev" slot="button-prev"></div>
+    <div class="swiper-button-next" slot="button-prev"></div>
+  </swiper>
 </template>
 
 <script>
-// import ReviewMovieItem from '@/components/movie/recommend/ReviewMovieItem'
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper' 
+import 'swiper/css/swiper.css'
+
 import { mapState } from 'vuex'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
@@ -29,11 +28,25 @@ const SERVER_URL = process.env.VUE_APP_SERVER_URL
 export default {
   name: 'ReviewMovieList',
   components: {
-    // ReviewMovieItem
+    Swiper,
+    SwiperSlide
   },
   data() {
     return {
       reviewMovies: [],
+      swiperOption: {
+        slidesPerView: 4,
+        loop: true,
+        loopFillGroupWithBlank: true,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        },
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false
+        },
+      }
     }
   },
   methods: {
@@ -67,11 +80,7 @@ export default {
 </script>
 
 <style scoped>
-.turn {
-  writing-mode: vertical-rl;
-    border-left-style: solid;
-}
 .swiper-slide {
-  border-left-style: solid;
+  border-style: solid;
 }
 </style>

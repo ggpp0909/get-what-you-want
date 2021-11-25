@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h5 v-if="historyCount()" class="text-center">작성한 게시글이 없습니다.</h5>
+    <h5 v-if="historyCount()" class="text-center">작성한 관람평이 없습니다.</h5>
     <v-list dense>
       <v-list-item-group >
       <v-list-item v-for="(review, idx) in reviewSet" :key="review.id">
