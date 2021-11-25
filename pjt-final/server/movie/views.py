@@ -216,12 +216,8 @@ def review_list(request, movie_id):
     # 모델 db에서 다 가져와서 JSON으로 넘겨
     # reviews = get_list_or_404(Review.objects.order_by('-pk'), movie_id=movie_id)
     reviews = Review.objects.filter(movie_id=movie_id).order_by('-pk')
-    paginator = Paginator(reviews, 10)
-    page_num = request.GET.get('page')
-    page_obj = paginator.get_page(page_num)
-    serializer = ReviewSerializer(page_obj, many=True)
+    serializer = ReviewSerializer(reviews, many=True)
     data = serializer.data
-    data.append({'possible_page': paginator.num_pages})
     return Response(data)
 
 @api_view(['POST'])
