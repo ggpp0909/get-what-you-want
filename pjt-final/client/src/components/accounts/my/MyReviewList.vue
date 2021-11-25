@@ -1,12 +1,15 @@
 <template>
-  <div>
-    my review
-    <my-review-item
-      v-for="review in this.reviewSet"
-      :key="review.id"
-      :review="review"
-    ></my-review-item>
-  </div>
+  <v-container>
+    <h5 v-if="historyCount()" class="text-center">작성한 게시글이 없습니다.</h5>
+    <v-list dense>
+      <v-list-item-group >
+      <v-list-item v-for="(review, idx) in reviewSet" :key="review.id">
+        <my-review-item :review="review" :idx="idx+1"
+        ></my-review-item>
+      </v-list-item>
+      </v-list-item-group>
+    </v-list>
+  </v-container>
 </template>
 
 <script>
@@ -18,7 +21,13 @@ export default {
     MyReviewItem
   },
   props: {
-    reviewSet: Array
+    reviewSet: Array,
+    reviewCount: Number
+  },
+  methods: {
+    historyCount() {
+      return this.reviewCount < 1 ? true : false
+    }
   }
 }
 </script>

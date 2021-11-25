@@ -91,13 +91,22 @@
           </v-tabs>
           <v-card class="overflow-y-auto" height="600px" elevation="0">
             <div v-if="showMyR">
-              <my-review-list :review-set="userProfile.review_set"></my-review-list>
+              <my-review-list 
+                :review-set="userProfile.review_set"
+                :review-count="userProfile.review_count"
+              ></my-review-list>
             </div>
             <div v-if="showMyP">
-              <my-post-list :post-set="userProfile.post_set"></my-post-list>
+              <my-post-list 
+                :post-set="userProfile.post_set"
+                :post-count="userProfile.post_count"
+              ></my-post-list>
             </div>
             <div v-if="showMyC">
-              <my-comment-list :comment-set="userProfile.comment_set"></my-comment-list>
+              <my-comment-list 
+                :comment-set="userProfile.comment_set"
+                :comment-count="userProfile.comment_count"
+              ></my-comment-list>
             </div>
           </v-card>
         </div>
