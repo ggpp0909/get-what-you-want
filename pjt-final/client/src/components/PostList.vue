@@ -12,7 +12,7 @@
     <v-simple-table :current-page="currentPage">
       <thead>
         <tr>
-          <th class="text-center">ID</th>
+          <th class="text-center">ORDER</th>
           <th class="text-center">TITLE</th>
           <th class="text-center">USER</th>
           <th class="text-center">DATE</th>
@@ -86,7 +86,6 @@ export default {
         params: {page: this.currentPage}
       })
         .then(res => {
-          console.log(res)
           const temp = _.slice(res.data, 0, res.data.length-1)
           this.totalPage = _.last(res.data).possible_page
           this.posts = temp.map(post => {
@@ -121,17 +120,28 @@ export default {
         url: `${SERVER_URL}/community/${this.searchKeyword}/search/`,
       })
         .then(res => {
-          this.posts = res.data
+          const temp = res.data
           this.isPost = this.posts.length > 0 ? true : false
           this.searchBeforeKeyword = this.searchKeyword
           this.searchKeyword = null
+          this.posts = temp.map(post => {
+            const newInfo = {
+              title: post.title,
+              id: post.id,
+              created_at: _.join(_.slice(post.created_at, 0, 10), ''),
+              username: post.user.username,
+              profile_img: post.user.profile_image,
+              nickname: post.user.nickname,
+            }
+            return newInfo
+          })
         })
         .catch(err => {
           console.log(err)
         })
     },
     // 프로필 이미지
-    getUserProfileImg(img) {
+    getUserProfileImg(img) { 
       if (img === null) {
         return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU00i-_pNcxxQ69OH2c8MyVuHS0Q4GdMDR7w&usqp=CAU'
       } else {

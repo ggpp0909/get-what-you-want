@@ -210,7 +210,6 @@ export default {
         data: this.values,
       })
         .then(res => {
-          console.log(res)
           this.movies = res.data
         })
         .catch(err => {

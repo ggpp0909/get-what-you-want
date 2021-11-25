@@ -54,6 +54,7 @@ export default {
 
 <style scoped>
 .v-card {
-  height: 350px;
+  height: 250px;
+  width: 400px;
 }
 </style>

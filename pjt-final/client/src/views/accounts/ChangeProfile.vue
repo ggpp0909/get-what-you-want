@@ -30,7 +30,7 @@
           <img :src="newProfileImage" alt="새 프로필이미지" class="profile-img my-5">
           <h4>새 프로필이미지</h4>
         </div>
-        <div class="mx-10">
+        <div class="ms-16">
           <!-- 비밀번호 변경 -->
           <div justify="center" class="my-5">
             <v-dialog

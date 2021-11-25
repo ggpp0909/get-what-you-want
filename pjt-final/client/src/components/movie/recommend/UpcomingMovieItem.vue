@@ -38,7 +38,7 @@ export default {
   height: 400px;
   width: 400px;
 }
-.space:not(:hover){
+.space{
   animation:text-scroll 25s linear infinite;
 }
 @keyframes text-scroll{

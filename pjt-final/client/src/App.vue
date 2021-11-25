@@ -9,7 +9,7 @@
       </template>
       <v-row>
         <!-- home -->
-        <v-col cols="9">
+        <v-col cols="8">
           <router-link :to="{ name: 'Home' }" 
             class="text-decoration-none black--text mx-3" 
           >HOME</router-link>
@@ -24,7 +24,7 @@
           <!-- </div> -->
         </v-col>
         <!-- 검색창 -->
-        <v-col cols="2" >
+        <v-col cols="3" >
           <v-text-field v-model.trim="searchMovie" @keyup.enter="goToSearchPage" 
             placeholder="검색어를 입력하세요" dense label="Search Movie" class="searchBar">
           <v-icon slot="append" @click="goToSearchPage">mdi-magnify</v-icon>

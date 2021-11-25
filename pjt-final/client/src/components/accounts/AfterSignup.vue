@@ -23,7 +23,6 @@ export default {
   methods:{
     likeCountMinus() {
       this.$emit('likeCountMinus')
-      console.log('asdfasdf')
     },
     likeCountPlus() {
       this.$emit('likeCountPlus')

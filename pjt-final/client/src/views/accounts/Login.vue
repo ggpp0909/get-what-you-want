@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <v-container class="text-center">
+    <div class="loginBox">
     <h1>LOGIN</h1>
     <!-- <div>
       <label for="username">사용자 이름: </label>
@@ -41,9 +42,8 @@
       rounded
       @click="login"
     >로그인</v-btn>
-
-    
-  </div>
+    </div>
+  </v-container>
 </template>
 
 <script>
@@ -94,3 +94,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.loginBox {
+  height: 100px;
+  width: 300px;
+  margin: auto;
+  margin-top: 50px;
+}
+</style>
