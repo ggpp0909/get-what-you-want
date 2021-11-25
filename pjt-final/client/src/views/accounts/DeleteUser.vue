@@ -1,38 +1,52 @@
 <template>
   <div>
-    <div v-if="!confirm">
-      <h1>비밀번호 확인</h1>
-      <div>
-        <label for="password">비밀번호: </label>
-        <input 
-          type="password" 
-          id="password"
-          v-model="password"
-          @keyup.enter="isUser"
-        >
-      </div>
-      <button @click="isUser">확인</button>
-    </div>
-    <div v-else>
+    <v-container class="mt-16 d-flex flex-column align-items-center justify-center"  v-if="!confirm">
+      <h1 class="mt-16">회원 탈퇴</h1>
+
+      <v-text-field
+        placeholder="비밀번호를 입력해주세요."
+        type="password"
+        required
+        v-model="password"
+        :rules="[rules.min, rules.required]"
+        @keyup.enter="isUser"
+      ></v-text-field>
+
+      <v-btn
+        elevation="1"
+        large
+        outlined
+        rounded
+        @click="isUser"
+      >확인</v-btn>
+    </v-container>
+    <v-container v-else>
       <v-container fluid>
         <v-row align="center">
-          <v-col
-            class="d-flex"
-            cols="12"
-            sm="6"
-          >
             <v-select
               :items="items"
               label="탈퇴 사유"
               solo
               v-model="reason"
             ></v-select>
-          </v-col>
         </v-row>
       </v-container>
-      <v-textarea color="error" placeholder="탈퇴 사유를 구체적으로 입력해주세요" v-model="detailReason"></v-textarea>
-      <button @click="deleteUser">회원탈퇴</button>
-    </div>
+      <v-textarea
+        auto-grow
+        solo
+        v-model="detailReason"
+        placeholder="탈퇴 사유를 구체적으로 입력해주세요."
+      ></v-textarea>
+      <v-btn
+        elevation="1"
+        large
+        outlined
+        rounded
+        @click="check"
+        style="float:right"
+      >회원탈퇴</v-btn>
+      
+    </v-container>
   </div>
 </template>
 
@@ -50,11 +64,37 @@ export default {
       password: '',
       items: ['서비스 불만', '개인정보 유출 우려', '사이트 이용 빈도 낮음', '지구 온난화 방지를 위한 PC사용 자제', '재 가입을 위해서', '기타'],
       detailReason: null,
-      reason: null
+      reason: null,
+      rules: {
+        required: value => !!value || `필수 입력 요소입니다.`,
+        min: v => v.length >= 8 || '비밀번호는 8글자 이상입니다.',
+        match: passwordCom => this.newPassword === passwordCom || '비밀번호가 일치하지 않습니다.',
+      },
     }
   },
   methods: {
     // 유저 인증
+    check() {
+      swal({
+          title: "정말로 삭제하시겠습니까?",
+          text: "계정과 관련된 모든 정보가 삭제되며 복구할 수 없습니다.",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
+            this.deleteUser()
+            swal("저희 사이트를 이용해 주셔서 감사합니다.", {
+              icon: "success",
+            })
+          } else {
+            swal("회원탈퇴가 취소되었습니다.")
+            this.$router.push({ name: 'Home'})
+
+          }
+        });  
+    },
     isUser() {
       if (this.password === '') {
           swal ("비밀번호를 입력하세요.", {
@@ -105,6 +145,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>
