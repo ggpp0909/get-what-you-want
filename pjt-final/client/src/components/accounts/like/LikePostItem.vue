@@ -1,8 +1,7 @@
 <template>
-  <div>
-    <div @click="goToPost">
-      <h3>{{ post.title }}</h3>
-    </div>
+  <div @click="goToPost" class="m-3 d-flex">
+    <p class="px-1">{{ idx }}.</p>
+    <p>{{ post.title }}</p>
   </div>
 </template>
 
@@ -10,7 +9,8 @@
 export default {
   name: 'LikePostItem',
   props: {
-    post: Object
+    post: Object,
+    idx: Number
   },
   methods: {
     goToPost() {

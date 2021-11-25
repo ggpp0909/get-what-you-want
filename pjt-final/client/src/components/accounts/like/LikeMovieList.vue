@@ -1,12 +1,12 @@
 <template>
-  <div>
-    like movie
-    <like-movie-item
-      v-for="movie in likeMovies"
-      :key=movie.movie_id
-      :movie="movie"
-    ></like-movie-item>
-  </div>
+  <v-container>
+    <v-row class="d-flex">
+      <h5 v-if="likeCount()" class="text-center">좋아요한 영화가 없습니다.</h5>
+      <v-col v-for="movie in likeMovies" :key=movie.movie_id cols="4">
+        <like-movie-item :movie="movie"></like-movie-item>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -19,6 +19,11 @@ export default {
   },
   props: {
     likeMovies: Array,
+  },
+  methods: {
+    likeCount() {
+      return this.likeMovies.length < 1 ? true : false
+    }
   }
 }
 </script>
