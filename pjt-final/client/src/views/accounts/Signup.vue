@@ -245,11 +245,9 @@ export default {
     // 영화 좋아요 개수
     likeCountMinus() {
       this.likeCount -= 1
-      console.log(this.likeCount)
     },
     likeCountPlus() {
       this.likeCount += 1
-      console.log(this.likeCount)
     }
   },
 

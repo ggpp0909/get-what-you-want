@@ -42,7 +42,6 @@ export default {
         params: {page: this.currentPage}
       })
         .then(res => {
-          console.log(res)
           this.reviewList = res.data.length > 0 ? res.data : false
         })
         .catch(err => {

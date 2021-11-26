@@ -99,7 +99,6 @@ export default {
             }
             return newInfo
           })
-          console.log(this.posts)
         })
         .catch(err => {
           console.log(err)

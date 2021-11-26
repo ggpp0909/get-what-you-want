@@ -86,7 +86,6 @@ export default {
           this.likeState = res.data.is_liked
           // 좋아요 개수 
           this.likeCount = res.data.likes_count
-          console.log(this.post)
         })
         .catch(err => {
           console.log(err)

@@ -235,7 +235,6 @@ export default {
           this.myReviewCount = res.data.review_count
           this.myPostCount = res.data.post_count
           this.myCommentCount = res.data.comment_count
-          console.log(res.data)
         })
         .then(() => {
           this.didFollow()

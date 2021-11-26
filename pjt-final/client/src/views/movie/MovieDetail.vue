@@ -139,7 +139,6 @@ export default {
           return res
         })
         .then(res => {
-          console.log(res)
           this.movieData = res.data
           // 포스터 경로 설정 
           this.posterPath = `https://image.tmdb.org/t/p/w500${res.data.poster_path}`

@@ -58,7 +58,6 @@ export default {
         url: `${SERVER_URL}/movie/${movieId}/recommend/`, 
       })
         .then(res => {
-          console.log(res)
           this.recommendMovies = res.data.filter(movie => {  // 포스터 없는 영화 거르기 
             return movie.backdrop_path
           })
