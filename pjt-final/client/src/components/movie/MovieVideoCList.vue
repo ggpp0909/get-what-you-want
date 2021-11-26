@@ -2,7 +2,7 @@
   <v-expansion-panels>
     <v-expansion-panel>
       <v-expansion-panel-header>
-        Another Trailer
+        Other Trailers
       </v-expansion-panel-header>
       <v-expansion-panel-content class="my-3">
         <movie-video-c-item

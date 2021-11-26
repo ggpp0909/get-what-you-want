@@ -2,7 +2,14 @@
   <v-container>
     <div class="d-flex justify-space-between align-items-start">
       <!-- 헤더 -->
+      <div>
       <h1>{{ post.title }}</h1>
+      <div class="d-flex mx-2 align-items-end" @click="goToUserProfile()">
+        <div class="me-3">작성자: </div>
+        <img :src="getUserProfileImg(post.user.profile_image)" class="profileImg">
+        <div class="ms-2">{{ post.user.nickname }}</div>
+      </div>
+      </div>
       <div class="d-flex flex-column align-items-end">
         <p>작성일: {{ changeDate(post.created_at) }}</p>
         <p>마지막 수정일: {{ changeDate(post.updated_at) }}</p>
@@ -126,6 +133,17 @@ export default {
     changeDate(date) {
       return _.join(_.slice(date, 0, 10), '')
     },
+    // 프로필 이미지
+    getUserProfileImg(img) { 
+      if (img === null) {
+        return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU00i-_pNcxxQ69OH2c8MyVuHS0Q4GdMDR7w&usqp=CAU'
+      } else {
+        return `http://127.0.0.1:8000${img}`
+      }
+    },
+    goToUserProfile() {
+      this.$router.push({ name: 'Profile', params: { userName: this.post.user.username } })
+    },
   },
   created() {
     this.getPost() // 영화 디테일 불러오기  
@@ -133,6 +151,12 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.profileImg {
+  height: 30px;
+  width: 30px;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 100%;
+}
 </style>

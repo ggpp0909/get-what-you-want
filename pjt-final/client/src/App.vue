@@ -5,7 +5,7 @@
       class="mainFont">
 
       <template v-slot:img="{ props }">
-        <img :src="require(`@/assets/8de6ea134a2719f9.png`)" v-bind="props" style="padding-left:500px;" class="py-3">
+        <img :src="require(`@/assets/8de6ea134a2719f9.png`)" v-bind="props" style="padding-left:375px;" class="py-3">
       </template>
       <v-row>
         <!-- home -->
